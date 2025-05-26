@@ -14,26 +14,26 @@ const LoadingScreen = ({ onComplete }) => {
     if (currentChar < line1.length) {
       const timer = setTimeout(() => {
         setCurrentChar(prev => prev + 1);
-      }, 120);
+      }, 80);
       return () => clearTimeout(timer);
     } else if (!showSecondLine) {
       const timer = setTimeout(() => {
         setShowSecondLine(true);
         setCurrentChar(0);
-      }, 400);
+      }, 200);
       return () => clearTimeout(timer);
     } else if (currentChar < line2.length) {
       const timer = setTimeout(() => {
         setCurrentChar(prev => prev + 1);
-      }, 120);
+      }, 80);
       return () => clearTimeout(timer);
     } else if (!isComplete) {
       const timer = setTimeout(() => {
         setIsComplete(true);
         setTimeout(() => {
           onComplete();
-        }, 1200);
-      }, 1000);
+        }, 600);
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, [currentChar, showSecondLine, isComplete, onComplete, line1.length, line2.length]);
@@ -45,7 +45,7 @@ const LoadingScreen = ({ onComplete }) => {
           className="loading-screen"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2 }}
+          transition={{ duration: 0.8 }}
         >
 
 
@@ -70,7 +70,7 @@ const LoadingScreen = ({ onComplete }) => {
                       : { opacity: 0, y: 30 }
                   }
                   transition={{
-                    duration: 0.8,
+                    duration: 0.5,
                     ease: "easeOut",
                     delay: !showSecondLine ? 0 : 0
                   }}
@@ -98,7 +98,7 @@ const LoadingScreen = ({ onComplete }) => {
                         : { opacity: 0, y: 30 }
                     }
                     transition={{
-                      duration: 0.8,
+                      duration: 0.5,
                       ease: "easeOut"
                     }}
                   >

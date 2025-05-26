@@ -16,11 +16,11 @@ const Countdown = () => {
     triggerOnce: true
   });
 
-  // 결혼식 날짜 설정 (2025년 9월 6일)
-  const weddingDate = new Date('2025-09-06T13:00:00');
-
   // 카운트다운 계산
   useEffect(() => {
+    // 결혼식 날짜 설정 (2025년 9월 6일)
+    const weddingDate = new Date('2025-09-06T13:00:00');
+    
     const calculateTimeLeft = () => {
       const now = new Date();
       const difference = weddingDate - now;
@@ -39,7 +39,7 @@ const Countdown = () => {
     const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);
-  }, [weddingDate]);
+  }, []); // 빈 의존성 배열로 변경
 
   return (
     <motion.section

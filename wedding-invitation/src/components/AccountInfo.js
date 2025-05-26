@@ -1,10 +1,82 @@
 import { useInView } from "react-intersection-observer";
-import { motion } from "framer-motion";
-import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
 import "../styles/main.css";
 
 const AccountInfo = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [groomExpanded, setGroomExpanded] = useState(false);
+  const [brideExpanded, setBrideExpanded] = useState(false);
+
+  const groomAccounts = [
+    { name: "신랑", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "정회웅" },
+    { name: "신랑 아버지", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "정태희" },
+    { name: "신랑 어머니", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "박미숙" }
+  ];
+
+  const brideAccounts = [
+    { name: "신부", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "김지우" },
+    { name: "신부 아버지", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "김성진" },
+    { name: "신부 어머니", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "문애순" }
+  ];
+
+  const copyToClipboard = async (text, name) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert(`${name}의 계좌번호가 복사되었습니다.`);
+    } catch (err) {
+      console.error('복사 실패:', err);
+      alert('복사에 실패했습니다.');
+    }
+  };
+
+  const AccountSection = ({ title, accounts, expanded, setExpanded }) => (
+    <div className="account-section">
+      <button 
+        className="account-header"
+        onClick={() => setExpanded(!expanded)}
+      >
+        <span className="account-title">{title}</span>
+        <span className={`account-arrow ${expanded ? 'expanded' : ''}`}>
+          ▲
+        </span>
+      </button>
+      
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            className="account-content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {accounts.map((account, index) => (
+              <div key={index} className="account-item">
+                <div className="account-info-left">
+                  <div className="account-name">{account.name}</div>
+                  <div className="account-number">{account.account}</div>
+                  <div className="account-bank">{account.bank} {account.holder}</div>
+                </div>
+                <div className="account-actions">
+                  <button 
+                    className="copy-btn"
+                    onClick={() => copyToClipboard(account.account, account.name)}
+                  >
+                    복사
+                  </button>
+                  <button className="kakaopay-btn">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40NzcgMiAyIDUuNTczIDIgMTBDMiAxMi4yNTEgMy4xNjcgMTQuMzA2IDUuMDMzIDE1LjY3OEw0LjEgMTkuNzc4QzQuMDMzIDIwLjA3NCA0LjMwNiAyMC4zMTEgNC41NzggMjAuMTc4TDkuMzMzIDE3LjY3OEMxMC4yMTEgMTcuODg5IDExLjEzMyAxOCAxMiAxOEMxNy41MjMgMTggMjIgMTQuNDI3IDIyIDEwQzIyIDUuNTczIDE3LjUyMyAyIDEyIDJaIiBmaWxsPSIjRkZFNTAwIi8+Cjwvc3ZnPgo=" alt="카카오페이" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+
   return (
     <motion.section
       className="account-info"
@@ -14,24 +86,23 @@ const AccountInfo = () => {
       transition={{ duration: 0.8 }}
     >
       <h2>마음 전하실 곳</h2>
-      <div className="account-list">
-        <div>
-          <h3>신랑측</h3>
-          <ul>
-            <li>신랑: 1111-1111-1111-1111 (카카오뱅크 정회웅)</li>
-            <li>신랑 아버지: 1111-1111-1111-1111 (카카오뱅크 정태희)</li>
-            <li>신랑 어머니: 1111-1111-1111-1111 (카카오뱅크 박미숙)</li>
-          </ul>
-        </div>
-        <div>
-          <h3>신부측</h3>
-          <ul>
-            <li>신부: 1111-1111-1111-1111 (카카오뱅크 김지우)</li>
-            <li>신부 아버지: 1111-1111-1111-1111 (카카오뱅크 김성진)</li>
-            <li>신부 어머니: 1111-1111-1111-1111 (카카오뱅크 문애순)</li>
-          </ul>
-        </div>
+      
+      <div className="account-container">
+        <AccountSection 
+          title="신랑측"
+          accounts={groomAccounts}
+          expanded={groomExpanded}
+          setExpanded={setGroomExpanded}
+        />
+        
+        <AccountSection 
+          title="신부측"
+          accounts={brideAccounts}
+          expanded={brideExpanded}
+          setExpanded={setBrideExpanded}
+        />
       </div>
+      
       <p className="thanks">소중한 축하를 보내주셔서 감사드리며, 따뜻한 마음에 깊이 감사드립니다.</p>
     </motion.section>
   );

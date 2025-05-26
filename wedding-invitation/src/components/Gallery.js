@@ -7,9 +7,11 @@ const Gallery = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  // 실제 웨딩 사진 데이터
-  const galleryImages = [
+  // 모든 웨딩 사진 데이터 (기존 + 추가)
+  const allImages = [
+    // 기존 갤러리 이미지들
     {
       id: 1,
       src: "/images/1Y4A3911.JPG",
@@ -81,12 +83,52 @@ const Gallery = () => {
       src: "/images/1Y4A3216.JPG",
       alt: "웨딩 사진 12",
       title: "새로운 시작"
+    },
+    // 추가 갤러리 이미지들
+    {
+      id: 13,
+      src: "/images/NHH01055.JPG",
+      alt: "웨딩 사진 13",
+      title: "행복한 순간"
+    },
+    {
+      id: 14,
+      src: "/images/NHH00813.JPG",
+      alt: "웨딩 사진 14",
+      title: "사랑의 약속"
+    },
+    {
+      id: 15,
+      src: "/images/NHH00576.JPG",
+      alt: "웨딩 사진 15",
+      title: "영원한 사랑"
+    },
+    {
+      id: 16,
+      src: "/images/NHH00523.JPG",
+      alt: "웨딩 사진 16",
+      title: "아름다운 순간"
+    },
+    {
+      id: 17,
+      src: "/images/NHH00503.JPG",
+      alt: "웨딩 사진 17",
+      title: "함께하는 미래"
+    },
+    {
+      id: 18,
+      src: "/images/NHH00380.JPG",
+      alt: "웨딩 사진 18",
+      title: "새로운 시작"
     }
   ];
 
+  // 표시할 이미지들 (확장 여부에 따라)
+  const displayImages = isExpanded ? allImages : allImages.slice(0, 12);
+
   const openModal = (index) => {
     setCurrentIndex(index);
-    setSelectedImage(galleryImages[index]);
+    setSelectedImage(allImages[index]);
   };
 
   const closeModal = () => {
@@ -94,15 +136,19 @@ const Gallery = () => {
   };
 
   const nextSlide = () => {
-    const newIndex = (currentIndex + 1) % galleryImages.length;
+    const newIndex = (currentIndex + 1) % allImages.length;
     setCurrentIndex(newIndex);
-    setSelectedImage(galleryImages[newIndex]);
+    setSelectedImage(allImages[newIndex]);
   };
 
   const prevSlide = () => {
-    const newIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+    const newIndex = (currentIndex - 1 + allImages.length) % allImages.length;
     setCurrentIndex(newIndex);
-    setSelectedImage(galleryImages[newIndex]);
+    setSelectedImage(allImages[newIndex]);
+  };
+
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
   };
 
   return (
@@ -116,7 +162,7 @@ const Gallery = () => {
       <h2>갤러리</h2>
       
       <div className="gallery-grid">
-        {galleryImages.map((image, index) => (
+        {displayImages.map((image, index) => (
           <motion.div
             key={image.id}
             className="gallery-item"
@@ -134,6 +180,18 @@ const Gallery = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* 더보기/접기 버튼 */}
+      <motion.button
+        className="toggle-btn"
+        onClick={toggleExpanded}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        style={{ marginTop: '2rem' }}
+      >
+        {isExpanded ? '접기' : '더보기'} 
+        <span className={`arrow ${isExpanded ? 'up' : 'down'}`}>▼</span>
+      </motion.button>
 
       {/* 모달 슬라이더 */}
       <AnimatePresence>
@@ -172,7 +230,6 @@ const Gallery = () => {
                     transition={{ duration: 0.3 }}
                   />
                 </AnimatePresence>
-                <div className="modal-title">{selectedImage.title}</div>
               </div>
               
               <button className="modal-btn next" onClick={nextSlide}>
@@ -180,7 +237,7 @@ const Gallery = () => {
               </button>
               
               <div className="modal-counter">
-                {currentIndex + 1} / {galleryImages.length}
+                {currentIndex + 1} / {allImages.length}
               </div>
             </motion.div>
           </motion.div>
