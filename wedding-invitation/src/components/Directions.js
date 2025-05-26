@@ -30,15 +30,16 @@ const Directions = () => {
       
       <div className="location-info">
         <h3>아르떼 웨딩컨벤션</h3>
+        <p>2층 아델라홀</p>
         <p>충청북도 청주시 청원구 사천로 33</p>
         <p>📞 043-211-8000</p>
         <p>📧 artewedding2024@naver.com</p>
       </div>
 
-      {/* 네이버 지도 임베딩 */}
+      {/* 구글 지도 임베딩 */}
       <div className="embedded-map">
         <iframe
-          src="https://map.naver.com/v5/search/%EC%95%84%EB%A5%B4%EB%96%BC%20%EC%9B%A8%EB%94%A9%EC%BB%A8%EB%B2%A4%EC%85%98/place/1580665832?c=14.00,0,0,0,dh&placePath=%3Fentry%253Dpll"
+          src="https://maps.google.com/maps?q=아르떼웨딩컨벤션,충청북도+청주시+청원구+사천로+33&t=&z=15&ie=UTF8&iwloc=&output=embed"
           width="100%"
           height="300"
           style={{ border: 'none', borderRadius: '12px' }}
@@ -80,11 +81,6 @@ const Directions = () => {
           <span className="map-icon">N</span>
           <span className="map-text">네이버지도</span>
         </motion.button>
-      </div>
-
-      <div className="location-notice">
-        <p>오시는 길에 불편함이 없으시길 바랍니다.</p>
-        <p>주차장으로 공급차선 사항이나 다른 문의사항이 있으실 경우, 언제든지 연락 주시길 바랍니다.</p>
       </div>
 
       <div className="transport-info">
