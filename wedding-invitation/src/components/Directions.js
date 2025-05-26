@@ -7,15 +7,15 @@ const Directions = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
   
   const openTmap = () => {
-    window.open('https://tmap.life/route/search?goalname=아르떼웨딩컨벤션&goalx=127.4234&goaly=36.6234', '_blank');
+    window.open('https://tmap.life/be35c180', '_blank');
   };
 
   const openKakaoMap = () => {
-    window.open('https://map.kakao.com/link/to/아르떼웨딩컨벤션,36.6234,127.4234', '_blank');
+    window.open('https://kko.kakao.com/6-45NXJFTN', '_blank');
   };
 
   const openNaverMap = () => {
-    window.open('https://map.naver.com/v5/directions/-/-/-/car?c=127.4234,36.6234,15,0,0,0,dh', '_blank');
+    window.open('https://naver.me/5Jp98uu6', '_blank');
   };
 
   return (
