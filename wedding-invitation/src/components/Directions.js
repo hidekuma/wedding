@@ -5,6 +5,19 @@ import "../styles/main.css";
 
 const Directions = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+  
+  const openTmap = () => {
+    window.open('https://tmap.life/route/search?goalname=아르떼웨딩컨벤션&goalx=127.4234&goaly=36.6234', '_blank');
+  };
+
+  const openKakaoMap = () => {
+    window.open('https://map.kakao.com/link/to/아르떼웨딩컨벤션,36.6234,127.4234', '_blank');
+  };
+
+  const openNaverMap = () => {
+    window.open('https://map.naver.com/v5/directions/-/-/-/car?c=127.4234,36.6234,15,0,0,0,dh', '_blank');
+  };
+
   return (
     <motion.section
       className="directions"
@@ -22,8 +35,51 @@ const Directions = () => {
         <p>📧 artewedding2024@naver.com</p>
       </div>
 
-      <div className="location-map">
-        <img src="/images/path.png" alt="아르떼 웨딩컨벤션 약도" />
+      {/* 네이버 지도 임베딩 */}
+      <div className="embedded-map">
+        <iframe
+          src="https://map.naver.com/v5/search/%EC%95%84%EB%A5%B4%EB%96%BC%20%EC%9B%A8%EB%94%A9%EC%BB%A8%EB%B2%A4%EC%85%98/place/1580665832?c=14.00,0,0,0,dh&placePath=%3Fentry%253Dpll"
+          width="100%"
+          height="300"
+          style={{ border: 'none', borderRadius: '12px' }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="아르떼 웨딩컨벤션 위치"
+        ></iframe>
+      </div>
+
+      {/* 지도 앱 버튼들 */}
+      <div className="map-buttons">
+        <motion.button 
+          className="map-btn tmap-btn"
+          onClick={openTmap}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="map-icon">T</span>
+          <span className="map-text">티맵</span>
+        </motion.button>
+        
+        <motion.button 
+          className="map-btn kakao-btn"
+          onClick={openKakaoMap}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="map-icon">🗺</span>
+          <span className="map-text">카카오맵</span>
+        </motion.button>
+        
+        <motion.button 
+          className="map-btn naver-btn"
+          onClick={openNaverMap}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="map-icon">N</span>
+          <span className="map-text">네이버지도</span>
+        </motion.button>
       </div>
 
       <div className="location-notice">
@@ -61,9 +117,7 @@ const Directions = () => {
         </div>
       </div>
 
-      <div className="venue-contact">
-        <p><strong>HIGH-END WEDDING HALL</strong></p>
-      </div>
+      
     </motion.section>
   );
 };

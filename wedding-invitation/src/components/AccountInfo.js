@@ -103,7 +103,8 @@ const AccountInfo = () => {
         />
       </div>
       
-      <p className="thanks">소중한 축하를 보내주셔서 감사드리며, 따뜻한 마음에 깊이 감사드립니다.</p>
+      <p className="thanks">소중한 축하를 보내주셔서 감사드리며,</p>
+      <p className="thanks">따뜻한 마음에 깊이 감사드립니다.</p>
     </motion.section>
   );
 };

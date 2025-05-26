@@ -59,21 +59,6 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
           <p>마음으로 축하해주시면 감사하겠습니다.</p>
         </div>
 
-        <div className="wedding-details">
-          <p className="wedding-date">2025년 9월 6일 토요일 오후 1시</p>
-          <p className="wedding-venue">청주 아르떼 웨딩홀 아델라홀</p>
-        </div>
-        
-        <motion.blockquote
-          className="quote-section"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-        >
-          <p className="quote-text">매일 행복할 순 없지만,</p>
-          <p className="quote-text">행복한 것들은 매일 있어.</p>
-          <p className="quote-author">&lt;월트 디즈니, 곰돌이 푸 中&gt;</p>
-        </motion.blockquote>
       </motion.div>
     )}
   </motion.header>

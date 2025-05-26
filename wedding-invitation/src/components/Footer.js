@@ -13,12 +13,8 @@ const Footer = () => {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8 }}
     >
-      <div className="guestbook">
-        <h2>방명록</h2>
-        <p>행복하게 잘 살겠습니다:)</p>
-      </div>
       <div className="copyright">
-        <p>COPYRIGHT NeedIT. All rights reserved.</p>
+        <p>COPYRIGHT Hoiwoong. All rights reserved.</p>
       </div>
     </motion.footer>
   );

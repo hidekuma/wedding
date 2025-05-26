@@ -1174,21 +1174,70 @@ p {
   font-size: 1rem;
 }
 
-.location-map {
-  background: white;
-  padding: 1rem;
-  border-radius: 12px;
-  margin: 1.5rem 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  text-align: center;
+.map-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+  flex-wrap: wrap;
 }
 
-.location-map img {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  border-radius: 8px;
+.map-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  min-width: 100px;
+}
+
+.map-icon {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.map-text {
+  font-size: 0.9rem;
+}
+
+.tmap-btn {
+  background: #1e88e5;
+  color: white;
+}
+
+.tmap-btn:hover {
+  background: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+}
+
+.kakao-btn {
+  background: #fee500;
+  color: #3c1e1e;
+}
+
+.kakao-btn:hover {
+  background: #fdd835;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(254, 229, 0, 0.3);
+}
+
+.naver-btn {
+  background: #03c75a;
+  color: white;
+}
+
+.naver-btn:hover {
+  background: #00b050;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(3, 199, 90, 0.3);
 }
 
 .location-notice {
@@ -1916,14 +1965,22 @@ p {
     font-size: 0.9rem;
   }
   
-  .location-map {
-    padding: 0.8rem;
-    margin: 1rem 0;
+  .map-buttons {
+    gap: 0.8rem;
+    margin: 1.5rem 0;
   }
   
-  .location-map img {
-    max-width: 100%;
-    border-radius: 6px;
+  .map-btn {
+    padding: 0.8rem 1rem;
+    min-width: 80px;
+  }
+  
+  .map-icon {
+    font-size: 1.3rem;
+  }
+  
+  .map-text {
+    font-size: 0.8rem;
   }
   
   .location-notice {

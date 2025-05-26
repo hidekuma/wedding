@@ -7,9 +7,9 @@ import Interview from "./components/Interview";
 import Timeline from "./components/Timeline";
 import Gallery from "./components/Gallery";
 import Quote from "./components/Quote";
-import TabSection from "./components/TabSection";
+// import TabSection from "./components/TabSection";
 import WeddingInfo from "./components/WeddingInfo";
-import GuestSnap from "./components/GuestSnap";
+// import GuestSnap from "./components/GuestSnap";
 import Directions from "./components/Directions";
 import AccountInfo from "./components/AccountInfo";
 import Footer from "./components/Footer";
@@ -44,14 +44,15 @@ function App() {
       {!isLoading && (
         <>
           <CoupleInfo />
-          <Countdown />
+        
           
-          <Timeline />
-          <Gallery />
-          <Quote />
-          <TabSection />
+          {/* <TabSection /> */}
           <WeddingInfo />
-          <GuestSnap />
+          <Countdown />
+          <Gallery />
+          <Timeline />
+          
+          {/* <GuestSnap /> */}
           <Directions />
           <AccountInfo />
           <Footer />
