@@ -47,11 +47,7 @@ const LoadingScreen = ({ onComplete }) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2 }}
         >
-          {/* 배경 이미지 */}
-          <div className="loading-background">
-            <img src="/images/NHH09934.JPG" alt="신랑신부" />
-            <div className="loading-overlay"></div>
-          </div>
+
 
           {/* 텍스트 컨텐츠 */}
           <div className="loading-content">
