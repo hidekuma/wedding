@@ -11,7 +11,7 @@ const Directions = () => {
   };
 
   const openKakaoMap = () => {
-    window.location.href = 'https://kko.kakao.com/6efj9w7vYX';
+    window.location.href = 'https://kko.kakao.com/RU1ugMNcOG';
   };
 
   const openNaverMap = () => {
