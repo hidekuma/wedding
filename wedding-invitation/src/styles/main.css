@@ -740,12 +740,12 @@ img {
   left: 0;
   right: 0;
   bottom: 0;
-  background: white;
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 0;
+  padding: 20px;
 }
 .modal-content {
   position: relative;
@@ -817,12 +817,12 @@ img {
   padding: 0;
 }
 .modal-image-container img {
-  max-width: 100vw;
-  max-height: 100vh;
-  width: 100%;
-  height: 100%;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  border-radius: 0;
+  border-radius: 8px;
 }
 .modal-title {
   display: none;
@@ -1920,8 +1920,12 @@ img {
     padding: 0;
   }
   .modal-image-container img {
-    width: 100vw;
-    height: 100vh;
+    max-width: 95vw;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 4px;
   }
   .modal-close {
     top: 15px;
