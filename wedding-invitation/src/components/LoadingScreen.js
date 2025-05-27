@@ -7,49 +7,94 @@ const LoadingScreen = ({ onComplete }) => {
   const [showLastFrame, setShowLastFrame] = useState(false);
   const [lastFrameLoaded, setLastFrameLoaded] = useState(false);
   const [gifLoaded, setGifLoaded] = useState(false);
-  const [gifStartTime, setGifStartTime] = useState(null);
 
   useEffect(() => {
+    // 개발 모드에서 강제 로딩 리셋 (콘솔에서 resetLoading() 호출 가능)
+    if (process.env.NODE_ENV === 'development') {
+      window.resetLoading = () => {
+        sessionStorage.removeItem('lastLoadingTime');
+        window.location.reload();
+      };
+    }
+    
+    // 최근 로딩 완료 시간 확인 (5초 이내면 로딩 스킵)
+    const lastLoadingTime = sessionStorage.getItem('lastLoadingTime');
+    const now = Date.now();
+    
+    if (lastLoadingTime && (now - parseInt(lastLoadingTime)) < 5000) {
+      // 최근에 로딩했으면 즉시 완료
+      setIsComplete(true);
+      setTimeout(() => onComplete(), 100);
+      return;
+    }
+
     // GIF와 마지막 프레임 이미지 미리 로드
     const gifImg = new Image();
     const lastFrameImg = new Image();
     
-    gifImg.onload = () => {
-      setGifLoaded(true);
-      setGifStartTime(Date.now());
+    let loadStartTime = Date.now();
+    
+    const handleImagesLoaded = () => {
+      if (gifLoaded && lastFrameLoaded) {
+        const loadTime = Date.now() - loadStartTime;
+        const minLoadingTime = 2000; // 최소 로딩 시간
+        const gifDuration = 2500; // GIF 재생 시간
+        
+        // 로딩이 너무 빨리 끝나면 최소 시간까지 대기
+        const waitTime = Math.max(0, minLoadingTime - loadTime);
+        
+        setTimeout(() => {
+          setShowLastFrame(true);
+          
+          // 마지막 프레임 표시 후 완료
+          setTimeout(() => {
+            setIsComplete(true);
+            sessionStorage.setItem('lastLoadingTime', Date.now().toString());
+            setTimeout(() => onComplete(), 300);
+          }, 500);
+        }, waitTime);
+      }
     };
     
-    lastFrameImg.onload = () => setLastFrameLoaded(true);
+    gifImg.onload = () => {
+      setGifLoaded(true);
+      handleImagesLoaded();
+    };
+    
+    lastFrameImg.onload = () => {
+      setLastFrameLoaded(true);
+      handleImagesLoaded();
+    };
+    
+    // 에러 처리
+    gifImg.onerror = () => {
+      console.warn('GIF 로딩 실패, 기본 로딩으로 전환');
+      setGifLoaded(true);
+      handleImagesLoaded();
+    };
+    
+    lastFrameImg.onerror = () => {
+      console.warn('마지막 프레임 로딩 실패');
+      setLastFrameLoaded(true);
+      handleImagesLoaded();
+    };
     
     gifImg.src = `${process.env.PUBLIC_URL}/images/loading.gif`;
     lastFrameImg.src = `${process.env.PUBLIC_URL}/images/last_frame.jpg`;
-  }, []);
-
-  useEffect(() => {
-    if (!gifLoaded || !lastFrameLoaded || !gifStartTime) return;
-
-    // GIF 재생 시간을 고려한 타이밍 (약 2.5초 후)
-    const gifDuration = 2500; // GIF 재생 시간
-    const elapsed = Date.now() - gifStartTime;
-    const remainingTime = Math.max(0, gifDuration - elapsed);
-
-    const lastFrameTimer = setTimeout(() => {
-      setShowLastFrame(true);
-    }, remainingTime);
-
-    // 마지막 프레임 표시 후 0.5초 뒤 완료
-    const completeTimer = setTimeout(() => {
-      setIsComplete(true);
-      setTimeout(() => {
+    
+    // 최대 대기 시간 설정 (5초)
+    const maxWaitTimer = setTimeout(() => {
+      if (!isComplete) {
+        setIsComplete(true);
+        sessionStorage.setItem('lastLoadingTime', Date.now().toString());
         onComplete();
-      }, 300);
-    }, remainingTime + 500);
-
+      }
+    }, 5000);
+    
     return () => {
-      clearTimeout(lastFrameTimer);
-      clearTimeout(completeTimer);
+      clearTimeout(maxWaitTimer);
     };
-  }, [gifLoaded, lastFrameLoaded, gifStartTime, onComplete]);
+  }, [onComplete, isComplete, gifLoaded, lastFrameLoaded]);
 
   return (
     <AnimatePresence>
@@ -63,7 +108,7 @@ const LoadingScreen = ({ onComplete }) => {
           {/* GIF 이미지 */}
           {gifLoaded && !showLastFrame && (
             <img 
-              src={`${process.env.PUBLIC_URL}/images/loading.gif`}
+              src={`${process.env.PUBLIC_URL}/images/loading.gif?t=${Date.now()}`}
               alt="로딩 중"
               style={{
                 position: 'absolute',
@@ -74,6 +119,7 @@ const LoadingScreen = ({ onComplete }) => {
                 objectFit: 'cover',
                 zIndex: 1
               }}
+              onLoad={() => console.log('GIF 로드 완료')}
             />
           )}
           

@@ -19,15 +19,22 @@ function App() {
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
+    // 로딩 완료와 동시에 hero 텍스트 표시
+    setTimeout(() => {
+      setShowHeroText(true);
+    }, 200);
   };
 
-  // 로딩 시작 후 일정 시간 후 hero 텍스트 표시
+  // 최근 로딩 완료 시간 확인하여 즉시 표시
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const lastLoadingTime = sessionStorage.getItem('lastLoadingTime');
+    const now = Date.now();
+    
+    if (lastLoadingTime && (now - parseInt(lastLoadingTime)) < 5000) {
+      // 최근에 로딩했으면 즉시 표시
+      setIsLoading(false);
       setShowHeroText(true);
-    }, 2500); // 로딩 완료 1초 전에 텍스트 표시
-
-    return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
