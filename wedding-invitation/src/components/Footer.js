@@ -14,7 +14,7 @@ const Footer = () => {
       transition={{ duration: 0.8 }}
     >
       <div className="copyright">
-        <p>COPYRIGHT HW ♥ JW. All rights reserved.</p>
+        <p>Made by HW ♥ JW</p>
       </div>
     </motion.footer>
   );

@@ -1782,6 +1782,32 @@ img {
   margin-bottom: 0.3rem;
 }
 
+/* 맨위로가기 버튼 */
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(139, 111, 71, 0.25);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  background: var(--color-secondary);
+  box-shadow: 0 4px 16px rgba(139, 111, 71, 0.35);
+  transform: translateY(-2px);
+}
+
 @media (max-width: 700px) {
   .App {
     max-width: 100vw;
@@ -2207,5 +2233,18 @@ img {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.3rem;
     max-width: 100%;
+  }
+  
+  /* 맨위로가기 버튼 모바일 */
+  .scroll-to-top {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .scroll-to-top svg {
+    width: 14px;
+    height: 14px;
   }
 } 

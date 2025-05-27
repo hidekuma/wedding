@@ -10,6 +10,7 @@ import WeddingInfo from "./components/WeddingInfo";
 import Directions from "./components/Directions";
 import AccountInfo from "./components/AccountInfo";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 import "./styles/main.css";
 
 function App() {
@@ -55,6 +56,9 @@ function App() {
           <Footer />
         </>
       )}
+      
+      {/* 맨위로가기 버튼 - 항상 표시 */}
+      <ScrollToTop />
     </div>
   );
 }
