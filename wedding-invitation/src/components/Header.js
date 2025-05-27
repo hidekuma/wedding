@@ -1,21 +1,33 @@
-import { motion } from "framer-motion";
-import React from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useRef } from "react";
 import "../styles/main.css";
 
-const Header = ({ isLoading = false, showHeroText = false }) => (
-  <motion.header
-    className="header"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 1 }}
-  >
-    {/* 메인 웨딩 이미지 */}
-    <motion.div 
-      className="hero-image"
-      initial={{ opacity: 0, scale: 1.1 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1.2 }}
+const Header = ({ isLoading = false, showHeroText = false }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  });
+  
+  // 스크롤에 따라 부드럽게 스케일 변화 (1에서 1.2로 천천히)
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  
+  return (
+    <motion.header
+      className="header"
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
     >
+      {/* 메인 웨딩 이미지 */}
+      <motion.div 
+        className="hero-image"
+        style={{ scale }}
+        initial={{ opacity: 0, scale: 1.1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2 }}
+      >
       <img src={`${process.env.PUBLIC_URL}/images/NHH01548.JPG`} alt="신랑신부" />
       
       {/* 이미지 위 텍스트 오버레이 - showHeroText가 true일 때 표시 */}
@@ -62,6 +74,7 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
       </motion.div>
     )}
   </motion.header>
-);
+  );
+};
 
 export default Header; 
