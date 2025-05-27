@@ -37,7 +37,7 @@ const LoadingScreen = ({ onComplete }) => {
   return (
     <AnimatePresence>
       {!isComplete && (
-        <motion.div
+        <motion.div 
           className="loading-screen"
           style={{
             backgroundImage: showLastFrame 
@@ -49,6 +49,7 @@ const LoadingScreen = ({ onComplete }) => {
           transition={{ duration: 0.8 }}
         >
           <div className="loading-content">
+            
           </div>
         </motion.div>
       )}

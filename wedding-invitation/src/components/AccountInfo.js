@@ -9,7 +9,7 @@ const AccountInfo = () => {
   const [brideExpanded, setBrideExpanded] = useState(false);
 
   const groomAccounts = [
-    { name: "신랑", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "정회웅" },
+    { name: "신랑", account: "177-910488-38707", bank: "하나은행", holder: "정회웅" },
     { name: "신랑 아버지", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "정태희" },
     { name: "신랑 어머니", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "박미숙" }
   ];
@@ -64,9 +64,6 @@ const AccountInfo = () => {
                     onClick={() => copyToClipboard(account.account, account.name)}
                   >
                     복사
-                  </button>
-                  <button className="kakaopay-btn">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40NzcgMiAyIDUuNTczIDIgMTBDMiAxMi4yNTEgMy4xNjcgMTQuMzA2IDUuMDMzIDE1LjY3OEw0LjEgMTkuNzc4QzQuMDMzIDIwLjA3NCA0LjMwNiAyMC4zMTEgNC41NzggMjAuMTc4TDkuMzMzIDE3LjY3OEMxMC4yMTEgMTcuODg5IDExLjEzMyAxOCAxMiAxOEMxNy41MjMgMTggMjIgMTQuNDI3IDIyIDEwQzIyIDUuNTczIDE3LjUyMyAyIDEyIDJaIiBmaWxsPSIjRkZFNTAwIi8+Cjwvc3ZnPgo=" alt="카카오페이" />
                   </button>
                 </div>
               </div>

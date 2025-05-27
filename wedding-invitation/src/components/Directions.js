@@ -18,6 +18,10 @@ const Directions = () => {
     window.open('https://naver.me/5Jp98uu6', '_blank');
   };
 
+  const callVenue = () => {
+    window.location.href = 'tel:043-211-8000';
+  };
+
   return (
     <motion.section
       className="directions"
@@ -32,7 +36,22 @@ const Directions = () => {
         <h3>아르떼 웨딩컨벤션</h3>
         <p>2층 아델라홀</p>
         <p>충청북도 청주시 청원구 사천로 33</p>
-        <p>📞 043-211-8000</p>
+        <p>
+          📞 <button 
+            onClick={callVenue}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontSize: 'inherit',
+              fontFamily: 'inherit'
+            }}
+          >
+            043-211-8000
+          </button>
+        </p>
         <p>📧 artewedding2024@naver.com</p>
       </div>
 

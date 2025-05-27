@@ -1,11 +1,11 @@
 /* Google Fonts 임포트 */
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Song+Myung&family=Playfair+Display:wght@300;400;500;600;700&display=swap');
 
 /* 폰트 변수 정의 */
 :root {
-  --font-primary: 'Noto Sans KR', sans-serif;
-  --font-secondary: 'Noto Sans KR', sans-serif;
-  --font-body: 'Noto Sans KR', sans-serif;
+  --font-primary: 'Song Myung', serif;
+  --font-secondary: 'Song Myung', serif;
+  --font-body: 'Song Myung', serif;
   --font-script: 'Dancing Script', cursive;
   
   --color-primary: #8b6f47;
@@ -169,6 +169,25 @@ img {
   font-weight: 500;
   margin: 0;
   font-style: italic;
+}
+
+.couple-phone-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  padding: 0.2rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.couple-phone-btn:hover {
+  background: var(--color-bg-light);
+  transform: scale(1.1);
 }
 
 /* CoupleInfo 섹션의 연락하기 버튼 */
@@ -398,7 +417,7 @@ img {
   left: 0;
   right: 0;
   bottom: 0;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-color: #f8f8f8;
@@ -406,6 +425,7 @@ img {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  overflow: hidden;
 }
 
 .loading-screen::before {
@@ -416,10 +436,10 @@ img {
   right: 0;
   bottom: 0;
   background: linear-gradient(to bottom, 
-    #f8f8f8 0%, 
-    transparent 15%, 
-    transparent 85%, 
-    #f8f8f8 100%);
+    rgba(248, 248, 248, 0.8) 0%, 
+    rgba(248, 248, 248, 0.3) 20%, 
+    rgba(248, 248, 248, 0.3) 80%, 
+    rgba(248, 248, 248, 0.8) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -431,20 +451,23 @@ img {
   z-index: 3;
   text-align: center;
   padding: 2rem;
+  max-width: 90%;
+  margin: 0 auto;
 }
 
 .loading-text {
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  color: var(--color-primary);
+  text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.8);
 }
 
 .loading-text h2 {
-  font-family: var(--font-primary);
-  font-size: 2rem;
-  font-weight: 500;
-  color: white;
+  font-family: var(--font-script);
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--color-secondary);
   margin: 0;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.9);
 }
 
 /* 카운트다운 섹션 스타일 */
@@ -472,15 +495,16 @@ img {
 .countdown-item {
   text-align: center;
   background: white;
-  border-radius: 4px;
+  border-radius: 50%;
   width: 100px;
   height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   border: 3px solid var(--color-accent);
+  transition: all 0.3s ease;
 }
 
 .countdown-number {
@@ -496,6 +520,12 @@ img {
   font-size: 0.8rem;
   color: var(--color-text-light);
   margin-top: 0.3rem;
+}
+
+.countdown-item:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+  border-color: var(--color-secondary);
 }
 
 /* Quote 섹션 스타일 */
@@ -529,12 +559,13 @@ img {
 
 @media (max-width: 700px) {
   .loading-text h2 {
-    font-size: 1.5rem;
-    letter-spacing: 1px;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
   }
   
   .loading-content {
     padding: 1rem;
+    max-width: 95%;
   }
   
   .countdown-section {
@@ -552,6 +583,7 @@ img {
   .countdown-item {
     width: 80px;
     height: 80px;
+    border-radius: 50%;
   }
   
   .countdown-number {
@@ -1082,9 +1114,10 @@ img {
   max-width: 400px;
   margin: 0 auto;
   background: #fff;
-  border-radius: 0;
-  box-shadow: none;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
   border: none;
+  padding: 1.5rem;
 }
 
 .calendar-header {
@@ -1123,12 +1156,16 @@ img {
   background: transparent;
   position: relative;
   cursor: default;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  margin: 2px;
 }
 
 .calendar-day:not(.empty):hover {
-  background: rgba(180, 138, 120, 0.1);
-  border-radius: 4px;
+  background: rgba(180, 138, 120, 0.2);
+  border-radius: 50%;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(180, 138, 120, 0.3);
 }
 
 .calendar-day.empty {
@@ -1140,22 +1177,32 @@ img {
   background: var(--color-secondary);
   color: white;
   font-weight: 700;
-  border-radius: 4px;
+  border-radius: 50%;
   position: relative;
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(180, 138, 120, 0.3);
+  transform: scale(1.2);
+  box-shadow: 0 8px 20px rgba(180, 138, 120, 0.4);
+  border: 3px solid rgba(255, 255, 255, 0.3);
 }
 
 .calendar-day.wedding-day::after {
-  content: '';
+  content: '♥';
   position: absolute;
-  bottom: -8px;
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  background: var(--color-secondary);
-  border-radius: 0;
+  font-size: 14px;
+  color: #e91e63;
+  text-shadow: 0 2px 6px rgba(233, 30, 99, 0.4), 0 0 8px rgba(255, 255, 255, 0.8);
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2);
+  }
 }
 
 .guest-snap {
@@ -1201,6 +1248,22 @@ img {
   margin: 0.5rem 0;
   color: var(--color-text-light);
   font-size: 1rem;
+}
+
+.location-info button {
+  background: none;
+  border: none;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  fontSize: inherit;
+  fontFamily: inherit;
+  transition: all 0.3s ease;
+}
+
+.location-info button:hover {
+  color: var(--color-primary);
+  transform: scale(1.05);
 }
 
 .embedded-map {
@@ -1526,29 +1589,7 @@ img {
   border-color: var(--color-secondary);
 }
 
-.kakaopay-btn {
-  padding: 0.5rem;
-  background: #FFE500;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 32px;
-}
 
-.kakaopay-btn:hover {
-  background: #FFD700;
-  transform: scale(1.05);
-}
-
-.kakaopay-btn img {
-  width: 20px;
-  height: 20px;
-}
 
 .account-info .thanks {
   color: var(--color-secondary);
@@ -1772,6 +1813,12 @@ img {
     margin: 1rem auto 0.8rem;
   }
   
+  .couple-phone-btn {
+    font-size: 0.9rem;
+    margin-left: 0.3rem;
+    padding: 0.1rem;
+  }
+  
   /* 갤러리 모바일 */
   .gallery-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -1919,6 +1966,8 @@ img {
   .calendar {
     max-width: 100%;
     margin: 0 1rem;
+    border-radius: 16px;
+    padding: 1rem;
   }
   
   .calendar-header div {
@@ -1931,7 +1980,8 @@ img {
   }
   
   .calendar-day.wedding-day {
-    transform: scale(1.05);
+    transform: scale(1.1);
+    border-radius: 50%;
   }
   
   /* 계좌정보 모바일 */
@@ -1978,15 +2028,7 @@ img {
     font-size: 0.85rem;
   }
   
-  .kakaopay-btn {
-    width: 36px;
-    height: 28px;
-  }
-  
-  .kakaopay-btn img {
-    width: 18px;
-    height: 18px;
-  }
+
   
   /* 오시는 길 모바일 */
   .directions {
