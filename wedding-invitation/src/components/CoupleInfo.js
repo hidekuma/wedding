@@ -21,15 +21,7 @@ const CoupleInfo = () => {
     }
   };
 
-  // 전화 걸기 함수
-  const makeCall = (phoneNumber) => {
-    window.location.href = `tel:${phoneNumber}`;
-  };
 
-  // 문자 보내기 함수
-  const sendMessage = (phoneNumber) => {
-    window.location.href = `sms:${phoneNumber}`;
-  };
 
   return (
     <motion.section
@@ -48,13 +40,13 @@ const CoupleInfo = () => {
           <div className="couple-info-content">
             <h2>
               신랑 {contacts.groom.self.name} 
-              <button 
+              <a 
+                href={`tel:${contacts.groom.self.phone}`}
                 className="couple-phone-btn"
-                onClick={() => makeCall(contacts.groom.self.phone)}
                 title={`${contacts.groom.self.name}에게 전화하기`}
               >
                 📞
-              </button>
+              </a>
             </h2>
             <p className="couple-parents">아버지 {contacts.groom.father.name}<br/>어머니 {contacts.groom.mother.name}</p>
           </div>
@@ -68,13 +60,13 @@ const CoupleInfo = () => {
           <div className="couple-info-content">
             <h2>
               신부 {contacts.bride.self.name} 
-              <button 
+              <a 
+                href={`tel:${contacts.bride.self.phone}`}
                 className="couple-phone-btn"
-                onClick={() => makeCall(contacts.bride.self.phone)}
                 title={`${contacts.bride.self.name}에게 전화하기`}
               >
                 📞
-              </button>
+              </a>
             </h2>
             <p className="couple-parents">아버지 {contacts.bride.father.name}<br/>어머니 {contacts.bride.mother.name}</p>
           </div>
@@ -124,39 +116,39 @@ const CoupleInfo = () => {
                   <div className="contact-item">
                     <span className="contact-name">아버지 {contacts.groom.father.name}</span>
                     <div className="contact-buttons">
-                      <button 
+                      <a 
+                        href={`tel:${contacts.groom.father.phone}`}
                         className="contact-phone-btn"
-                        onClick={() => makeCall(contacts.groom.father.phone)}
                         title={`${contacts.groom.father.name}에게 전화하기`}
                       >
                         📞
-                      </button>
-                      <button 
+                      </a>
+                      <a 
+                        href={`sms:${contacts.groom.father.phone}`}
                         className="contact-message-btn"
-                        onClick={() => sendMessage(contacts.groom.father.phone)}
                         title={`${contacts.groom.father.name}에게 문자하기`}
                       >
                         ✉️
-                      </button>
+                      </a>
                     </div>
                   </div>
                   <div className="contact-item">
                     <span className="contact-name">어머니 {contacts.groom.mother.name}</span>
                     <div className="contact-buttons">
-                      <button 
+                      <a 
+                        href={`tel:${contacts.groom.mother.phone}`}
                         className="contact-phone-btn"
-                        onClick={() => makeCall(contacts.groom.mother.phone)}
                         title={`${contacts.groom.mother.name}에게 전화하기`}
                       >
                         📞
-                      </button>
-                      <button 
+                      </a>
+                      <a 
+                        href={`sms:${contacts.groom.mother.phone}`}
                         className="contact-message-btn"
-                        onClick={() => sendMessage(contacts.groom.mother.phone)}
                         title={`${contacts.groom.mother.name}에게 문자하기`}
                       >
                         ✉️
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -166,39 +158,39 @@ const CoupleInfo = () => {
                   <div className="contact-item">
                     <span className="contact-name">아버지 {contacts.bride.father.name}</span>
                     <div className="contact-buttons">
-                      <button 
+                      <a 
+                        href={`tel:${contacts.bride.father.phone}`}
                         className="contact-phone-btn"
-                        onClick={() => makeCall(contacts.bride.father.phone)}
                         title={`${contacts.bride.father.name}에게 전화하기`}
                       >
                         📞
-                      </button>
-                      <button 
+                      </a>
+                      <a 
+                        href={`sms:${contacts.bride.father.phone}`}
                         className="contact-message-btn"
-                        onClick={() => sendMessage(contacts.bride.father.phone)}
                         title={`${contacts.bride.father.name}에게 문자하기`}
                       >
                         ✉️
-                      </button>
+                      </a>
                     </div>
                   </div>
                   <div className="contact-item">
                     <span className="contact-name">어머니 {contacts.bride.mother.name}</span>
                     <div className="contact-buttons">
-                      <button 
+                      <a 
+                        href={`tel:${contacts.bride.mother.phone}`}
                         className="contact-phone-btn"
-                        onClick={() => makeCall(contacts.bride.mother.phone)}
                         title={`${contacts.bride.mother.name}에게 전화하기`}
                       >
                         📞
-                      </button>
-                      <button 
+                      </a>
+                      <a 
+                        href={`sms:${contacts.bride.mother.phone}`}
                         className="contact-message-btn"
-                        onClick={() => sendMessage(contacts.bride.mother.phone)}
                         title={`${contacts.bride.mother.name}에게 문자하기`}
                       >
                         ✉️
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>

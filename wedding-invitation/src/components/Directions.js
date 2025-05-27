@@ -18,9 +18,7 @@ const Directions = () => {
     window.open('https://naver.me/5Jp98uu6', '_blank');
   };
 
-  const callVenue = () => {
-    window.location.href = 'tel:043-211-8000';
-  };
+
 
   return (
     <motion.section
@@ -37,22 +35,17 @@ const Directions = () => {
         <p>2층 아델라홀</p>
         <p>충청북도 청주시 청원구 사천로 33</p>
         <p>
-          📞 <button 
-            onClick={callVenue}
+          <a 
+            href="tel:043-211-8000"
             style={{
-              background: 'none',
-              border: 'none',
-              color: 'inherit',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              fontSize: 'inherit',
-              fontFamily: 'inherit'
+              textDecoration: 'none',
+              marginRight: '0.5rem'
             }}
           >
-            043-211-8000
-          </button>
+            📞
+          </a>
+          043-211-8000
         </p>
-        <p>📧 artewedding2024@naver.com</p>
       </div>
 
       {/* 구글 지도 임베딩 */}

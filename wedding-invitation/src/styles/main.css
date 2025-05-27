@@ -183,6 +183,8 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
+  color: inherit;
 }
 
 .couple-phone-btn:hover {
@@ -1736,6 +1738,8 @@ img {
   cursor: pointer;
   font-size: 1.2rem;
   transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
 }
 
 .contact-phone-btn:hover {
