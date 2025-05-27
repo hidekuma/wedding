@@ -50,7 +50,7 @@ function App() {
           <WeddingInfo />
           <Countdown />
           <Gallery />
-          <Timeline />
+          {/* <Timeline /> */}
           
           {/* <GuestSnap /> */}
           <Directions />

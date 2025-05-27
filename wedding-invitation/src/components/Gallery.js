@@ -1,6 +1,6 @@
 import { useInView } from "react-intersection-observer";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/main.css";
 
 const Gallery = () => {
@@ -151,6 +151,14 @@ const Gallery = () => {
     setIsExpanded(!isExpanded);
   };
 
+  // 모든 이미지 미리 로드
+  useEffect(() => {
+    allImages.forEach((image) => {
+      const img = new Image();
+      img.src = image.src;
+    });
+  }, []);
+
   return (
     <motion.section
       className="gallery"
@@ -180,6 +188,15 @@ const Gallery = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* 숨겨진 이미지들 미리 로드 (화면에 보이지 않음) */}
+      {!isExpanded && (
+        <div style={{ display: 'none' }}>
+          {allImages.slice(12).map((image) => (
+            <img key={`preload-${image.id}`} src={image.src} alt={image.alt} />
+          ))}
+        </div>
+      )}
 
       {/* 더보기/접기 버튼 */}
       <motion.button
