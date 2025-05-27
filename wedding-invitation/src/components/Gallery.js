@@ -151,7 +151,7 @@ const Gallery = () => {
     setIsExpanded(!isExpanded);
   };
 
-  // 모든 이미지 미리 로드 (한 번만 실행)
+  // 모든 이미지 미리 로드 및 터치 이벤트 최적화
   useEffect(() => {
     const preloadImages = async () => {
       const imagePromises = allImages.map((image) => {
@@ -171,7 +171,25 @@ const Gallery = () => {
       }
     };
 
+    // 터치 이벤트 최적화
+    const handleTouchStart = (e) => {
+      // passive 이벤트 리스너로 처리
+    };
+    
+    const handleTouchMove = (e) => {
+      // passive 이벤트 리스너로 처리
+    };
+
     preloadImages();
+    
+    // passive 이벤트 리스너 등록
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
   }, []); // 빈 의존성 배열로 한 번만 실행
 
   return (
@@ -196,7 +214,12 @@ const Gallery = () => {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <img src={image.src} alt={image.alt} />
+            <img 
+              src={image.src} 
+              alt={image.alt}
+              loading="lazy"
+              decoding="async"
+            />
           </motion.div>
         ))}
       </div>

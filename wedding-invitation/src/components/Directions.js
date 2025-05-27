@@ -1,10 +1,30 @@
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/main.css";
 
 const Directions = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+  
+  // 터치 이벤트 최적화
+  useEffect(() => {
+    const handleTouchStart = (e) => {
+      // passive 이벤트 리스너로 처리
+    };
+    
+    const handleTouchMove = (e) => {
+      // passive 이벤트 리스너로 처리
+    };
+
+    // passive 이벤트 리스너 등록
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
   
   const openTmap = () => {
     window.location.href = 'https://tmap.life/be35c180';
@@ -48,13 +68,18 @@ const Directions = () => {
         </p>
       </div>
 
-      {/* 구글 지도 임베딩 */}
-      <div className="embedded-map">
+      {/* 구글 지도 임베딩 - 터치 이벤트 최적화 */}
+      <div className="embedded-map" style={{ touchAction: 'pan-x pan-y' }}>
         <iframe
           src="https://maps.google.com/maps?q=아르떼웨딩컨벤션,충청북도+청주시+청원구+사천로+33&t=&z=15&ie=UTF8&iwloc=&output=embed"
           width="100%"
           height="300"
-          style={{ border: 'none', borderRadius: '12px' }}
+          style={{ 
+            border: 'none', 
+            borderRadius: '12px',
+            touchAction: 'pan-x pan-y',
+            pointerEvents: 'auto'
+          }}
           allowFullScreen=""
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
