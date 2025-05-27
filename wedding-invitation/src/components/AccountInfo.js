@@ -10,8 +10,8 @@ const AccountInfo = () => {
 
   const groomAccounts = [
     { name: "신랑", account: "177-910488-38707", bank: "하나은행", holder: "정회웅" },
-    { name: "신랑 아버지", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "정태희" },
-    { name: "신랑 어머니", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "박미숙" }
+    { name: "신랑 아버지", account: "173076-56-053481", bank: "농협은행", holder: "정태희" },
+    { name: "신랑 어머니", account: "110-258-800200", bank: "신한은행", holder: "박미숙" }
   ];
 
   const brideAccounts = [
