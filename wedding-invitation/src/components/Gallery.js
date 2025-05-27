@@ -14,110 +14,110 @@ const Gallery = () => {
     // 기존 갤러리 이미지들
     {
       id: 1,
-      src: "/images/1Y4A3911.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3911.JPG`,
       alt: "웨딩 사진 1",
       title: "웨딩촬영"
     },
     {
       id: 2,
-      src: "/images/1Y4A3889.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3889.JPG`,
       alt: "웨딩 사진 2",
       title: "행복한 순간"
     },
     {
       id: 3,
-      src: "/images/1Y4A3878.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3878.JPG`,
       alt: "웨딩 사진 3",
       title: "사랑의 약속"
     },
     {
       id: 4,
-      src: "/images/1Y4A3861.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3861.JPG`,
       alt: "웨딩 사진 4",
       title: "드레스 피팅"
     },
     {
       id: 5,
-      src: "/images/1Y4A3832.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3832.JPG`,
       alt: "웨딩 사진 5",
       title: "웨딩드레스"
     },
     {
       id: 6,
-      src: "/images/1Y4A3749.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3749.JPG`,
       alt: "웨딩 사진 6",
       title: "부케"
     },
     {
       id: 7,
-      src: "/images/1Y4A3716.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3716.JPG`,
       alt: "웨딩 사진 7",
       title: "결혼반지"
     },
     {
       id: 8,
-      src: "/images/1Y4A3571.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3571.JPG`,
       alt: "웨딩 사진 8",
       title: "첫 키스"
     },
     {
       id: 9,
-      src: "/images/1Y4A3553.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3553.JPG`,
       alt: "웨딩 사진 9",
       title: "영원한 사랑"
     },
     {
       id: 10,
-      src: "/images/1Y4A3500.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3500.JPG`,
       alt: "웨딩 사진 10",
       title: "함께하는 미래"
     },
     {
       id: 11,
-      src: "/images/1Y4A3345.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3345.JPG`,
       alt: "웨딩 사진 11",
       title: "행복한 미소"
     },
     {
       id: 12,
-      src: "/images/1Y4A3216.JPG",
+      src: `${process.env.PUBLIC_URL}/images/1Y4A3216.JPG`,
       alt: "웨딩 사진 12",
       title: "새로운 시작"
     },
     // 추가 갤러리 이미지들
     {
       id: 13,
-      src: "/images/NHH01055.JPG",
+      src: `${process.env.PUBLIC_URL}/images/NHH01055.JPG`,
       alt: "웨딩 사진 13",
       title: "행복한 순간"
     },
     {
       id: 14,
-      src: "/images/NHH00813.JPG",
+      src: `${process.env.PUBLIC_URL}/images/NHH00813.JPG`,
       alt: "웨딩 사진 14",
       title: "사랑의 약속"
     },
     {
       id: 15,
-      src: "/images/NHH00576.JPG",
+      src: `${process.env.PUBLIC_URL}/images/NHH00576.JPG`,
       alt: "웨딩 사진 15",
       title: "영원한 사랑"
     },
     {
       id: 16,
-      src: "/images/NHH00523.JPG",
+      src: `${process.env.PUBLIC_URL}/images/NHH00523.JPG`,
       alt: "웨딩 사진 16",
       title: "아름다운 순간"
     },
     {
       id: 17,
-      src: "/images/NHH00503.JPG",
+      src: `${process.env.PUBLIC_URL}/images/NHH00503.JPG`,
       alt: "웨딩 사진 17",
       title: "함께하는 미래"
     },
     {
       id: 18,
-      src: "/images/NHH00380.JPG",
+      src: `${process.env.PUBLIC_URL}/images/NHH00380.JPG`,
       alt: "웨딩 사진 18",
       title: "새로운 시작"
     }
