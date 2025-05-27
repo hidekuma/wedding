@@ -33,7 +33,7 @@ const WeddingInfo = () => {
       
       <div className="wedding-details">
         <p className="wedding-date">2025년 9월 6일 토요일 오후 1시</p>
-        <p className="wedding-venue">청주 아르떼 웨딩홀 아델라홀</p>
+        <p className="wedding-venue">청주 아르떼 웨딩컨벤션 아델라홀</p>
       </div>
 
       <div className="wedding-photo">
