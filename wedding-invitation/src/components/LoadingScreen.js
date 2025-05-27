@@ -37,8 +37,8 @@ const LoadingScreen = ({ onComplete }) => {
     const handleImagesLoaded = () => {
       if (gifLoaded && lastFrameLoaded) {
         const loadTime = Date.now() - loadStartTime;
-        const minLoadingTime = 2000; // 최소 로딩 시간
-        const gifDuration = 2500; // GIF 재생 시간
+        const minLoadingTime = 3000; // 최소 로딩 시간 (2000 → 3500)
+        const gifDuration = 2500; // GIF 재생 시간 (2500 → 3000)
         
         // 로딩이 너무 빨리 끝나면 최소 시간까지 대기
         const waitTime = Math.max(0, minLoadingTime - loadTime);
@@ -50,8 +50,8 @@ const LoadingScreen = ({ onComplete }) => {
           setTimeout(() => {
             setIsComplete(true);
             sessionStorage.setItem('lastLoadingTime', Date.now().toString());
-            setTimeout(() => onComplete(), 300);
-          }, 500);
+            setTimeout(() => onComplete(), 800); // 300 → 800
+          }, 1200); // 500 → 1200
         }, waitTime);
       }
     };
@@ -103,7 +103,7 @@ const LoadingScreen = ({ onComplete }) => {
           className="loading-screen"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1.5 }}
         >
           {/* GIF 이미지 */}
           {gifLoaded && !showLastFrame && (
@@ -130,7 +130,7 @@ const LoadingScreen = ({ onComplete }) => {
               alt="로딩 완료"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.6 }}
               style={{
                 position: 'absolute',
                 top: 0,

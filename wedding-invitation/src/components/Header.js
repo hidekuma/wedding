@@ -12,9 +12,9 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
     {/* 메인 웨딩 이미지 */}
     <motion.div 
       className="hero-image"
-      initial={{ opacity: 0, scale: 1.1 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1.2 }}
+      initial={{ opacity: isLoading ? 0 : 1 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: isLoading ? 0.5 : 0 }}
     >
       <img src={`${process.env.PUBLIC_URL}/images/NHH01548.JPG`} alt="신랑신부" />
       
