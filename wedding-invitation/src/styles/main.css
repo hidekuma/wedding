@@ -488,7 +488,7 @@ img {
 .countdown-container {
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
@@ -496,8 +496,8 @@ img {
   text-align: center;
   background: white;
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -509,7 +509,7 @@ img {
 
 .countdown-number {
   font-family: var(--font-primary);
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 500;
   color: var(--color-primary);
   line-height: 1;
@@ -577,17 +577,17 @@ img {
   }
   
   .countdown-container {
-    gap: 1rem;
+    gap: 0.5rem;
   }
   
   .countdown-item {
-    width: 80px;
-    height: 80px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
   }
   
   .countdown-number {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
   }
   
   .countdown-label {
@@ -1111,13 +1111,13 @@ img {
 }
 
 .calendar {
-  max-width: 400px;
+  max-width: 350px;
   margin: 0 auto;
   background: #fff;
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.1);
   border: none;
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 .calendar-header {
@@ -1128,11 +1128,11 @@ img {
 }
 
 .calendar-header div {
-  padding: 1rem 0;
+  padding: 0.8rem 0;
   text-align: center;
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--color-text-light);
   letter-spacing: 0.5px;
 }
@@ -1149,7 +1149,7 @@ img {
   align-items: center;
   justify-content: center;
   font-family: var(--font-primary);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 300;
   color: var(--color-text);
   border: none;
@@ -1158,7 +1158,7 @@ img {
   cursor: default;
   transition: all 0.3s ease;
   border-radius: 50%;
-  margin: 2px;
+  margin: 1px;
 }
 
 .calendar-day:not(.empty):hover {
@@ -1965,23 +1965,29 @@ img {
   
   .calendar {
     max-width: 100%;
-    margin: 0 1rem;
+    margin: 0 0.5rem;
     border-radius: 16px;
-    padding: 1rem;
+    padding: 0.8rem;
   }
   
   .calendar-header div {
-    padding: 0.8rem 0;
-    font-size: 0.9rem;
+    padding: 0.6rem 0;
+    font-size: 0.8rem;
   }
   
   .calendar-day {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin: 0.5px;
   }
   
   .calendar-day.wedding-day {
-    transform: scale(1.1);
+    transform: scale(1.05);
     border-radius: 50%;
+  }
+  
+  .calendar-day.wedding-day::after {
+    font-size: 12px;
+    top: -8px;
   }
   
   /* 계좌정보 모바일 */

@@ -30,7 +30,7 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
             <h1 className="hero-title">our<br/>wedding<br/>day</h1>
             
             <div className="hero-date">
-              <p>- Sat, Sep 6th, 2025 -</p>
+              <p> 2025 / 09 /06 </p>
               <p>Forever begins with a single step,</p>
               <p>And love guides us every step of the way.</p>
             </div>
