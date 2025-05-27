@@ -3,14 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import React, { useState, useEffect } from "react";
 import "../styles/main.css";
 
-const Gallery = () => {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // 모든 웨딩 사진 데이터 (기존 + 추가)
-  const allImages = [
+// 모든 웨딩 사진 데이터 (컴포넌트 외부로 이동하여 재생성 방지)
+const allImages = [
     // 기존 갤러리 이미지들
     {
       id: 1,
@@ -123,6 +117,12 @@ const Gallery = () => {
     }
   ];
 
+const Gallery = () => {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
+
   // 표시할 이미지들 (확장 여부에 따라)
   const displayImages = isExpanded ? allImages : allImages.slice(0, 12);
 
@@ -151,13 +151,28 @@ const Gallery = () => {
     setIsExpanded(!isExpanded);
   };
 
-  // 모든 이미지 미리 로드
+  // 모든 이미지 미리 로드 (한 번만 실행)
   useEffect(() => {
-    allImages.forEach((image) => {
-      const img = new Image();
-      img.src = image.src;
-    });
-  }, []);
+    const preloadImages = async () => {
+      const imagePromises = allImages.map((image) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = image.src;
+        });
+      });
+      
+      try {
+        await Promise.all(imagePromises);
+        console.log('모든 갤러리 이미지 프리로딩 완료');
+      } catch (error) {
+        console.log('일부 이미지 로딩 실패:', error);
+      }
+    };
+
+    preloadImages();
+  }, []); // 빈 의존성 배열로 한 번만 실행
 
   return (
     <motion.section
@@ -189,14 +204,7 @@ const Gallery = () => {
         ))}
       </div>
 
-      {/* 숨겨진 이미지들 미리 로드 (화면에 보이지 않음) */}
-      {!isExpanded && (
-        <div style={{ display: 'none' }}>
-          {allImages.slice(12).map((image) => (
-            <img key={`preload-${image.id}`} src={image.src} alt={image.alt} />
-          ))}
-        </div>
-      )}
+
 
       {/* 더보기/접기 버튼 */}
       <motion.button
