@@ -10,6 +10,7 @@ node_modules/
 
 # production
 /build
+wedding-invitation/build
 
 # misc
 .DS_Store
