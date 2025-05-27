@@ -197,9 +197,6 @@ const Gallery = () => {
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
             <img src={image.src} alt={image.alt} />
-            <div className="gallery-overlay">
-              <span>{image.title}</span>
-            </div>
           </motion.div>
         ))}
       </div>
