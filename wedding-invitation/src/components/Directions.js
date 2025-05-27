@@ -7,15 +7,15 @@ const Directions = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
   
   const openTmap = () => {
-    window.open('https://tmap.life/be35c180', '_blank');
+    window.location.href = 'https://tmap.life/be35c180';
   };
 
   const openKakaoMap = () => {
-    window.open('https://kko.kakao.com/6efj9w7vYX', '_blank');
+    window.location.href = 'https://kko.kakao.com/6efj9w7vYX';
   };
 
   const openNaverMap = () => {
-    window.open('https://naver.me/5Jp98uu6', '_blank');
+    window.location.href = 'https://naver.me/5Jp98uu6';
   };
 
 
