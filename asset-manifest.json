@@ -1,16 +1,34 @@
 {
   "files": {
-    "main.css": "/wedding/static/css/main.46e8d5fb.css",
-    "main.js": "/wedding/static/js/main.ccd2a81e.js",
+    "main.css": "/wedding/static/css/main.74de34a4.css",
+    "main.js": "/wedding/static/js/main.7f95d09b.js",
     "static/js/156.8b8b8f70.chunk.js": "/wedding/static/js/156.8b8b8f70.chunk.js",
+    "static/media/NHH00523.JPG": "/wedding/static/media/NHH00523.830088f576609c90f822.JPG",
+    "static/media/NHH00813.JPG": "/wedding/static/media/NHH00813.be37f0dba6064be8b108.JPG",
+    "static/media/NHH00380.JPG": "/wedding/static/media/NHH00380.61185b59d294ecb196de.JPG",
+    "static/media/NHH00576.JPG": "/wedding/static/media/NHH00576.e68c16e58f99cf3a292f.JPG",
+    "static/media/NHH01055.JPG": "/wedding/static/media/NHH01055.aa2f13c2e58a7321ab5b.JPG",
+    "static/media/NHH00503.JPG": "/wedding/static/media/NHH00503.0503c63cde8f25ea5f35.JPG",
+    "static/media/1Y4A3878.JPG": "/wedding/static/media/1Y4A3878.f78bd3475ff061885e16.JPG",
+    "static/media/1Y4A3911.JPG": "/wedding/static/media/1Y4A3911.0b30c5128a992bfa669c.JPG",
+    "static/media/1Y4A3832.JPG": "/wedding/static/media/1Y4A3832.793df25f0b899782681e.JPG",
+    "static/media/1Y4A3861.JPG": "/wedding/static/media/1Y4A3861.b66572b8d116cd53bb2e.JPG",
+    "static/media/1Y4A3571.JPG": "/wedding/static/media/1Y4A3571.f25f047a90c2f9dc19a4.JPG",
+    "static/media/1Y4A3500.JPG": "/wedding/static/media/1Y4A3500.088fc742f11f43e08190.JPG",
+    "static/media/1Y4A3889.JPG": "/wedding/static/media/1Y4A3889.5abf31c412087a771241.JPG",
+    "static/media/1Y4A3749.JPG": "/wedding/static/media/1Y4A3749.ac8037fa74439495f577.JPG",
+    "static/media/1Y4A3553.JPG": "/wedding/static/media/1Y4A3553.571ea29a9aa4c120509f.JPG",
+    "static/media/1Y4A3345.JPG": "/wedding/static/media/1Y4A3345.2302657f3431a8f25e8e.JPG",
+    "static/media/1Y4A3716.JPG": "/wedding/static/media/1Y4A3716.7e517e4f66f454d3bc29.JPG",
+    "static/media/1Y4A3216.JPG": "/wedding/static/media/1Y4A3216.dddc074dd7654e607d2b.JPG",
     "service-worker.js": "/wedding/service-worker.js",
     "index.html": "/wedding/index.html",
-    "main.46e8d5fb.css.map": "/wedding/static/css/main.46e8d5fb.css.map",
-    "main.ccd2a81e.js.map": "/wedding/static/js/main.ccd2a81e.js.map",
+    "main.74de34a4.css.map": "/wedding/static/css/main.74de34a4.css.map",
+    "main.7f95d09b.js.map": "/wedding/static/js/main.7f95d09b.js.map",
     "156.8b8b8f70.chunk.js.map": "/wedding/static/js/156.8b8b8f70.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.46e8d5fb.css",
-    "static/js/main.ccd2a81e.js"
+    "static/css/main.74de34a4.css",
+    "static/js/main.7f95d09b.js"
   ]
 }
