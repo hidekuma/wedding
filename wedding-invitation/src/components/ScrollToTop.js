@@ -33,9 +33,9 @@ const ScrollToTop = () => {
         <motion.button
           className="scroll-to-top"
           onClick={scrollToTop}
-          initial={{ opacity: 0, scale: 0 }}
+          initial={{ opacity: 0, scale: 1 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0 }}
+          exit={{ opacity: 0, scale: 1 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           transition={{ duration: 0.3 }}
