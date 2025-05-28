@@ -1,127 +1,46 @@
 import { useInView } from "react-intersection-observer";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/main.css";
 
-// 모든 웨딩 사진 데이터 (컴포넌트 외부로 이동하여 재생성 방지)
-const allImages = [
-    // 기존 갤러리 이미지들
-    {
-      id: 1,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3911.JPG`,
-      alt: "웨딩 사진 1",
-      title: "웨딩촬영"
-    },
-    {
-      id: 2,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3889.JPG`,
-      alt: "웨딩 사진 2",
-      title: "행복한 순간"
-    },
-    {
-      id: 3,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3878.JPG`,
-      alt: "웨딩 사진 3",
-      title: "사랑의 약속"
-    },
-    {
-      id: 4,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3861.JPG`,
-      alt: "웨딩 사진 4",
-      title: "드레스 피팅"
-    },
-    {
-      id: 5,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3832.JPG`,
-      alt: "웨딩 사진 5",
-      title: "웨딩드레스"
-    },
-    {
-      id: 6,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3749.JPG`,
-      alt: "웨딩 사진 6",
-      title: "부케"
-    },
-    {
-      id: 7,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3716.JPG`,
-      alt: "웨딩 사진 7",
-      title: "결혼반지"
-    },
-    {
-      id: 8,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3571.JPG`,
-      alt: "웨딩 사진 8",
-      title: "첫 키스"
-    },
-    {
-      id: 9,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3553.JPG`,
-      alt: "웨딩 사진 9",
-      title: "영원한 사랑"
-    },
-    {
-      id: 10,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3500.JPG`,
-      alt: "웨딩 사진 10",
-      title: "함께하는 미래"
-    },
-    {
-      id: 11,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3345.JPG`,
-      alt: "웨딩 사진 11",
-      title: "행복한 미소"
-    },
-    {
-      id: 12,
-      src: `${process.env.PUBLIC_URL}/images/1Y4A3216.JPG`,
-      alt: "웨딩 사진 12",
-      title: "새로운 시작"
-    },
-    // 추가 갤러리 이미지들
-    {
-      id: 13,
-      src: `${process.env.PUBLIC_URL}/images/NHH01055.JPG`,
-      alt: "웨딩 사진 13",
-      title: "행복한 순간"
-    },
-    {
-      id: 14,
-      src: `${process.env.PUBLIC_URL}/images/NHH00813.JPG`,
-      alt: "웨딩 사진 14",
-      title: "사랑의 약속"
-    },
-    {
-      id: 15,
-      src: `${process.env.PUBLIC_URL}/images/NHH00576.JPG`,
-      alt: "웨딩 사진 15",
-      title: "영원한 사랑"
-    },
-    {
-      id: 16,
-      src: `${process.env.PUBLIC_URL}/images/NHH00523.JPG`,
-      alt: "웨딩 사진 16",
-      title: "아름다운 순간"
-    },
-    {
-      id: 17,
-      src: `${process.env.PUBLIC_URL}/images/NHH00503.JPG`,
-      alt: "웨딩 사진 17",
-      title: "함께하는 미래"
-    },
-    {
-      id: 18,
-      src: `${process.env.PUBLIC_URL}/images/NHH00380.JPG`,
-      alt: "웨딩 사진 18",
-      title: "새로운 시작"
-    }
-  ];
+// gallery 폴더의 모든 이미지를 동적으로 로드
+const importAll = (r) => {
+  let images = {};
+  r.keys().map((item, index) => {
+    images[item.replace('./', '')] = r(item);
+    return null;
+  });
+  return images;
+};
+
+// assets/gallery 폴더의 모든 이미지 가져오기
+const galleryImages = importAll(
+  require.context('../assets/gallery', false, /\.(png|jpe?g|svg)$/i)
+);
+
+// 이미지 배열 생성 (파일명 기준으로 정렬)
+const allImages = Object.keys(galleryImages)
+  .sort() // 파일명 기준 정렬
+  .map((fileName, index) => ({
+    id: index + 1,
+    src: galleryImages[fileName],
+    alt: `웨딩 사진 ${index + 1}`,
+    title: `웨딩 사진 ${index + 1}`
+  }));
 
 const Gallery = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [additionalImagesLoaded, setAdditionalImagesLoaded] = useState(false);
+  const galleryGridRef = useRef(null);
+
+  // 갤러리 끝 부분 감지를 위한 Intersection Observer
+  const { ref: loadTriggerObserverRef, inView: nearEnd } = useInView({
+    threshold: 0.1,
+    triggerOnce: false
+  });
 
   // 표시할 이미지들 (확장 여부에 따라)
   const displayImages = isExpanded ? allImages : allImages.slice(0, 12);
@@ -148,8 +67,58 @@ const Gallery = () => {
   };
 
   const toggleExpanded = () => {
-    setIsExpanded(!isExpanded);
+    const wasExpanded = isExpanded;
+    setIsExpanded(!isExpanded); // UI 즉시 업데이트
+    
+    // 더보기를 클릭했을 때 (확장할 때) 추가 이미지들 백그라운드에서 로드
+    if (!wasExpanded && !additionalImagesLoaded) {
+      console.log('더보기 클릭 - 추가 이미지 백그라운드 프리로드 시작');
+      const additionalImages = allImages.slice(12);
+      
+      // 백그라운드에서 비동기로 프리로드 (UI 블로킹 없음)
+      additionalImages.forEach(image => {
+        const img = new Image();
+        img.onload = () => {
+          console.log(`이미지 로드 완료: ${image.id}`);
+        };
+        img.onerror = () => {
+          console.log(`이미지 로드 실패: ${image.id}`);
+        };
+        img.src = image.src;
+      });
+      
+      setAdditionalImagesLoaded(true); // 프리로드 시작했음을 표시
+    }
   };
+
+  // 갤러리 끝 부분에 스크롤할 때 추가 이미지들 프리로드
+  useEffect(() => {
+    if (nearEnd && !isExpanded && !additionalImagesLoaded) {
+      console.log('갤러리 끝 부분 도달 - 추가 이미지 프리로드 시작');
+      const additionalImages = allImages.slice(12);
+      
+      const preloadAdditionalImages = async () => {
+        const imagePromises = additionalImages.map((image) => {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = image.src;
+          });
+        });
+        
+        try {
+          await Promise.all(imagePromises);
+          console.log('추가 갤러리 이미지 프리로딩 완료');
+          setAdditionalImagesLoaded(true);
+        } catch (error) {
+          console.log('일부 추가 이미지 로딩 실패:', error);
+        }
+      };
+
+      preloadAdditionalImages();
+    }
+  }, [nearEnd, isExpanded, additionalImagesLoaded]);
 
   // 모든 이미지 미리 로드 및 터치 이벤트 최적화
   useEffect(() => {
@@ -202,7 +171,7 @@ const Gallery = () => {
     >
       <h2>갤러리</h2>
       
-      <div className="gallery-grid">
+      <div className="gallery-grid" ref={galleryGridRef}>
         {displayImages.map((image, index) => (
           <motion.div
             key={image.id}
@@ -212,19 +181,28 @@ const Gallery = () => {
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
+            transition={{ 
+              duration: index < 12 ? 0.6 : 0.3, // 더보기 이미지들은 더 빠른 애니메이션
+              delay: index < 12 ? index * 0.1 : 0 // 더보기 이미지들은 지연 없이 즉시 표시
+            }}
           >
             <img 
               src={image.src} 
               alt={image.alt}
-              loading="lazy"
+              loading={index < 12 ? "lazy" : "eager"}
               decoding="async"
             />
           </motion.div>
         ))}
       </div>
 
-
+      {/* 갤러리 끝 부분 감지를 위한 트리거 요소 (더보기 버튼이 보이지 않을 때만) */}
+      {!isExpanded && (
+        <div 
+          ref={loadTriggerObserverRef}
+          style={{ height: '1px', marginTop: '1rem' }}
+        />
+      )}
 
       {/* 더보기/접기 버튼 */}
       <motion.button
