@@ -10,14 +10,14 @@ const CoupleInfo = () => {
   // 혼주 연락처 정보
   const contacts = {
     groom: {
-      self: { name: "정회웅", phone: "010-1234-5677" },
-      father: { name: "정태희", phone: "010-1234-5678" },
-      mother: { name: "박미숙", phone: "010-1234-5679" }
+      self: { name: "정회웅", phone: "010-2498-9598" },
+      father: { name: "정태희", phone: "010-5467-5990" },
+      mother: { name: "박미숙", phone: "010-4611-9598" }
     },
     bride: {
-      self: { name: "김지우", phone: "010-1234-5682" },
-      father: { name: "김성진", phone: "010-1234-5680" },
-      mother: { name: "문애순", phone: "010-1234-5681" }
+      self: { name: "김지우", phone: "010-9459-6875" },
+      father: { name: "김성진", phone: "010-5441-6875" },
+      mother: { name: "문애순", phone: "010-9015-6875" }
     }
   };
 
