@@ -31,8 +31,8 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
             
             <div className="hero-date">
               <p> 2025 / 09 /06 </p>
-              <p>Forever begins with a single step,</p>
-              <p>And love guides us every step of the way.</p>
+              <p>Two hearts, one journey,</p>
+              <p>United in love forevermore.</p>
             </div>
           </motion.div>
         </div>
