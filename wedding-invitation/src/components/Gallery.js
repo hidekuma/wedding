@@ -28,6 +28,16 @@ const allImages = Object.keys(galleryImages)
     title: `웨딩 사진 ${index + 1}`
   }));
 
+// Shuffle the allImages array to display images in random order
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+};
+
+shuffleArray(allImages);
+
 const Gallery = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
   const [selectedImage, setSelectedImage] = useState(null);
