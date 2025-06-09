@@ -15,9 +15,9 @@ const AccountInfo = () => {
   ];
 
   const brideAccounts = [
-    { name: "신부", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "김지우" },
-    { name: "신부 아버지", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "김성진" },
-    { name: "신부 어머니", account: "1111-1111-1111-1111", bank: "카카오뱅크", holder: "문애순" }
+    { name: "신부", account: "3333-09-3783127", bank: "카카오뱅크", holder: "김지우" },
+    { name: "신부 아버지", account: "016-02-154710", bank: "농협은행", holder: "김성진" },
+    { name: "신부 어머니", account: "567-810570-43507", bank: "하나은행", holder: "문애순" }
   ];
 
   const copyToClipboard = async (text, name) => {
