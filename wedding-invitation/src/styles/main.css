@@ -194,12 +194,13 @@ html {
 
 /* 신랑 사진 개별 설정 */
 .groom-photo img {
-  object-position: center center;
+  object-position: center 0%;
 }
 
 /* 신부 사진 개별 설정 */
 .bride-photo img {
-  object-position: center center;
+  object-position: center 5%;
+  transform: scale(1.2);
 }
 
 .couple-info-content {
@@ -2084,12 +2085,13 @@ html {
 
   /* 모바일 - 신랑 사진 개별 설정 */
   .groom-photo img {
-    object-position: center center;
+    object-position: center 0%;
   }
 
   /* 모바일 - 신부 사진 개별 설정 */
   .bride-photo img {
-    object-position: center center;
+    object-position: center 5%;
+    transform: scale(1.2);
   }
 
   .couple-info-content {
