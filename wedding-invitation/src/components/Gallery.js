@@ -53,11 +53,13 @@ const Gallery = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [additionalImagesLoaded, setAdditionalImagesLoaded] = useState(false);
   const [preloadedImages, setPreloadedImages] = useState(new Set());
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const galleryGridRef = useRef(null);
   const preloadingRef = useRef(false);
   const preloadedImagesRef = useRef(new Set());
   const initialPreloadDone = useRef(false);
   const additionalPreloadDone = useRef(false);
+  const transitionTimeoutRef = useRef(null);
 
   // 갤러리 끝 부분 감지를 위한 Intersection Observer
   const { ref: loadTriggerObserverRef, inView: nearEnd } = useInView({
@@ -140,16 +142,53 @@ const Gallery = () => {
   };
 
   const nextSlide = () => {
+    if (isTransitioning) return; // 애니메이션 진행 중이면 무시
+    
+    // 이전 타이머가 있으면 취소
+    if (transitionTimeoutRef.current) {
+      clearTimeout(transitionTimeoutRef.current);
+    }
+    
+    setIsTransitioning(true);
     const newIndex = (currentIndex + 1) % allImages.length;
     setCurrentIndex(newIndex);
     setSelectedImage(allImages[newIndex]);
+    
+    // 안전한 타이머로 상태 해제
+    transitionTimeoutRef.current = setTimeout(() => {
+      setIsTransitioning(false);
+      transitionTimeoutRef.current = null;
+    }, 350); // 애니메이션 시간보다 약간 길게
   };
 
   const prevSlide = () => {
+    if (isTransitioning) return; // 애니메이션 진행 중이면 무시
+    
+    // 이전 타이머가 있으면 취소
+    if (transitionTimeoutRef.current) {
+      clearTimeout(transitionTimeoutRef.current);
+    }
+    
+    setIsTransitioning(true);
     const newIndex = (currentIndex - 1 + allImages.length) % allImages.length;
     setCurrentIndex(newIndex);
     setSelectedImage(allImages[newIndex]);
+    
+    // 안전한 타이머로 상태 해제
+    transitionTimeoutRef.current = setTimeout(() => {
+      setIsTransitioning(false);
+      transitionTimeoutRef.current = null;
+    }, 350); // 애니메이션 시간보다 약간 길게
   };
+
+  // 애니메이션 완료 시 호출되는 함수 (백업용)
+  const handleAnimationComplete = useCallback(() => {
+    if (transitionTimeoutRef.current) {
+      clearTimeout(transitionTimeoutRef.current);
+      transitionTimeoutRef.current = null;
+    }
+    setIsTransitioning(false);
+  }, []);
 
   const toggleExpanded = useCallback(() => {
     const wasExpanded = isExpanded;
@@ -234,6 +273,11 @@ const Gallery = () => {
     return () => {
       // 진행 중인 프리로딩 중단
       preloadingRef.current = false;
+      
+      // 전환 타이머 정리
+      if (transitionTimeoutRef.current) {
+        clearTimeout(transitionTimeoutRef.current);
+      }
       
       // 스크롤 복원
       document.body.style.overflow = 'unset';
@@ -327,12 +371,16 @@ const Gallery = () => {
                 ×
               </button>
               
-              <button className="modal-btn prev" onClick={prevSlide}>
+              <button 
+                className={`modal-btn prev ${isTransitioning ? 'disabled' : ''}`}
+                onClick={prevSlide}
+                disabled={isTransitioning}
+              >
                 &#8249;
               </button>
               
               <div className="modal-image-container">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" onExitComplete={handleAnimationComplete}>
                   <motion.img
                     key={currentIndex}
                     src={selectedImage.src}
@@ -352,12 +400,18 @@ const Gallery = () => {
                 </AnimatePresence>
               </div>
               
-              <button className="modal-btn next" onClick={nextSlide}>
+              <button 
+                className={`modal-btn next ${isTransitioning ? 'disabled' : ''}`}
+                onClick={nextSlide}
+                disabled={isTransitioning}
+              >
                 &#8250;
               </button>
               
               <div className="modal-counter">
-                {currentIndex + 1} / {allImages.length}
+                <span style={{ opacity: isTransitioning ? 0.5 : 1, transition: 'opacity 0.3s' }}>
+                  {currentIndex + 1} / {allImages.length}
+                </span>
               </div>
             </motion.div>
           </motion.div>

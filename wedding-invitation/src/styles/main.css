@@ -935,6 +935,11 @@ html {
   background: rgba(0, 0, 0, 0.9);
   transform: translateY(-50%) scale(1.05);
 }
+.modal-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 .modal-btn.prev {
   left: 20px;
 }
@@ -2214,6 +2219,11 @@ html {
     backdrop-filter: blur(20px);
     font-weight: 300;
     border-radius: 8px;
+  }
+  .modal-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
   }
   .modal-btn.prev {
     left: 20px;

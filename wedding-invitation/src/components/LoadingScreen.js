@@ -9,15 +9,6 @@ const LoadingScreen = ({ onComplete }) => {
   const [gifLoaded, setGifLoaded] = useState(false);
 
   useEffect(() => {
-    // 개발 모드에서 강제 로딩 리셋 (콘솔에서 resetLoading() 호출 가능)
-    if (process.env.NODE_ENV === 'development') {
-      window.resetLoading = () => {
-        sessionStorage.removeItem('lastLoadingTime');
-        console.log('로딩 캐시 리셋됨. 페이지를 수동으로 새로고침해주세요.');
-        // window.location.reload(); // 자동 리로드 제거
-      };
-    }
-    
     // 최근 로딩 완료 시간 확인 (5초 이내면 로딩 스킵)
     const lastLoadingTime = sessionStorage.getItem('lastLoadingTime');
     const now = Date.now();
@@ -81,19 +72,6 @@ const LoadingScreen = ({ onComplete }) => {
     
     gifImg.src = `${process.env.PUBLIC_URL}/images/combined-webp/loading.gif`;
     lastFrameImg.src = `${process.env.PUBLIC_URL}/images/combined-webp/last_frame.webp`;
-    
-    // 최대 대기 시간 설정 (5초)
-    const maxWaitTimer = setTimeout(() => {
-      if (!isComplete) {
-        setIsComplete(true);
-        sessionStorage.setItem('lastLoadingTime', Date.now().toString());
-        onComplete();
-      }
-    }, 5000);
-    
-    return () => {
-      clearTimeout(maxWaitTimer);
-    };
   }, [onComplete, isComplete, gifLoaded, lastFrameLoaded]);
 
   return (
