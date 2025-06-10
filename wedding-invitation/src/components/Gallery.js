@@ -52,7 +52,6 @@ const Gallery = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [additionalImagesLoaded, setAdditionalImagesLoaded] = useState(false);
-  const [loadedImages, setLoadedImages] = useState(new Set());
   const galleryGridRef = useRef(null);
 
   // 갤러리 끝 부분 감지를 위한 Intersection Observer
@@ -139,6 +138,22 @@ const Gallery = () => {
     }
   }, [nearEnd, isExpanded, additionalImagesLoaded]);
 
+  // 모달 열림/닫힘 시 배경 스크롤 제어
+  useEffect(() => {
+    if (selectedImage) {
+      // 모달이 열릴 때 스크롤 비활성화
+      document.body.style.overflow = 'hidden';
+    } else {
+      // 모달이 닫힐 때 스크롤 복원
+      document.body.style.overflow = 'unset';
+    }
+    
+    // 컴포넌트 언마운트 시 스크롤 복원
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedImage]);
+
   // 모든 이미지 미리 로드 및 터치 이벤트 최적화
   useEffect(() => {
     const preloadImages = async () => {
@@ -209,13 +224,6 @@ const Gallery = () => {
               alt={image.alt}
               loading="eager"
               decoding="async"
-              onLoad={() => {
-                setLoadedImages(prev => new Set([...prev, image.id]));
-              }}
-              style={{
-                opacity: loadedImages.has(image.id) ? 1 : 0.7,
-                transition: 'opacity 0.3s ease'
-              }}
             />
           </motion.div>
         ))}
