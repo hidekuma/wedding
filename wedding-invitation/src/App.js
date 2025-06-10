@@ -26,6 +26,12 @@ function App() {
     rootMargin: '0px 0px 0px 0px' // 마진 제거
   });
 
+  // 오시는길 섹션 감지용 ref
+  const { ref: directionsRef, inView: directionsInView } = useInView({
+    threshold: 0.1, // 10%만 보여도 활성화
+    rootMargin: '0px 0px 0px 0px'
+  });
+
   const handleLoadingComplete = () => {
     setIsLoading(false);
     // 로딩 완료와 동시에 hero 텍스트 표시
@@ -88,8 +94,8 @@ function App() {
       {/* 로딩 스크린 오버레이 */}
       {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
       
-      {/* 꽃잎 날리는 효과 - 예식안내 섹션 부터 활성화 */}
-      {!isLoading && <PetalFall isActive={weddingInfoInView} petalCount={50} />}
+      {/* 꽃잎 날리는 효과 - 예식안내 섹션부터 오시는길 전까지 활성화 */}
+      {!isLoading && <PetalFall isActive={weddingInfoInView && !directionsInView} petalCount={15} />}
       
       {/* 나머지 컨텐츠는 로딩 완료 후 표시 */}
       {!isLoading && (
@@ -105,7 +111,9 @@ function App() {
               <Gallery />
             </ErrorBoundary>
             {/* <Timeline /> */}
-            
+          </div>
+          
+          <div ref={directionsRef}>
             {/* <GuestSnap /> */}
             <ErrorBoundary>
               <Directions />

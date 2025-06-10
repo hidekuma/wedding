@@ -141,4 +141,88 @@
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
   animation-direction: normal, alternate;
+}
+
+/* 그룹별 다른 애니메이션 스타일 */
+.petal-group-0 {
+  animation-timing-function: ease-in-out;
+}
+
+.petal-group-1 {
+  animation-timing-function: ease-in;
+}
+
+.petal-group-2 {
+  animation-timing-function: linear;
+}
+
+.petal-group-3 {
+  animation-timing-function: ease-out;
+}
+
+.petal-group-4 {
+  animation-timing-function: ease-in-out;
+}
+
+/* 그룹별 다른 애니메이션 적용 */
+.petal-group-0:nth-child(odd) {
+  animation-name: fall;
+}
+
+.petal-group-1:nth-child(even) {
+  animation-name: fallWithSwing;
+}
+
+.petal-group-2:nth-child(3n) {
+  animation-name: fall, sway;
+  animation-duration: inherit, 4s;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  animation-direction: normal, alternate;
+}
+
+.petal-group-3:nth-child(odd) {
+  animation-name: fallWithSwing;
+}
+
+.petal-group-4:nth-child(2n) {
+  animation-name: fall, sway;
+  animation-duration: inherit, 2.5s;
+  animation-timing-function: ease-out, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  animation-direction: normal, alternate;
+}
+
+/* 추가 자연스러운 움직임을 위한 새로운 애니메이션 */
+@keyframes gentleFall {
+  0% {
+    transform: translateY(-20px) rotateZ(0deg);
+  }
+  15% {
+    transform: translateY(15vh) rotateZ(54deg) translateX(3px);
+  }
+  30% {
+    transform: translateY(30vh) rotateZ(108deg) translateX(-5px);
+  }
+  45% {
+    transform: translateY(45vh) rotateZ(162deg) translateX(8px);
+  }
+  60% {
+    transform: translateY(60vh) rotateZ(216deg) translateX(-2px);
+  }
+  75% {
+    transform: translateY(75vh) rotateZ(270deg) translateX(6px);
+  }
+  90% {
+    transform: translateY(90vh) rotateZ(324deg) translateX(-4px);
+  }
+  100% {
+    transform: translateY(100vh) rotateZ(360deg);
+  }
+}
+
+/* 일부 꽃잎에 부드러운 애니메이션 적용 */
+.petal-group-1:nth-child(4n),
+.petal-group-3:nth-child(5n) {
+  animation-name: gentleFall;
 } 
