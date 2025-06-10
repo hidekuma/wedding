@@ -16,7 +16,7 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8, delay: isLoading ? 0.5 : 0 }}
     >
-      <img src={`${process.env.PUBLIC_URL}/images/NHH01548.JPG`} alt="신랑신부" />
+      <img src={`${process.env.PUBLIC_URL}/images/combined/hero_image.JPG`} alt="신랑신부" />
       
       {/* 이미지 위 텍스트 오버레이 - showHeroText가 true일 때 표시 */}
       {showHeroText && (

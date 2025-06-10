@@ -37,7 +37,7 @@ const WeddingInfo = () => {
       </div>
 
       <div className="wedding-photo">
-        <img src={`${process.env.PUBLIC_URL}/images/1Y4A2679.JPG`} alt="신랑신부" />
+        <img src={`${process.env.PUBLIC_URL}/images/combined/top_image.JPG`} alt="신랑신부" />
       </div>
 
       <div className="calendar-section">

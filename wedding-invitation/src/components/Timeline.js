@@ -10,32 +10,32 @@ const Timeline = () => {
     {
       title: "첫 만남",
       description: "운명적인 첫 만남\n서로에게 끌린 그 순간",
-      image: `${process.env.PUBLIC_URL}/images/1Y4A3199.JPG`
+      image: `${process.env.PUBLIC_URL}/images/combined/1Y4A3199.JPG`
     },
     {
       title: "첫 데이트",
       description: "설레는 첫 데이트\n함께한 소중한 시간",
-      image: `${process.env.PUBLIC_URL}/images/1Y4A2968.JPG`
+      image: `${process.env.PUBLIC_URL}/images/combined/1Y4A2968.JPG`
     },
     {
       title: "프로포즈",
       description: "영원한 사랑을 약속하며\n평생을 함께하자는 고백",
-      image: `${process.env.PUBLIC_URL}/images/1Y4A2799.JPG`
+      image: `${process.env.PUBLIC_URL}/images/combined/1Y4A2799.JPG`
     },
     {
       title: "웨딩 촬영",
       description: "아름다운 순간을 담은\n웨딩 촬영의 추억",
-      image: `${process.env.PUBLIC_URL}/images/1Y4A2748.JPG`
+      image: `${process.env.PUBLIC_URL}/images/combined/1Y4A2748.JPG`
     },
     {
       title: "결혼식 준비",
       description: "새로운 시작을 위한\n설레는 준비 과정",
-      image: `${process.env.PUBLIC_URL}/images/1Y4A2679.JPG`
+      image: `${process.env.PUBLIC_URL}/images/combined/top_image.JPG`
     },
     {
       title: "Wedding Day",
       description: "저희는 이날 결혼해요\n저희의 시작을\n축하해주세요",
-      image: `${process.env.PUBLIC_URL}/images/1Y4A2641.JPG`
+      image: `${process.env.PUBLIC_URL}/images/combined/1Y4A2641.JPG`
     }
   ];
 

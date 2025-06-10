@@ -35,7 +35,7 @@ const CoupleInfo = () => {
         {/* 신랑 카드 */}
         <div className="couple-card">
           <div className="couple-photo">
-            <img src={`${process.env.PUBLIC_URL}/images/hoiwoong.jpg`} alt="신랑 정회웅" />
+            <img src={`${process.env.PUBLIC_URL}/images/combined/hoiwoong.jpg`} alt="신랑 정회웅" />
           </div>
           <div className="couple-info-content">
             <h2>
@@ -55,7 +55,7 @@ const CoupleInfo = () => {
         {/* 신부 카드 */}
         <div className="couple-card">
           <div className="couple-photo">
-            <img src={`${process.env.PUBLIC_URL}/images/jiwoo.jpg`} alt="신부 김지우" />
+            <img src={`${process.env.PUBLIC_URL}/images/combined/jiwoo.jpg`} alt="신부 김지우" />
           </div>
           <div className="couple-info-content">
             <h2>
