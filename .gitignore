@@ -136,4 +136,4 @@ yarn.lock
 /public/worker-*.js.map
 
 # Ignore gallery webp images
-gallery-webp/
+/public/images/gallery/
