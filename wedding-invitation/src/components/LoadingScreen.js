@@ -78,8 +78,8 @@ const LoadingScreen = ({ onComplete }) => {
       handleImagesLoaded();
     };
     
-    gifImg.src = `${process.env.PUBLIC_URL}/images/combined/loading.gif`;
-    lastFrameImg.src = `${process.env.PUBLIC_URL}/images/combined/last_frame.jpg`;
+    gifImg.src = `${process.env.PUBLIC_URL}/images/combined-webp/loading.gif`;
+    lastFrameImg.src = `${process.env.PUBLIC_URL}/images/combined-webp/last_frame.webp`;
     
     // 최대 대기 시간 설정 (5초)
     const maxWaitTimer = setTimeout(() => {
@@ -107,7 +107,7 @@ const LoadingScreen = ({ onComplete }) => {
           {/* GIF 이미지 */}
           {gifLoaded && !showLastFrame && (
             <img 
-              src={`${process.env.PUBLIC_URL}/images/combined/loading.gif?t=${Date.now()}`}
+              src={`${process.env.PUBLIC_URL}/images/combined-webp/loading.gif?t=${Date.now()}`}
               alt="로딩 중"
               style={{
                 position: 'absolute',
@@ -125,7 +125,7 @@ const LoadingScreen = ({ onComplete }) => {
           {/* 마지막 프레임 이미지 */}
           {showLastFrame && lastFrameLoaded && (
             <motion.img 
-              src={`${process.env.PUBLIC_URL}/images/combined/last_frame.jpg`}
+              src={`${process.env.PUBLIC_URL}/images/combined-webp/last_frame.webp`}
               alt="로딩 완료"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
