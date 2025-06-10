@@ -1,36 +1,16 @@
 {
   "files": {
     "main.css": "/wedding/static/css/main.74de34a4.css",
-    "main.js": "/wedding/static/js/main.1ba743f3.js",
+    "main.js": "/wedding/static/js/main.c85d5c62.js",
     "static/js/156.8b8b8f70.chunk.js": "/wedding/static/js/156.8b8b8f70.chunk.js",
-    "static/media/1Y4A3878.webp": "/wedding/static/media/1Y4A3878.2b7776689612f0e8549d.webp",
-    "static/media/1Y4A3571.webp": "/wedding/static/media/1Y4A3571.631607e1bb7e7125343b.webp",
-    "static/media/1Y4A3716.webp": "/wedding/static/media/1Y4A3716.09aec152a41db0c7928d.webp",
-    "static/media/1Y4A3345.webp": "/wedding/static/media/1Y4A3345.34afaea1cdfa49a8978a.webp",
-    "static/media/1Y4A3749.webp": "/wedding/static/media/1Y4A3749.7224c1092955b74771e5.webp",
-    "static/media/1Y4A3861.webp": "/wedding/static/media/1Y4A3861.d730b1056f3020c04350.webp",
-    "static/media/1Y4A3911.webp": "/wedding/static/media/1Y4A3911.d4b802a1374ad169e69f.webp",
-    "static/media/1Y4A2799.webp": "/wedding/static/media/1Y4A2799.022cffc5b26962c0b40a.webp",
-    "static/media/1Y4A3832.webp": "/wedding/static/media/1Y4A3832.8772d0a114793c5f5b83.webp",
-    "static/media/1Y4A2769.webp": "/wedding/static/media/1Y4A2769.ee70f861e8145974e453.webp",
-    "static/media/1Y4A2748.webp": "/wedding/static/media/1Y4A2748.52516cc8c88567e100f8.webp",
-    "static/media/1Y4A2968.webp": "/wedding/static/media/1Y4A2968.755ee19e501395a9ca16.webp",
-    "static/media/1Y4A3500.webp": "/wedding/static/media/1Y4A3500.b5f24f57cf0bb7774397.webp",
-    "static/media/1Y4A2333.webp": "/wedding/static/media/1Y4A2333.b9fdb11b23d3f948d93b.webp",
-    "static/media/1Y4A2641.webp": "/wedding/static/media/1Y4A2641.51cc12863e271387c559.webp",
-    "static/media/1Y4A3216.webp": "/wedding/static/media/1Y4A3216.975977cbe795d14b341d.webp",
-    "static/media/1Y4A3199.webp": "/wedding/static/media/1Y4A3199.394daeb46683a05302d0.webp",
-    "static/media/1Y4A3553.webp": "/wedding/static/media/1Y4A3553.566a3e216394c598c47b.webp",
-    "static/media/1Y4A3889.webp": "/wedding/static/media/1Y4A3889.6d105544bd1b9ef19187.webp",
-    "static/media/1Y4A2679.webp": "/wedding/static/media/1Y4A2679.5fc62c79eead46ee5be0.webp",
     "service-worker.js": "/wedding/service-worker.js",
     "index.html": "/wedding/index.html",
     "main.74de34a4.css.map": "/wedding/static/css/main.74de34a4.css.map",
-    "main.1ba743f3.js.map": "/wedding/static/js/main.1ba743f3.js.map",
+    "main.c85d5c62.js.map": "/wedding/static/js/main.c85d5c62.js.map",
     "156.8b8b8f70.chunk.js.map": "/wedding/static/js/156.8b8b8f70.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.74de34a4.css",
-    "static/js/main.1ba743f3.js"
+    "static/js/main.c85d5c62.js"
   ]
 }
