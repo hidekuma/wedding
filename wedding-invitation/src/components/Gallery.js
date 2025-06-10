@@ -1,6 +1,6 @@
 import { useInView } from "react-intersection-observer";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../styles/main.css";
 
 // 웨딩 사진 파일명들 (실제 파일명에 맞게 수정)
@@ -52,7 +52,10 @@ const Gallery = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [additionalImagesLoaded, setAdditionalImagesLoaded] = useState(false);
+  const [preloadedImages, setPreloadedImages] = useState(new Set());
+  const [imageLoadErrors, setImageLoadErrors] = useState(new Set());
   const galleryGridRef = useRef(null);
+  const preloadingRef = useRef(false);
 
   // 갤러리 끝 부분 감지를 위한 Intersection Observer
   const { ref: loadTriggerObserverRef, inView: nearEnd } = useInView({
@@ -62,6 +65,68 @@ const Gallery = () => {
 
   // 표시할 이미지들 (확장 여부에 따라)
   const displayImages = isExpanded ? allImages : allImages.slice(0, 12);
+
+  // 안전한 이미지 프리로딩 함수
+  const preloadImageSafely = useCallback((imageSrc, timeout = 10000) => {
+    return new Promise((resolve, reject) => {
+      if (preloadedImages.has(imageSrc)) {
+        resolve(imageSrc);
+        return;
+      }
+
+      const img = new Image();
+      const timeoutId = setTimeout(() => {
+        img.onload = null;
+        img.onerror = null;
+        reject(new Error(`Image load timeout: ${imageSrc}`));
+      }, timeout);
+
+      img.onload = () => {
+        clearTimeout(timeoutId);
+        setPreloadedImages(prev => new Set([...prev, imageSrc]));
+        resolve(imageSrc);
+      };
+
+      img.onerror = (error) => {
+        clearTimeout(timeoutId);
+        console.warn(`이미지 로드 실패: ${imageSrc}`, error);
+        setImageLoadErrors(prev => new Set([...prev, imageSrc]));
+        reject(error);
+      };
+
+      img.src = imageSrc;
+    });
+  }, [preloadedImages]);
+
+  // 배치 단위로 이미지 프리로딩
+  const preloadImagesBatch = useCallback(async (images, batchSize = 3) => {
+    if (preloadingRef.current) return;
+    preloadingRef.current = true;
+
+    try {
+      for (let i = 0; i < images.length; i += batchSize) {
+        const batch = images.slice(i, i + batchSize);
+        const batchPromises = batch.map(image => 
+          preloadImageSafely(image.src).catch(err => {
+            console.warn(`배치 이미지 로드 실패:`, err);
+            return null;
+          })
+        );
+        
+        await Promise.allSettled(batchPromises);
+        
+        // 배치 간 약간의 지연을 두어 브라우저 부하 감소
+        if (i + batchSize < images.length) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      }
+      console.log('이미지 배치 프리로딩 완료');
+    } catch (error) {
+      console.error('이미지 배치 프리로딩 중 오류:', error);
+    } finally {
+      preloadingRef.current = false;
+    }
+  }, [preloadImageSafely]);
 
   const openModal = (index) => {
     setCurrentIndex(index);
@@ -84,59 +149,37 @@ const Gallery = () => {
     setSelectedImage(allImages[newIndex]);
   };
 
-  const toggleExpanded = () => {
+  const toggleExpanded = useCallback(() => {
     const wasExpanded = isExpanded;
-    setIsExpanded(!isExpanded); // UI 즉시 업데이트
+    setIsExpanded(!isExpanded);
     
     // 더보기를 클릭했을 때 (확장할 때) 추가 이미지들 백그라운드에서 로드
-    if (!wasExpanded && !additionalImagesLoaded) {
+    if (!wasExpanded && !additionalImagesLoaded && !preloadingRef.current) {
       console.log('더보기 클릭 - 추가 이미지 백그라운드 프리로드 시작');
       const additionalImages = allImages.slice(12);
       
-      // 백그라운드에서 비동기로 프리로드 (UI 블로킹 없음)
-      additionalImages.forEach(image => {
-        const img = new Image();
-        img.onload = () => {
-          console.log(`이미지 로드 완료: ${image.id}`);
-        };
-        img.onerror = () => {
-          console.log(`이미지 로드 실패: ${image.id}`);
-        };
-        img.src = image.src;
+      // 비동기로 배치 프리로딩 실행
+      preloadImagesBatch(additionalImages).then(() => {
+        setAdditionalImagesLoaded(true);
+      }).catch(err => {
+        console.error('추가 이미지 프리로딩 실패:', err);
       });
-      
-      setAdditionalImagesLoaded(true); // 프리로드 시작했음을 표시
     }
-  };
+  }, [isExpanded, additionalImagesLoaded, preloadImagesBatch]);
 
   // 갤러리 끝 부분에 스크롤할 때 추가 이미지들 프리로드
   useEffect(() => {
-    if (nearEnd && !isExpanded && !additionalImagesLoaded) {
+    if (nearEnd && !isExpanded && !additionalImagesLoaded && !preloadingRef.current) {
       console.log('갤러리 끝 부분 도달 - 추가 이미지 프리로드 시작');
       const additionalImages = allImages.slice(12);
       
-      const preloadAdditionalImages = async () => {
-        const imagePromises = additionalImages.map((image) => {
-          return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = resolve;
-            img.onerror = reject;
-            img.src = image.src;
-          });
-        });
-        
-        try {
-          await Promise.all(imagePromises);
-          console.log('추가 갤러리 이미지 프리로딩 완료');
-          setAdditionalImagesLoaded(true);
-        } catch (error) {
-          console.log('일부 추가 이미지 로딩 실패:', error);
-        }
-      };
-
-      preloadAdditionalImages();
+      preloadImagesBatch(additionalImages).then(() => {
+        setAdditionalImagesLoaded(true);
+      }).catch(err => {
+        console.error('갤러리 끝 프리로딩 실패:', err);
+      });
     }
-  }, [nearEnd, isExpanded, additionalImagesLoaded]);
+  }, [nearEnd, isExpanded, additionalImagesLoaded, preloadImagesBatch]);
 
   // 모달 열림/닫힘 시 배경 스크롤 제어
   useEffect(() => {
@@ -154,46 +197,46 @@ const Gallery = () => {
     };
   }, [selectedImage]);
 
-  // 모든 이미지 미리 로드 및 터치 이벤트 최적화
+  // 초기 이미지들만 프리로드 (첫 12개 이미지)
   useEffect(() => {
-    const preloadImages = async () => {
-      const imagePromises = allImages.map((image) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = resolve;
-          img.onerror = reject;
-          img.src = image.src;
-        });
-      });
+    if (inView && !preloadingRef.current) {
+      const initialImages = allImages.slice(0, 12);
+      console.log('초기 갤러리 이미지 프리로드 시작');
       
-      try {
-        await Promise.all(imagePromises);
-        console.log('모든 갤러리 이미지 프리로딩 완료');
-      } catch (error) {
-        console.log('일부 이미지 로딩 실패:', error);
+      preloadImagesBatch(initialImages).catch(err => {
+        console.error('초기 이미지 프리로딩 실패:', err);
+      });
+    }
+  }, [inView, preloadImagesBatch]);
+
+  // 에러 경계 처리
+  useEffect(() => {
+    const handleError = (event) => {
+      if (event.target && event.target.tagName === 'IMG') {
+        console.error('이미지 로드 에러:', event.target.src);
+        setImageLoadErrors(prev => new Set([...prev, event.target.src]));
       }
     };
 
-    // 터치 이벤트 최적화
-    const handleTouchStart = (e) => {
-      // passive 이벤트 리스너로 처리
-    };
+    document.addEventListener('error', handleError, true);
     
-    const handleTouchMove = (e) => {
-      // passive 이벤트 리스너로 처리
-    };
-
-    preloadImages();
-    
-    // passive 이벤트 리스너 등록
-    document.addEventListener('touchstart', handleTouchStart, { passive: true });
-    document.addEventListener('touchmove', handleTouchMove, { passive: true });
-
     return () => {
-      document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('error', handleError, true);
     };
-  }, []); // 빈 의존성 배열로 한 번만 실행
+  }, []);
+
+  // 컴포넌트 언마운트 시 cleanup
+  useEffect(() => {
+    return () => {
+      // 진행 중인 프리로딩 중단
+      preloadingRef.current = false;
+      
+      // 스크롤 복원
+      document.body.style.overflow = 'unset';
+      
+      console.log('갤러리 컴포넌트 cleanup 완료');
+    };
+  }, []);
 
   return (
     <motion.section
@@ -222,8 +265,15 @@ const Gallery = () => {
             <img 
               src={image.src} 
               alt={image.alt}
-              loading="eager"
+              loading={index < 6 ? "eager" : "lazy"}
               decoding="async"
+              onError={(e) => {
+                console.warn(`갤러리 이미지 로드 실패: ${image.src}`);
+                e.target.style.display = 'none'; // 실패한 이미지 숨김
+              }}
+              onLoad={() => {
+                setPreloadedImages(prev => new Set([...prev, image.src]));
+              }}
             />
           </motion.div>
         ))}
@@ -283,6 +333,12 @@ const Gallery = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ duration: 0.3 }}
+                    onError={(e) => {
+                      console.warn(`모달 이미지 로드 실패: ${selectedImage.src}`);
+                    }}
+                    onLoad={() => {
+                      setPreloadedImages(prev => new Set([...prev, selectedImage.src]));
+                    }}
                   />
                 </AnimatePresence>
               </div>

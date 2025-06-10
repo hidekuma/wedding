@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import CoupleInfo from "./components/CoupleInfo";
 import Countdown from "./components/Countdown";
 import Gallery from "./components/Gallery";
+import ErrorBoundary from "./components/ErrorBoundary";
 // import TabSection from "./components/TabSection";
 import WeddingInfo from "./components/WeddingInfo";
 // import GuestSnap from "./components/GuestSnap";
@@ -54,7 +55,9 @@ function App() {
           {/* <TabSection /> */}
           <WeddingInfo />
           <Countdown />
-          <Gallery />
+          <ErrorBoundary>
+            <Gallery />
+          </ErrorBoundary>
           {/* <Timeline /> */}
           
           {/* <GuestSnap /> */}
