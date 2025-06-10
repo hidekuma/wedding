@@ -50,7 +50,7 @@ const CoupleInfo = () => {
       <div className="couple-cards">
         {/* 신랑 카드 */}
         <div className="couple-card">
-          <div className="couple-photo">
+          <div className="couple-photo groom-photo">
             <img src={`${process.env.PUBLIC_URL}/images/combined-webp/hoiwoong.webp`} alt="신랑 정회웅" />
           </div>
           <div className="couple-info-content">
@@ -70,7 +70,7 @@ const CoupleInfo = () => {
 
         {/* 신부 카드 */}
         <div className="couple-card">
-          <div className="couple-photo">
+          <div className="couple-photo bride-photo">
             <img src={`${process.env.PUBLIC_URL}/images/combined-webp/jiwoo.webp`} alt="신부 김지우" />
           </div>
           <div className="couple-info-content">
