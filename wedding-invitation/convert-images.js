@@ -14,7 +14,7 @@ const combinedOutputDir = path.join(__dirname, 'public/images/combined-webp');
   }
 });
 
-// Clear output directories before conversion
+// Clear output directories before conversion (only if needed)
 const clearDirectory = (dir) => {
   if (fs.existsSync(dir)) {
     const files = fs.readdirSync(dir);
@@ -30,10 +30,26 @@ const clearDirectory = (dir) => {
   }
 };
 
-clearDirectory(galleryOutputDir);
-clearDirectory(combinedOutputDir);
+// Only clear directories in production builds or when explicitly requested
+const shouldClearDirectories = process.argv.includes('--force') || process.env.NODE_ENV === 'production';
 
-// Process files function
+if (shouldClearDirectories) {
+  console.log('Clearing output directories...');
+  clearDirectory(galleryOutputDir);
+  clearDirectory(combinedOutputDir);
+}
+
+// Check if file has been modified since last conversion
+const isFileModified = (inputFile, outputFile) => {
+  if (!fs.existsSync(outputFile)) return true;
+  
+  const inputStat = fs.statSync(inputFile);
+  const outputStat = fs.statSync(outputFile);
+  
+  return inputStat.mtime > outputStat.mtime;
+};
+
+// Process files function with parallel processing and caching
 const processFiles = async (inputDir, outputDir, dirName) => {
   if (!fs.existsSync(inputDir)) {
     console.log(`${dirName} directory not found, skipping...`);
@@ -45,31 +61,61 @@ const processFiles = async (inputDir, outputDir, dirName) => {
     return ext === '.jpg' || ext === '.jpeg' || ext === '.png';
   });
   
-  for (const file of files) {
+  console.log(`Processing ${files.length} images in ${dirName} folder...`);
+  
+  // Filter files that need conversion (new or modified)
+  const filesToProcess = files.filter(file => {
     const inputFile = path.join(inputDir, file);
     const outputFile = path.join(outputDir, `${path.parse(file).name}.webp`);
+    return isFileModified(inputFile, outputFile);
+  });
+  
+  if (filesToProcess.length === 0) {
+    console.log(`All ${dirName} images are up to date, skipping conversion.`);
+    return;
+  }
+  
+  console.log(`Converting ${filesToProcess.length} ${dirName} images...`);
+  
+  // Process files in parallel with limited concurrency
+  const concurrencyLimit = 4; // Process 4 images at a time
+  const processPromises = [];
+  
+  for (let i = 0; i < filesToProcess.length; i += concurrencyLimit) {
+    const batch = filesToProcess.slice(i, i + concurrencyLimit);
+    
+    const batchPromises = batch.map(async (file) => {
+      const inputFile = path.join(inputDir, file);
+      const outputFile = path.join(outputDir, `${path.parse(file).name}.webp`);
 
-    try {
-      // Convert to WebP with EXIF orientation correction
-      await sharp(inputFile)
-        .rotate() // Auto-rotate based on EXIF orientation
-        .webp()
-        .toFile(outputFile);
-      
-      console.log(`Converted ${file} to WebP format in ${dirName} folder.`);
-      
-    } catch (err) {
-      console.error(`Error processing ${file} in ${dirName}:`, err.message);
-    }
+      try {
+        // Convert to WebP with optimized settings
+        await sharp(inputFile)
+          .rotate() // Auto-rotate based on EXIF orientation
+          .webp({ 
+            quality: 85, // Slightly lower quality for faster processing
+            effort: 4    // Faster encoding (0-6, lower = faster)
+          })
+          .toFile(outputFile);
+        
+        console.log(`✓ Converted ${file} in ${dirName} folder`);
+        
+      } catch (err) {
+        console.error(`✗ Error processing ${file} in ${dirName}:`, err.message);
+      }
+    });
+    
+    // Wait for current batch to complete before starting next batch
+    await Promise.all(batchPromises);
   }
 };
 
 // Process both directories
 const processAllImages = async () => {
-  console.log('Starting gallery images conversion...');
-  await processFiles(galleryInputDir, galleryOutputDir, 'gallery');
+  const startTime = Date.now();
+  console.log('🚀 Starting image conversion process...');
   
-  console.log('Starting combined images conversion...');
+  await processFiles(galleryInputDir, galleryOutputDir, 'gallery');
   await processFiles(combinedInputDir, combinedOutputDir, 'combined');
   
   // Copy loading.gif if it exists
@@ -79,15 +125,17 @@ const processAllImages = async () => {
   if (fs.existsSync(loadingGifPath)) {
     try {
       fs.copyFileSync(loadingGifPath, loadingGifDestPath);
-      console.log('Copied loading.gif to combined-webp folder.');
+      console.log('📁 Copied loading.gif to combined-webp folder.');
     } catch (err) {
       console.error('Error copying loading.gif:', err.message);
     }
   }
   
-  console.log('All images processed successfully!');
+  const endTime = Date.now();
+  const duration = ((endTime - startTime) / 1000).toFixed(2);
+  console.log(`✅ All images processed successfully in ${duration} seconds!`);
 };
 
 processAllImages().catch(err => {
-  console.error('Error processing images:', err);
+  console.error('❌ Error processing images:', err);
 }); 
