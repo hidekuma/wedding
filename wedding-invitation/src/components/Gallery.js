@@ -248,7 +248,7 @@ const Gallery = () => {
       ref={ref}
       initial={{ opacity: 0 }}
       animate={inView ? { opacity: 1 } : {}}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 1.0, ease: "easeOut" }}
     >
       <h2>갤러리</h2>
       
@@ -259,11 +259,12 @@ const Gallery = () => {
             className="gallery-item"
             onClick={() => openModal(index)}
             whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ 
-              duration: index < 12 ? 0.6 : 0.3, // 더보기 이미지들은 더 빠른 애니메이션
-              delay: index < 12 ? index * 0.1 : 0 // 더보기 이미지들은 지연 없이 즉시 표시
+              duration: index < 12 ? 0.8 : 0.5, // 애니메이션 시간 증가
+              delay: index < 12 ? index * 0.15 : 0, // 지연 시간 증가 (0.1 → 0.15)
+              ease: "easeOut" // 부드러운 easing 추가
             }}
           >
             <img 
@@ -297,6 +298,8 @@ const Gallery = () => {
         className="toggle-btn"
         onClick={toggleExpanded}
         whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.02 }}
+        transition={{ duration: 0.2 }}
         style={{ marginTop: '2rem' }}
       >
         {isExpanded ? '접기' : '더보기'} 
