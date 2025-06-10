@@ -1,0 +1,144 @@
+.petal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.petal-container.active {
+  opacity: 1;
+}
+
+.petal-container.inactive {
+  opacity: 0;
+}
+
+.petal {
+  position: absolute;
+  top: -20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 0 100% 0 100%;
+  animation: fall linear infinite;
+  will-change: transform;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* 꽃잎 타입별 스타일 - 하얀 벚꽃 색상 */
+.petal-type-1 {
+  background: linear-gradient(45deg, #fefefe, #f8f8ff);
+  box-shadow: 0 0 12px rgba(248, 248, 255, 0.6);
+}
+
+.petal-type-2 {
+  background: linear-gradient(45deg, #ffffff, #faf0e6);
+  box-shadow: 0 0 12px rgba(250, 240, 230, 0.5);
+}
+
+.petal-type-3 {
+  background: linear-gradient(45deg, #fffafa, #fff8dc);
+  box-shadow: 0 0 12px rgba(255, 248, 220, 0.4);
+}
+
+/* 추가 꽃잎 모양 변형 */
+.petal::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 100% 0 100% 0;
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+/* 꽃잎 떨어지는 애니메이션 */
+@keyframes fall {
+  0% {
+    transform: translateY(-20px) rotateZ(0deg);
+  }
+  25% {
+    transform: translateY(25vh) rotateZ(90deg) translateX(10px);
+  }
+  50% {
+    transform: translateY(50vh) rotateZ(180deg) translateX(-5px);
+  }
+  75% {
+    transform: translateY(75vh) rotateZ(270deg) translateX(15px);
+  }
+  100% {
+    transform: translateY(100vh) rotateZ(360deg);
+  }
+}
+
+/* 모바일에서 성능 최적화 */
+@media (max-width: 768px) {
+  .petal {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .petal-container {
+    z-index: 999; /* 모바일에서는 약간 낮춤 */
+  }
+}
+
+/* 애니메이션 최적화를 위한 추가 설정 */
+.petal {
+  transform-origin: center center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+/* 꽃잎 변형 애니메이션 */
+@keyframes fallWithSwing {
+  0% {
+    transform: translateY(-20px) rotateZ(0deg) rotateX(0deg);
+  }
+  20% {
+    transform: translateY(20vh) rotateZ(72deg) rotateX(20deg) translateX(5px);
+  }
+  40% {
+    transform: translateY(40vh) rotateZ(144deg) rotateX(40deg) translateX(-8px);
+  }
+  60% {
+    transform: translateY(60vh) rotateZ(216deg) rotateX(60deg) translateX(12px);
+  }
+  80% {
+    transform: translateY(80vh) rotateZ(288deg) rotateX(80deg) translateX(-3px);
+  }
+  100% {
+    transform: translateY(100vh) rotateZ(360deg) rotateX(100deg);
+  }
+}
+
+/* 일부 꽃잎에 다른 애니메이션 적용 */
+.petal:nth-child(odd) {
+  animation-name: fallWithSwing;
+}
+
+/* 바람에 흔들리는 효과 */
+@keyframes sway {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+}
+
+.petal:nth-child(3n) {
+  animation-name: fall, sway;
+  animation-duration: inherit, 3s;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  animation-direction: normal, alternate;
+} 

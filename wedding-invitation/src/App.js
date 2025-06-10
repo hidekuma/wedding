@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import LoadingScreen from "./components/LoadingScreen";
 import Header from "./components/Header";
 import CoupleInfo from "./components/CoupleInfo";
@@ -12,11 +13,18 @@ import Directions from "./components/Directions";
 import AccountInfo from "./components/AccountInfo";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import PetalFall from "./components/PetalFall";
 import "./styles/main.css";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showHeroText, setShowHeroText] = useState(false);
+
+  // 예식안내 섹션 감지용 ref
+  const { ref: weddingInfoRef, inView: weddingInfoInView } = useInView({
+    threshold: 0.1, // 10%만 보여도 활성화
+    rootMargin: '0px 0px 0px 0px' // 마진 제거
+  });
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
@@ -80,6 +88,9 @@ function App() {
       {/* 로딩 스크린 오버레이 */}
       {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
       
+      {/* 꽃잎 날리는 효과 - 예식안내 섹션 부터 활성화 */}
+      {!isLoading && <PetalFall isActive={weddingInfoInView} petalCount={50} />}
+      
       {/* 나머지 컨텐츠는 로딩 완료 후 표시 */}
       {!isLoading && (
         <>
@@ -87,19 +98,21 @@ function App() {
         
           
           {/* <TabSection /> */}
-          <WeddingInfo />
-          <Countdown />
-          <ErrorBoundary>
-            <Gallery />
-          </ErrorBoundary>
-          {/* <Timeline /> */}
-          
-          {/* <GuestSnap /> */}
-          <ErrorBoundary>
-            <Directions />
-          </ErrorBoundary>
-          <AccountInfo />
-          <Footer />
+          <div ref={weddingInfoRef}>
+            <WeddingInfo />
+            <Countdown />
+            <ErrorBoundary>
+              <Gallery />
+            </ErrorBoundary>
+            {/* <Timeline /> */}
+            
+            {/* <GuestSnap /> */}
+            <ErrorBoundary>
+              <Directions />
+            </ErrorBoundary>
+            <AccountInfo />
+            <Footer />
+          </div>
         </>
       )}
       
