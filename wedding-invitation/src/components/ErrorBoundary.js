@@ -40,7 +40,7 @@ class ErrorBoundary extends React.Component {
           <button 
             onClick={() => {
               this.setState({ hasError: false, error: null });
-              window.location.reload();
+              // window.location.reload(); // 자동 리로드 제거
             }}
             style={{
               padding: '0.5rem 1rem',
@@ -51,7 +51,7 @@ class ErrorBoundary extends React.Component {
               cursor: 'pointer'
             }}
           >
-            새로고침
+            다시 시도
           </button>
         </div>
       );

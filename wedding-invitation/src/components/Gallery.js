@@ -53,9 +53,11 @@ const Gallery = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [additionalImagesLoaded, setAdditionalImagesLoaded] = useState(false);
   const [preloadedImages, setPreloadedImages] = useState(new Set());
-  const [imageLoadErrors, setImageLoadErrors] = useState(new Set());
   const galleryGridRef = useRef(null);
   const preloadingRef = useRef(false);
+  const preloadedImagesRef = useRef(new Set());
+  const initialPreloadDone = useRef(false);
+  const additionalPreloadDone = useRef(false);
 
   // 갤러리 끝 부분 감지를 위한 Intersection Observer
   const { ref: loadTriggerObserverRef, inView: nearEnd } = useInView({
@@ -66,10 +68,10 @@ const Gallery = () => {
   // 표시할 이미지들 (확장 여부에 따라)
   const displayImages = isExpanded ? allImages : allImages.slice(0, 12);
 
-  // 안전한 이미지 프리로딩 함수
+  // 안전한 이미지 프리로딩 함수 (의존성 제거)
   const preloadImageSafely = useCallback((imageSrc, timeout = 10000) => {
     return new Promise((resolve, reject) => {
-      if (preloadedImages.has(imageSrc)) {
+      if (preloadedImagesRef.current.has(imageSrc)) {
         resolve(imageSrc);
         return;
       }
@@ -83,6 +85,7 @@ const Gallery = () => {
 
       img.onload = () => {
         clearTimeout(timeoutId);
+        preloadedImagesRef.current.add(imageSrc);
         setPreloadedImages(prev => new Set([...prev, imageSrc]));
         resolve(imageSrc);
       };
@@ -90,15 +93,14 @@ const Gallery = () => {
       img.onerror = (error) => {
         clearTimeout(timeoutId);
         console.warn(`이미지 로드 실패: ${imageSrc}`, error);
-        setImageLoadErrors(prev => new Set([...prev, imageSrc]));
         reject(error);
       };
 
       img.src = imageSrc;
     });
-  }, [preloadedImages]);
+  }, []); // 의존성 배열 비움
 
-  // 배치 단위로 이미지 프리로딩
+  // 배치 단위로 이미지 프리로딩 (의존성 제거)
   const preloadImagesBatch = useCallback(async (images, batchSize = 3) => {
     if (preloadingRef.current) return;
     preloadingRef.current = true;
@@ -126,7 +128,7 @@ const Gallery = () => {
     } finally {
       preloadingRef.current = false;
     }
-  }, [preloadImageSafely]);
+  }, []); // 의존성 배열 비움
 
   const openModal = (index) => {
     setCurrentIndex(index);
@@ -154,8 +156,9 @@ const Gallery = () => {
     setIsExpanded(!isExpanded);
     
     // 더보기를 클릭했을 때 (확장할 때) 추가 이미지들 백그라운드에서 로드
-    if (!wasExpanded && !additionalImagesLoaded && !preloadingRef.current) {
+    if (!wasExpanded && !additionalPreloadDone.current && !preloadingRef.current) {
       console.log('더보기 클릭 - 추가 이미지 백그라운드 프리로드 시작');
+      additionalPreloadDone.current = true;
       const additionalImages = allImages.slice(12);
       
       // 비동기로 배치 프리로딩 실행
@@ -165,12 +168,13 @@ const Gallery = () => {
         console.error('추가 이미지 프리로딩 실패:', err);
       });
     }
-  }, [isExpanded, additionalImagesLoaded, preloadImagesBatch]);
+  }, [isExpanded]); // 의존성 최소화
 
-  // 갤러리 끝 부분에 스크롤할 때 추가 이미지들 프리로드
+  // 갤러리 끝 부분에 스크롤할 때 추가 이미지들 프리로드 (한 번만 실행)
   useEffect(() => {
-    if (nearEnd && !isExpanded && !additionalImagesLoaded && !preloadingRef.current) {
+    if (nearEnd && !isExpanded && !additionalPreloadDone.current && !preloadingRef.current) {
       console.log('갤러리 끝 부분 도달 - 추가 이미지 프리로드 시작');
+      additionalPreloadDone.current = true;
       const additionalImages = allImages.slice(12);
       
       preloadImagesBatch(additionalImages).then(() => {
@@ -179,7 +183,7 @@ const Gallery = () => {
         console.error('갤러리 끝 프리로딩 실패:', err);
       });
     }
-  }, [nearEnd, isExpanded, additionalImagesLoaded, preloadImagesBatch]);
+  }, [nearEnd, isExpanded]); // 의존성 최소화
 
   // 모달 열림/닫힘 시 배경 스크롤 제어
   useEffect(() => {
@@ -197,9 +201,10 @@ const Gallery = () => {
     };
   }, [selectedImage]);
 
-  // 초기 이미지들만 프리로드 (첫 12개 이미지)
+  // 초기 이미지들만 프리로드 (첫 12개 이미지, 한 번만 실행)
   useEffect(() => {
-    if (inView && !preloadingRef.current) {
+    if (inView && !initialPreloadDone.current && !preloadingRef.current) {
+      initialPreloadDone.current = true;
       const initialImages = allImages.slice(0, 12);
       console.log('초기 갤러리 이미지 프리로드 시작');
       
@@ -207,14 +212,13 @@ const Gallery = () => {
         console.error('초기 이미지 프리로딩 실패:', err);
       });
     }
-  }, [inView, preloadImagesBatch]);
+  }, [inView]); // 의존성 최소화
 
   // 에러 경계 처리
   useEffect(() => {
     const handleError = (event) => {
       if (event.target && event.target.tagName === 'IMG') {
         console.error('이미지 로드 에러:', event.target.src);
-        setImageLoadErrors(prev => new Set([...prev, event.target.src]));
       }
     };
 
@@ -272,6 +276,7 @@ const Gallery = () => {
                 e.target.style.display = 'none'; // 실패한 이미지 숨김
               }}
               onLoad={() => {
+                preloadedImagesRef.current.add(image.src);
                 setPreloadedImages(prev => new Set([...prev, image.src]));
               }}
             />
@@ -337,6 +342,7 @@ const Gallery = () => {
                       console.warn(`모달 이미지 로드 실패: ${selectedImage.src}`);
                     }}
                     onLoad={() => {
+                      preloadedImagesRef.current.add(selectedImage.src);
                       setPreloadedImages(prev => new Set([...prev, selectedImage.src]));
                     }}
                   />

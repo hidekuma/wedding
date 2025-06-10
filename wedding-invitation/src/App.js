@@ -38,6 +38,40 @@ function App() {
     }
   }, []);
 
+  // 전역 에러 핸들러 (구글 맵스 등 외부 스크립트 에러 포착)
+  useEffect(() => {
+    const handleGlobalError = (event) => {
+      // 구글 맵스 관련 에러 포착
+      if (event.filename && (
+        event.filename.includes('maps.google') ||
+        event.filename.includes('maps.googleapis.com') ||
+        event.filename.includes('embed')
+      )) {
+        console.error('구글 맵스 에러 감지:', event.error);
+        event.preventDefault(); // 페이지 리프레시 방지
+        return false;
+      }
+      
+      // 기타 JavaScript 에러들
+      if (event.error && event.error.message) {
+        console.error('전역 에러 포착:', event.error.message);
+      }
+    };
+
+    const handleUnhandledRejection = (event) => {
+      console.error('처리되지 않은 Promise rejection:', event.reason);
+      event.preventDefault(); // 페이지 리프레시 방지
+    };
+
+    window.addEventListener('error', handleGlobalError);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+
+    return () => {
+      window.removeEventListener('error', handleGlobalError);
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+  }, []);
+
   return (
     <div className="App">
       {/* Hero 이미지는 항상 렌더링, 텍스트는 타이밍에 따라 */}
@@ -61,7 +95,9 @@ function App() {
           {/* <Timeline /> */}
           
           {/* <GuestSnap /> */}
-          <Directions />
+          <ErrorBoundary>
+            <Directions />
+          </ErrorBoundary>
           <AccountInfo />
           <Footer />
         </>

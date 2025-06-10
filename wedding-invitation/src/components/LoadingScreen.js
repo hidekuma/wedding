@@ -13,7 +13,8 @@ const LoadingScreen = ({ onComplete }) => {
     if (process.env.NODE_ENV === 'development') {
       window.resetLoading = () => {
         sessionStorage.removeItem('lastLoadingTime');
-        window.location.reload();
+        console.log('로딩 캐시 리셋됨. 페이지를 수동으로 새로고침해주세요.');
+        // window.location.reload(); // 자동 리로드 제거
       };
     }
     
