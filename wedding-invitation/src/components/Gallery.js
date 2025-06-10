@@ -13,20 +13,22 @@ const importAll = (r) => {
   return images;
 };
 
-// assets/gallery 폴더의 모든 이미지 가져오기
+// assets/gallery-webp 폴더의 모든 webp 이미지 가져오기
 const galleryImages = importAll(
-  require.context('../assets/gallery', false, /\.(png|jpe?g|svg)$/i)
+  require.context('../assets/gallery-webp', false, /\.webp$/i)
 );
 
 // 이미지 배열 생성 (파일명 기준으로 정렬)
 const allImages = Object.keys(galleryImages)
-  .sort() // 파일명 기준 정렬
-  .map((fileName, index) => ({
-    id: index + 1,
-    src: galleryImages[fileName],
-    alt: `웨딩 사진 ${index + 1}`,
-    title: `웨딩 사진 ${index + 1}`
-  }));
+  .sort()
+  .map((fileName, index) => {
+    return {
+      id: index + 1,
+      src: galleryImages[fileName],
+      alt: `웨딩 사진 ${index + 1}`,
+      title: `웨딩 사진 ${index + 1}`
+    };
+  });
 
 // Shuffle the allImages array to display images in random order
 const shuffleArray = (array) => {
