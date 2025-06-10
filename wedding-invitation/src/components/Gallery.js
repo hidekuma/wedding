@@ -52,6 +52,7 @@ const Gallery = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [additionalImagesLoaded, setAdditionalImagesLoaded] = useState(false);
+  const [loadedImages, setLoadedImages] = useState(new Set());
   const galleryGridRef = useRef(null);
 
   // 갤러리 끝 부분 감지를 위한 Intersection Observer
@@ -195,7 +196,6 @@ const Gallery = () => {
             key={image.id}
             className="gallery-item"
             onClick={() => openModal(index)}
-            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -207,8 +207,15 @@ const Gallery = () => {
             <img 
               src={image.src} 
               alt={image.alt}
-              loading={index < 12 ? "lazy" : "eager"}
+              loading="eager"
               decoding="async"
+              onLoad={() => {
+                setLoadedImages(prev => new Set([...prev, image.id]));
+              }}
+              style={{
+                opacity: loadedImages.has(image.id) ? 1 : 0.7,
+                transition: 'opacity 0.3s ease'
+              }}
             />
           </motion.div>
         ))}
@@ -226,7 +233,6 @@ const Gallery = () => {
       <motion.button
         className="toggle-btn"
         onClick={toggleExpanded}
-        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         style={{ marginTop: '2rem' }}
       >
