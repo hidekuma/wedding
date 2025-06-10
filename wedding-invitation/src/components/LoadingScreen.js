@@ -38,7 +38,6 @@ const LoadingScreen = ({ onComplete }) => {
       if (gifLoaded && lastFrameLoaded) {
         const loadTime = Date.now() - loadStartTime;
         const minLoadingTime = 3000; // 최소 로딩 시간 (2000 → 3500)
-        const gifDuration = 2500; // GIF 재생 시간 (2500 → 3000)
         
         // 로딩이 너무 빨리 끝나면 최소 시간까지 대기
         const waitTime = Math.max(0, minLoadingTime - loadTime);

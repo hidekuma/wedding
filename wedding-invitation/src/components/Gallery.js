@@ -3,32 +3,38 @@ import { motion, AnimatePresence } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/main.css";
 
-// gallery 폴더의 모든 이미지를 동적으로 로드
-const importAll = (r) => {
-  let images = {};
-  r.keys().map((item, index) => {
-    images[item.replace('./', '')] = r(item);
-    return null;
-  });
-  return images;
-};
+// 웨딩 사진 파일명들 (실제 파일명에 맞게 수정)
+const imageFileNames = [
+  '1Y4A2333.webp',
+  '1Y4A2641.webp',
+  '1Y4A2679.webp',
+  '1Y4A2748.webp',
+  '1Y4A2769.webp',
+  '1Y4A2799.webp',
+  '1Y4A2968.webp',
+  '1Y4A3199.webp',
+  '1Y4A3216.webp',
+  '1Y4A3500.webp',
+  '1Y4A3553.webp',
+  '1Y4A3571.webp',
+  '1Y4A3716.webp',
+  '1Y4A3749.webp',
+  '1Y4A3832.webp',
+  '1Y4A3861.webp',
+  '1Y4A3878.webp',
+  '1Y4A3889.webp',
+  '1Y4A3911.webp'
+];
 
-// assets/gallery-webp 폴더의 모든 webp 이미지 가져오기
-const galleryImages = importAll(
-  require.context('../assets/gallery-webp', false, /\.webp$/i)
-);
-
-// 이미지 배열 생성 (파일명 기준으로 정렬)
-const allImages = Object.keys(galleryImages)
-  .sort()
-  .map((fileName, index) => {
-    return {
-      id: index + 1,
-      src: galleryImages[fileName],
-      alt: `웨딩 사진 ${index + 1}`,
-      title: `웨딩 사진 ${index + 1}`
-    };
-  });
+// 이미지 배열 생성 (public 폴더의 webp 이미지 사용)
+const allImages = imageFileNames.map((fileName, index) => {
+  return {
+    id: index + 1,
+    src: `${process.env.PUBLIC_URL}/images/gallery-webp/${fileName}`,
+    alt: `웨딩 사진 ${index + 1}`,
+    title: `웨딩 사진 ${index + 1}`
+  };
+});
 
 // Shuffle the allImages array to display images in random order
 const shuffleArray = (array) => {

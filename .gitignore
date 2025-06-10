@@ -135,5 +135,6 @@ yarn.lock
 /public/workbox-*.js.map
 /public/worker-*.js.map
 
-# Ignore gallery webp images
-/public/images/gallery/
+# Ignore gallery webp images (auto-generated)
+wedding-invitation/src/assets/gallery-webp/
+wedding-invitation/public/images/gallery-webp/
