@@ -32,7 +32,7 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
             <div className="hero-date">
               <p> 2025 / 09 /06 </p>
               <p>Two hearts, one journey,</p>
-              <p>United in love forevermore.</p>
+              <p>United in love, together forever.</p>
             </div>
           </motion.div>
         </div>
