@@ -42,35 +42,39 @@ const AccountInfo = () => {
         </span>
       </button>
       
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            className="account-content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {accounts.map((account, index) => (
-              <div key={index} className="account-item">
-                <div className="account-info-left">
-                  <div className="account-name">{account.name}</div>
-                  <div className="account-number">{account.account}</div>
-                  <div className="account-bank">{account.bank} {account.holder}</div>
-                </div>
-                <div className="account-actions">
-                  <button 
-                    className="copy-btn"
-                    onClick={() => copyToClipboard(account.account, account.name)}
-                  >
-                    복사
-                  </button>
-                </div>
+      <motion.div
+        className="account-content"
+        initial={false}
+        animate={{ 
+          height: expanded ? "auto" : 0,
+          opacity: expanded ? 1 : 0
+        }}
+        transition={{ 
+          duration: 0.3,
+          ease: "easeInOut"
+        }}
+        style={{ overflow: "hidden" }}
+      >
+        <div style={{ padding: expanded ? undefined : 0 }}>
+          {accounts.map((account, index) => (
+            <div key={index} className="account-item">
+              <div className="account-info-left">
+                <div className="account-name">{account.name}</div>
+                <div className="account-number">{account.account}</div>
+                <div className="account-bank">{account.bank} {account.holder}</div>
               </div>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="account-actions">
+                <button 
+                  className="copy-btn"
+                  onClick={() => copyToClipboard(account.account, account.name)}
+                >
+                  복사
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 

@@ -1623,6 +1623,7 @@ html {
   overflow: hidden;
   background: white;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  contain: layout;
 }
 
 .account-header {
@@ -1635,6 +1636,8 @@ html {
   align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .account-header:hover {
@@ -1661,6 +1664,7 @@ html {
 
 .account-content {
   overflow: hidden;
+  will-change: height, opacity;
 }
 
 .account-item {
