@@ -51,8 +51,7 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [additionalImagesLoaded, setAdditionalImagesLoaded] = useState(false);
-  const [preloadedImages, setPreloadedImages] = useState(new Set());
+  // const [preloadedImages, setPreloadedImages] = useState(new Set()); // 주석 처리
   const [isTransitioning, setIsTransitioning] = useState(false);
   const galleryGridRef = useRef(null);
   const preloadingRef = useRef(false);
@@ -88,7 +87,7 @@ const Gallery = () => {
       img.onload = () => {
         clearTimeout(timeoutId);
         preloadedImagesRef.current.add(imageSrc);
-        setPreloadedImages(prev => new Set([...prev, imageSrc]));
+        // setPreloadedImages(prev => new Set([...prev, imageSrc])); // 제거
         resolve(imageSrc);
       };
 
@@ -102,7 +101,7 @@ const Gallery = () => {
     });
   }, []); // 의존성 배열 비움
 
-  // 배치 단위로 이미지 프리로딩 (의존성 제거)
+  // 배치 단위로 이미지 프리로딩
   const preloadImagesBatch = useCallback(async (images, batchSize = 3) => {
     if (preloadingRef.current) return;
     preloadingRef.current = true;
@@ -130,18 +129,26 @@ const Gallery = () => {
     } finally {
       preloadingRef.current = false;
     }
-  }, []); // 의존성 배열 비움
+  }, [preloadImageSafely]);
 
   const openModal = (index) => {
     setCurrentIndex(index);
     setSelectedImage(allImages[index]);
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback((e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setSelectedImage(null);
-  };
+  }, []);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback((e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (isTransitioning) return; // 애니메이션 진행 중이면 무시
     
     // 이전 타이머가 있으면 취소
@@ -159,9 +166,13 @@ const Gallery = () => {
       setIsTransitioning(false);
       transitionTimeoutRef.current = null;
     }, 200); // 더 빠른 전환
-  };
+  }, [isTransitioning, currentIndex]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback((e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (isTransitioning) return; // 애니메이션 진행 중이면 무시
     
     // 이전 타이머가 있으면 취소
@@ -179,16 +190,9 @@ const Gallery = () => {
       setIsTransitioning(false);
       transitionTimeoutRef.current = null;
     }, 200); // 더 빠른 전환
-  };
+  }, [isTransitioning, currentIndex]);
 
-  // 애니메이션 완료 시 호출되는 함수 (백업용)
-  const handleAnimationComplete = useCallback(() => {
-    if (transitionTimeoutRef.current) {
-      clearTimeout(transitionTimeoutRef.current);
-      transitionTimeoutRef.current = null;
-    }
-    setIsTransitioning(false);
-  }, []);
+  // handleAnimationComplete 제거 - 사용되지 않음
 
   const toggleExpanded = useCallback(() => {
     const wasExpanded = isExpanded;
@@ -201,13 +205,11 @@ const Gallery = () => {
       const additionalImages = allImages.slice(12);
       
       // 비동기로 배치 프리로딩 실행
-      preloadImagesBatch(additionalImages).then(() => {
-        setAdditionalImagesLoaded(true);
-      }).catch(err => {
+      preloadImagesBatch(additionalImages).catch(err => {
         console.error('추가 이미지 프리로딩 실패:', err);
       });
     }
-  }, [isExpanded]); // 의존성 최소화
+  }, [isExpanded, preloadImagesBatch]);
 
   // 갤러리 끝 부분에 스크롤할 때 추가 이미지들 프리로드 (한 번만 실행)
   useEffect(() => {
@@ -216,13 +218,43 @@ const Gallery = () => {
       additionalPreloadDone.current = true;
       const additionalImages = allImages.slice(12);
       
-      preloadImagesBatch(additionalImages).then(() => {
-        setAdditionalImagesLoaded(true);
-      }).catch(err => {
+      preloadImagesBatch(additionalImages).catch(err => {
         console.error('갤러리 끝 프리로딩 실패:', err);
       });
     }
-  }, [nearEnd, isExpanded]); // 의존성 최소화
+  }, [nearEnd, isExpanded, preloadImagesBatch]);
+
+  // 키보드 이벤트 처리
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!selectedImage) return;
+      
+      switch (e.key) {
+        case 'Escape':
+          e.preventDefault();
+          closeModal();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          prevSlide();
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          nextSlide();
+          break;
+        default:
+          break;
+      }
+    };
+
+    if (selectedImage) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedImage, currentIndex, isTransitioning, closeModal, nextSlide, prevSlide]);
 
   // 모달 열림/닫힘 시 배경 스크롤 제어
   useEffect(() => {
@@ -251,7 +283,7 @@ const Gallery = () => {
         console.error('초기 이미지 프리로딩 실패:', err);
       });
     }
-  }, [inView]); // 의존성 최소화
+  }, [inView, preloadImagesBatch]);
 
   // 에러 경계 처리
   useEffect(() => {
@@ -321,7 +353,7 @@ const Gallery = () => {
               }}
               onLoad={() => {
                 preloadedImagesRef.current.add(image.src);
-                setPreloadedImages(prev => new Set([...prev, image.src]));
+                // setPreloadedImages(prev => new Set([...prev, image.src])); // 제거
               }}
             />
           </motion.div>
@@ -358,19 +390,30 @@ const Gallery = () => {
               opacity: selectedImage ? 1 : 0,
               transition: 'opacity 0.2s ease'
             }}
-            onClick={closeModal}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                closeModal(e);
+              }
+            }}
           >
             <div
               className="modal-content"
               onClick={(e) => e.stopPropagation()}
             >
-              <button className="modal-close" onClick={closeModal}>
+              <button 
+                type="button"
+                className="modal-close" 
+                onClick={closeModal}
+                onMouseDown={(e) => e.preventDefault()}
+              >
                 ×
               </button>
               
               <button 
+                type="button"
                 className={`modal-btn prev ${isTransitioning ? 'disabled' : ''}`}
                 onClick={prevSlide}
+                onMouseDown={(e) => e.preventDefault()}
                 disabled={isTransitioning}
               >
                 &#8249;
@@ -396,14 +439,17 @@ const Gallery = () => {
                   }}
                   onLoad={() => {
                     preloadedImagesRef.current.add(selectedImage.src);
-                    setPreloadedImages(prev => new Set([...prev, selectedImage.src]));
+                    // setPreloadedImages(prev => new Set([...prev, selectedImage.src])); // 제거
                   }}
+                  draggable={false}
                 />
               </div>
               
               <button 
+                type="button"
                 className={`modal-btn next ${isTransitioning ? 'disabled' : ''}`}
                 onClick={nextSlide}
+                onMouseDown={(e) => e.preventDefault()}
                 disabled={isTransitioning}
               >
                 &#8250;

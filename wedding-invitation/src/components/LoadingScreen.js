@@ -9,70 +9,105 @@ const LoadingScreen = ({ onComplete }) => {
   const [gifLoaded, setGifLoaded] = useState(false);
 
   useEffect(() => {
+    console.log('LoadingScreen useEffect 시작');
+    
     // 최근 로딩 완료 시간 확인 (5초 이내면 로딩 스킵)
     const lastLoadingTime = sessionStorage.getItem('lastLoadingTime');
     const now = Date.now();
     
     if (lastLoadingTime && (now - parseInt(lastLoadingTime)) < 5000) {
-      // 최근에 로딩했으면 즉시 완료
+      console.log('최근 로딩 기록 발견, 즉시 완료');
       setIsComplete(true);
       setTimeout(() => onComplete(), 100);
       return;
     }
+
+    console.log('새로운 로딩 시작');
 
     // GIF와 마지막 프레임 이미지 미리 로드
     const gifImg = new Image();
     const lastFrameImg = new Image();
     
     let loadStartTime = Date.now();
+    let gifLoadComplete = false;
+    let lastFrameLoadComplete = false;
     
     const handleImagesLoaded = () => {
-      if (gifLoaded && lastFrameLoaded) {
+      console.log('handleImagesLoaded 호출:', { gifLoadComplete, lastFrameLoadComplete });
+      
+      if (gifLoadComplete && lastFrameLoadComplete) {
+        console.log('모든 이미지 로드 완료');
         const loadTime = Date.now() - loadStartTime;
-        const minLoadingTime = 3000; // 최소 로딩 시간 (2000 → 3500)
+        const minLoadingTime = 2000; // 최소 로딩 시간을 2초로 단축
         
         // 로딩이 너무 빨리 끝나면 최소 시간까지 대기
         const waitTime = Math.max(0, minLoadingTime - loadTime);
+        console.log(`대기 시간: ${waitTime}ms`);
         
         setTimeout(() => {
+          console.log('마지막 프레임 표시');
           setShowLastFrame(true);
           
           // 마지막 프레임 표시 후 완료
           setTimeout(() => {
+            console.log('로딩 완료 처리');
             setIsComplete(true);
             sessionStorage.setItem('lastLoadingTime', Date.now().toString());
-            setTimeout(() => onComplete(), 800); // 300 → 800
-          }, 1200); // 500 → 1200
+            setTimeout(() => {
+              console.log('onComplete 호출');
+              onComplete();
+            }, 500);
+          }, 800);
         }, waitTime);
       }
     };
     
     gifImg.onload = () => {
+      console.log('GIF 로드 완료');
       setGifLoaded(true);
+      gifLoadComplete = true;
       handleImagesLoaded();
     };
     
     lastFrameImg.onload = () => {
+      console.log('마지막 프레임 로드 완료');
       setLastFrameLoaded(true);
+      lastFrameLoadComplete = true;
       handleImagesLoaded();
     };
     
     // 에러 처리
-    gifImg.onerror = () => {
-      console.warn('GIF 로딩 실패, 기본 로딩으로 전환');
+    gifImg.onerror = (error) => {
+      console.warn('GIF 로딩 실패:', error);
       setGifLoaded(true);
+      gifLoadComplete = true;
       handleImagesLoaded();
     };
     
-    lastFrameImg.onerror = () => {
-      console.warn('마지막 프레임 로딩 실패');
+    lastFrameImg.onerror = (error) => {
+      console.warn('마지막 프레임 로딩 실패:', error);
       setLastFrameLoaded(true);
+      lastFrameLoadComplete = true;
       handleImagesLoaded();
     };
+
+    // 타임아웃 설정 (5초 후 강제 완료)
+    const timeoutId = setTimeout(() => {
+      console.warn('로딩 타임아웃, 강제 완료');
+      setIsComplete(true);
+      setTimeout(() => onComplete(), 100);
+    }, 5000);
     
+    console.log('이미지 로딩 시작');
     gifImg.src = `${process.env.PUBLIC_URL}/images/combined-webp/loading.gif`;
     lastFrameImg.src = `${process.env.PUBLIC_URL}/images/combined-webp/last_frame.webp`;
-  }, [onComplete, isComplete, gifLoaded, lastFrameLoaded]);
+
+    // 클린업 함수
+    return () => {
+      clearTimeout(timeoutId);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onComplete]); // 의존성 배열에 state를 추가하면 무한 루프 발생
 
   return (
     <AnimatePresence>
@@ -86,7 +121,7 @@ const LoadingScreen = ({ onComplete }) => {
           {/* GIF 이미지 */}
           {gifLoaded && !showLastFrame && (
             <img 
-              src={`${process.env.PUBLIC_URL}/images/combined-webp/loading.gif?t=${Date.now()}`}
+              src={`${process.env.PUBLIC_URL}/images/combined-webp/loading.gif`}
               alt="로딩 중"
               style={{
                 position: 'absolute',
@@ -97,7 +132,7 @@ const LoadingScreen = ({ onComplete }) => {
                 objectFit: 'cover',
                 zIndex: 1
               }}
-              onLoad={() => console.log('GIF 로드 완료')}
+              onLoad={() => console.log('GIF DOM 로드 완료')}
             />
           )}
           
