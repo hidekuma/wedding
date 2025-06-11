@@ -158,7 +158,7 @@ const Gallery = () => {
     transitionTimeoutRef.current = setTimeout(() => {
       setIsTransitioning(false);
       transitionTimeoutRef.current = null;
-    }, 350); // 애니메이션 시간보다 약간 길게
+    }, 200); // 더 빠른 전환
   };
 
   const prevSlide = () => {
@@ -178,7 +178,7 @@ const Gallery = () => {
     transitionTimeoutRef.current = setTimeout(() => {
       setIsTransitioning(false);
       transitionTimeoutRef.current = null;
-    }, 350); // 애니메이션 시간보다 약간 길게
+    }, 200); // 더 빠른 전환
   };
 
   // 애니메이션 완료 시 호출되는 함수 (백업용)
@@ -302,7 +302,6 @@ const Gallery = () => {
             key={image.id}
             className="gallery-item"
             onClick={() => openModal(index)}
-            whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ 
@@ -353,18 +352,16 @@ const Gallery = () => {
       {/* 모달 슬라이더 */}
       <AnimatePresence>
         {selectedImage && (
-          <motion.div
+          <div
             className="gallery-modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            style={{ 
+              opacity: selectedImage ? 1 : 0,
+              transition: 'opacity 0.2s ease'
+            }}
             onClick={closeModal}
           >
-            <motion.div
+            <div
               className="modal-content"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
               <button className="modal-close" onClick={closeModal}>
@@ -380,24 +377,28 @@ const Gallery = () => {
               </button>
               
               <div className="modal-image-container">
-                <AnimatePresence mode="wait" onExitComplete={handleAnimationComplete}>
-                  <motion.img
-                    key={currentIndex}
-                    src={selectedImage.src}
-                    alt={selectedImage.alt}
-                    initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -100 }}
-                    transition={{ duration: 0.3 }}
-                    onError={(e) => {
-                      console.warn(`모달 이미지 로드 실패: ${selectedImage.src}`);
-                    }}
-                    onLoad={() => {
-                      preloadedImagesRef.current.add(selectedImage.src);
-                      setPreloadedImages(prev => new Set([...prev, selectedImage.src]));
-                    }}
-                  />
-                </AnimatePresence>
+                <img
+                  key={currentIndex}
+                  src={selectedImage.src}
+                  alt={selectedImage.alt}
+                  style={{
+                    opacity: isTransitioning ? 0.7 : 1,
+                    transition: 'opacity 0.2s ease',
+                    maxWidth: '95vw',
+                    maxHeight: '85vh',
+                    width: 'auto',
+                    height: 'auto',
+                    objectFit: 'contain',
+                    borderRadius: '4px'
+                  }}
+                  onError={(e) => {
+                    console.warn(`모달 이미지 로드 실패: ${selectedImage.src}`);
+                  }}
+                  onLoad={() => {
+                    preloadedImagesRef.current.add(selectedImage.src);
+                    setPreloadedImages(prev => new Set([...prev, selectedImage.src]));
+                  }}
+                />
               </div>
               
               <button 
@@ -409,12 +410,12 @@ const Gallery = () => {
               </button>
               
               <div className="modal-counter">
-                <span style={{ opacity: isTransitioning ? 0.5 : 1, transition: 'opacity 0.3s' }}>
+                <span style={{ opacity: isTransitioning ? 0.5 : 1, transition: 'opacity 0.2s' }}>
                   {currentIndex + 1} / {allImages.length}
                 </span>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         )}
       </AnimatePresence>
     </motion.section>

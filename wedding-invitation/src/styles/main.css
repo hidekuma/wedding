@@ -748,7 +748,7 @@ html {
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 140px;
+  grid-auto-rows: 180px;
   gap: 0.4rem;
   max-width: 600px;
   margin: 0 auto;
@@ -756,14 +756,14 @@ html {
 }
 .gallery-item {
   position: relative;
-  border-radius: 0;
+  border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
 }
 
-/* 이미지 잘림을 최소화한 레이아웃 */
+/* 이미지 비율을 고려한 자연스러운 레이아웃 */
 .gallery-item:nth-child(1) {
   grid-column: span 2;
   grid-row: span 2;
@@ -782,7 +782,7 @@ html {
 }
 .gallery-item:nth-child(5) {
   grid-column: span 1;
-  grid-row: span 1;
+  grid-row: span 2;
 }
 .gallery-item:nth-child(6) {
   grid-column: span 1;
@@ -814,7 +814,7 @@ html {
 }
 .gallery-item:nth-child(13) {
   grid-column: span 1;
-  grid-row: span 1;
+  grid-row: span 2;
 }
 .gallery-item:nth-child(14) {
   grid-column: span 1;
@@ -844,6 +844,7 @@ html {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  border-radius: 4px;
 }
 .gallery-overlay {
   position: absolute;
@@ -870,23 +871,31 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1100; /* 맨위로 가기 버튼(1000)보다 높게 설정 */
-  padding: 20px;
+  padding: 0;
+  margin: 0;
   /* 터치 이벤트 최적화 */
   touch-action: pan-x pan-y;
   -webkit-overflow-scrolling: touch;
+  /* 부드러운 전환 */
+  will-change: opacity;
+  transform: translateZ(0);
 }
 .modal-content {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 .modal-close {
   position: absolute;
@@ -964,6 +973,9 @@ html {
   height: auto;
   object-fit: contain;
   border-radius: 4px;
+  /* 성능 최적화 */
+  will-change: opacity;
+  transform: translateZ(0);
 }
 .modal-title {
   display: none;
@@ -1984,6 +1996,7 @@ html {
   
   .gallery-grid {
     grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 160px;
     gap: 0.5rem;
   }
 }
@@ -2002,6 +2015,7 @@ html {
   
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 160px;
     gap: 0.3rem;
   }
   
@@ -2032,6 +2046,7 @@ html {
   
   .gallery-grid {
     grid-template-columns: 1fr;
+    grid-auto-rows: 200px;
     gap: 0.5rem;
   }
   
@@ -2128,7 +2143,7 @@ html {
   /* 갤러리 모바일 */
   .gallery-grid {
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 120px;
+    grid-auto-rows: 140px;
     gap: 0.3rem;
     max-width: 100%;
     grid-auto-flow: dense;
