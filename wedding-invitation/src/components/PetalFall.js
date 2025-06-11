@@ -4,6 +4,8 @@ import '../styles/PetalFall.css';
 const PetalFall = ({ isActive = true, petalCount = 50 }) => {
   const [petals, setPetals] = useState([]);
 
+  // App.js에서 전달받은 isActive를 직접 사용
+
   useEffect(() => {
     if (!isActive) {
       setPetals([]);
@@ -33,7 +35,9 @@ const PetalFall = ({ isActive = true, petalCount = 50 }) => {
               animationDuration: Math.random() * 4 + 6, // 6-10초
               animationDelay: Math.random() * 3, // 0-3초 지연
               size: Math.random() * 0.6 + 0.7, // 0.7-1.3 크기
-              rotation: Math.random() * 360,
+              rotation: Math.random() * 360, // 초기 회전
+              rotationX: Math.random() * 90, // X축 회전 추가
+              rotationY: Math.random() * 180, // Y축 회전 추가
               opacity: Math.random() * 0.5 + 0.4, // 0.4-0.9 투명도
               petalType: Math.floor(Math.random() * 3) + 1, // 1, 2, 3 타입
               groupId: group, // 그룹 식별자 추가
@@ -59,7 +63,7 @@ const PetalFall = ({ isActive = true, petalCount = 50 }) => {
             left: `${petal.left}%`,
             animationDuration: `${petal.animationDuration}s`,
             animationDelay: `${petal.animationDelay}s`,
-            transform: `scale(${petal.size}) rotate(${petal.rotation}deg)`,
+            transform: `scale(${petal.size}) rotateZ(${petal.rotation}deg) rotateX(${petal.rotationX}deg) rotateY(${petal.rotationY}deg)`,
             opacity: isActive ? petal.opacity : 0,
           }}
         />

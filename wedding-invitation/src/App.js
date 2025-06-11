@@ -22,8 +22,8 @@ function App() {
 
   // 예식안내 섹션 감지용 ref
   const { ref: weddingInfoRef, inView: weddingInfoInView } = useInView({
-    threshold: 0.1, // 10%만 보여도 활성화
-    rootMargin: '0px 0px 0px 0px' // 마진 제거
+    threshold: 0.2, // 20%로 높여서 더 안정적으로
+    rootMargin: '50px 0px 50px 0px' // 여유 마진 추가로 부드러운 전환
   });
 
   // 오시는길 섹션 감지용 ref
@@ -95,7 +95,7 @@ function App() {
       {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
       
       {/* 꽃잎 날리는 효과 - 예식안내 섹션부터 오시는길 전까지 활성화 */}
-      {!isLoading && <PetalFall isActive={weddingInfoInView && !directionsInView} petalCount={15} />}
+      {!isLoading && <PetalFall isActive={weddingInfoInView && !directionsInView} petalCount={25} />}
       
       {/* 나머지 컨텐츠는 로딩 완료 후 표시 */}
       {!isLoading && (

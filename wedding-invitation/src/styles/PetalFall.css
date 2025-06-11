@@ -61,19 +61,19 @@
 /* 꽃잎 떨어지는 애니메이션 */
 @keyframes fall {
   0% {
-    transform: translateY(-20px) rotateZ(0deg);
+    transform: translateY(-20px) rotateZ(0deg) rotateX(0deg);
   }
   25% {
-    transform: translateY(25vh) rotateZ(45deg) translateX(5px);
+    transform: translateY(25vh) rotateZ(45deg) rotateX(15deg) translateX(5px);
   }
   50% {
-    transform: translateY(50vh) rotateZ(135deg) translateX(-3px);
+    transform: translateY(50vh) rotateZ(135deg) rotateX(30deg) translateX(-3px);
   }
   75% {
-    transform: translateY(75vh) rotateZ(225deg) translateX(8px);
+    transform: translateY(75vh) rotateZ(225deg) rotateX(45deg) translateX(8px);
   }
   100% {
-    transform: translateY(100vh) rotateZ(315deg);
+    transform: translateY(100vh) rotateZ(315deg) rotateX(60deg);
   }
 }
 
@@ -101,16 +101,16 @@
 /* 꽃잎 변형 애니메이션 - 더 부드럽게 */
 @keyframes fallWithSwing {
   0% {
-    transform: translateY(-20px) rotateZ(0deg);
+    transform: translateY(-20px) rotateZ(0deg) rotateY(0deg);
   }
   33% {
-    transform: translateY(33vh) rotateZ(60deg) translateX(4px);
+    transform: translateY(33vh) rotateZ(60deg) rotateY(90deg) translateX(4px);
   }
   66% {
-    transform: translateY(66vh) rotateZ(180deg) translateX(-6px);
+    transform: translateY(66vh) rotateZ(180deg) rotateY(180deg) translateX(-6px);
   }
   100% {
-    transform: translateY(100vh) rotateZ(300deg);
+    transform: translateY(100vh) rotateZ(300deg) rotateY(270deg);
   }
 }
 
@@ -154,18 +154,123 @@
 /* 부드러운 떨어지는 애니메이션 */
 @keyframes gentleFall {
   0% {
-    transform: translateY(-20px) rotateZ(0deg);
+    transform: translateY(-20px) rotateZ(0deg) rotateX(0deg) rotateY(0deg);
   }
   50% {
-    transform: translateY(50vh) rotateZ(90deg) translateX(3px);
+    transform: translateY(50vh) rotateZ(90deg) rotateX(20deg) rotateY(45deg) translateX(3px);
   }
   100% {
-    transform: translateY(100vh) rotateZ(180deg);
+    transform: translateY(100vh) rotateZ(180deg) rotateX(40deg) rotateY(90deg);
   }
 }
 
-/* 일부 꽃잎에 부드러운 애니메이션 적용 */
+/* 새로운 회전 애니메이션들 */
+@keyframes spiralFall {
+  0% {
+    transform: translateY(-20px) rotateZ(0deg) rotateX(0deg) rotateY(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(25vh) rotateZ(135deg) rotateX(45deg) rotateY(90deg) translateX(10px) scale(0.9);
+  }
+  50% {
+    transform: translateY(50vh) rotateZ(270deg) rotateX(90deg) rotateY(180deg) translateX(-8px) scale(1.1);
+  }
+  75% {
+    transform: translateY(75vh) rotateZ(405deg) rotateX(135deg) rotateY(270deg) translateX(6px) scale(0.8);
+  }
+  100% {
+    transform: translateY(100vh) rotateZ(540deg) rotateX(180deg) rotateY(360deg) scale(1);
+  }
+}
+
+@keyframes tumblingFall {
+  0% {
+    transform: translateY(-20px) rotateZ(0deg) rotateX(0deg) rotateY(0deg);
+  }
+  20% {
+    transform: translateY(20vh) rotateZ(72deg) rotateX(36deg) rotateY(18deg) translateX(3px);
+  }
+  40% {
+    transform: translateY(40vh) rotateZ(144deg) rotateX(72deg) rotateY(36deg) translateX(-5px);
+  }
+  60% {
+    transform: translateY(60vh) rotateZ(216deg) rotateX(108deg) rotateY(54deg) translateX(7px);
+  }
+  80% {
+    transform: translateY(80vh) rotateZ(288deg) rotateX(144deg) rotateY(72deg) translateX(-2px);
+  }
+  100% {
+    transform: translateY(100vh) rotateZ(360deg) rotateX(180deg) rotateY(90deg);
+  }
+}
+
+@keyframes leafDance {
+  0% {
+    transform: translateY(-20px) rotateZ(0deg) rotateX(0deg) rotateY(0deg);
+  }
+  16% {
+    transform: translateY(16vh) rotateZ(60deg) rotateX(20deg) rotateY(30deg) translateX(4px);
+  }
+  32% {
+    transform: translateY(32vh) rotateZ(120deg) rotateX(40deg) rotateY(60deg) translateX(-3px);
+  }
+  48% {
+    transform: translateY(48vh) rotateZ(180deg) rotateX(60deg) rotateY(90deg) translateX(6px);
+  }
+  64% {
+    transform: translateY(64vh) rotateZ(240deg) rotateX(80deg) rotateY(120deg) translateX(-2px);
+  }
+  80% {
+    transform: translateY(80vh) rotateZ(300deg) rotateX(100deg) rotateY(150deg) translateX(5px);
+  }
+  100% {
+    transform: translateY(100vh) rotateZ(360deg) rotateX(120deg) rotateY(180deg);
+  }
+}
+
+/* 그룹별 애니메이션 다양화 */
+.petal-group-0 {
+  animation-name: fall;
+  animation-timing-function: ease-out;
+}
+
+.petal-group-1 {
+  animation-name: fallWithSwing;
+  animation-timing-function: ease-in-out;
+}
+
+.petal-group-2 {
+  animation-name: spiralFall;
+  animation-timing-function: linear;
+}
+
+.petal-group-3 {
+  animation-name: tumblingFall;
+  animation-timing-function: ease-in-out;
+}
+
+.petal-group-4 {
+  animation-name: leafDance;
+  animation-timing-function: ease-out;
+}
+
+/* 개별 꽃잎에 다양한 애니메이션 적용 */
 .petal:nth-child(5n) {
   animation-name: gentleFall;
   animation-timing-function: ease-in-out;
+}
+
+.petal:nth-child(7n) {
+  animation-name: spiralFall;
+  animation-timing-function: ease-out;
+}
+
+.petal:nth-child(11n) {
+  animation-name: tumblingFall;
+  animation-timing-function: linear;
+}
+
+.petal:nth-child(13n) {
+  animation-name: leafDance;
+  animation-timing-function: ease-in;
 } 
