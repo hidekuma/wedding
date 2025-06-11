@@ -38,14 +38,14 @@ const LoadingScreen = ({ onComplete }) => {
       if (gifLoadComplete && lastFrameLoadComplete) {
         console.log('모든 이미지 로드 완료');
         const loadTime = Date.now() - loadStartTime;
-        const minLoadingTime = 2000; // 최소 로딩 시간을 2초로 단축
+        const gifLoopTime = 3000; // GIF 한 루프 시간 (3초로 추정)
         
-        // 로딩이 너무 빨리 끝나면 최소 시간까지 대기
-        const waitTime = Math.max(0, minLoadingTime - loadTime);
-        console.log(`대기 시간: ${waitTime}ms`);
+        // GIF가 최소 한 바퀴는 돌 수 있도록 시간 계산
+        const waitTime = Math.max(0, gifLoopTime - loadTime);
+        console.log(`GIF 한 바퀴 완료까지 대기 시간: ${waitTime}ms`);
         
         setTimeout(() => {
-          console.log('마지막 프레임 표시');
+          console.log('GIF 한 바퀴 완료 - 마지막 프레임 표시');
           setShowLastFrame(true);
           
           // 마지막 프레임 표시 후 완료
@@ -57,7 +57,7 @@ const LoadingScreen = ({ onComplete }) => {
               console.log('onComplete 호출');
               onComplete();
             }, 500);
-          }, 800);
+          }, 1000);
         }, waitTime);
       }
     };
