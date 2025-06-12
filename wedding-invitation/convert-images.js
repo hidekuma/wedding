@@ -66,6 +66,7 @@ const processFiles = async (inputDir, outputDir, dirName) => {
   // Filter files that need conversion (new or modified)
   const filesToProcess = files.filter(file => {
     const inputFile = path.join(inputDir, file);
+    // 모든 파일을 WebP로 변환하므로 WebP 출력 파일로 체크
     const outputFile = path.join(outputDir, `${path.parse(file).name}.webp`);
     return isFileModified(inputFile, outputFile);
   });
@@ -86,18 +87,22 @@ const processFiles = async (inputDir, outputDir, dirName) => {
     
     const batchPromises = batch.map(async (file) => {
       const inputFile = path.join(inputDir, file);
-      const outputFile = path.join(outputDir, `${path.parse(file).name}.webp`);
 
       try {
-        // 이미지 메타데이터 가져오기
+        // 파일 크기 및 메타데이터 가져오기
+        const inputStat = fs.statSync(inputFile);
+        const fileSize = inputStat.size;
         const metadata = await sharp(inputFile).metadata();
-        const { width, height, size } = metadata;
+        const { width, height } = metadata;
+        
+        // 모든 파일을 WebP로 변환 (경로 일관성 유지)
+        const outputFile = path.join(outputDir, `${path.parse(file).name}.webp`);
         
         let sharpInstance = sharp(inputFile).rotate(); // Auto-rotate based on EXIF orientation
         
-        // 큰 이미지는 리사이징 (너비 1200px 이상인 경우)
-        const maxWidth = 1200;
-        const maxHeight = 800;
+        // 큰 이미지는 리사이징 (더 큰 크기로 조정)
+        const maxWidth = 1600;  // 최대 너비 1600px로 증가
+        const maxHeight = 1200;  // 최대 높이 1200px로 증가
         
         if (width > maxWidth || height > maxHeight) {
           sharpInstance = sharpInstance.resize({
@@ -109,31 +114,39 @@ const processFiles = async (inputDir, outputDir, dirName) => {
                      console.log(`📏 Resizing ${file}: ${width}x${height} -> max ${maxWidth}x${maxHeight}`);
         }
         
-        // 파일 크기에 따른 품질 조정
-        let quality = 80; // 기본 품질을 85에서 80으로 낮춤
+        // 파일 크기에 따른 최적화된 WebP 설정
+        let webpSettings;
         
-        if (size > 5 * 1024 * 1024) { // 5MB 이상
-          quality = 70;
-        } else if (size > 2 * 1024 * 1024) { // 2MB 이상
-          quality = 75;
+        if (fileSize <= 1024 * 1024) { // 1MB 이하: 최고 화질 우선
+          webpSettings = {
+            quality: 100,
+            effort: 6,
+            nearLossless: true, // 무손실에 가까운 압축
+            smartSubsample: false,
+            reductionEffort: 2 // 화질 최우선
+          };
+          console.log(`🔥 High quality conversion for ${file} (${(fileSize/1024).toFixed(0)}KB)`);
+        } else { // 1MB 초과: 화질과 압축 균형
+          webpSettings = {
+            quality: 95,
+            effort: 6,
+            nearLossless: false,
+            smartSubsample: false,
+            reductionEffort: 4
+          };
+          console.log(`⚖️ Balanced conversion for ${file} (${(fileSize/1024/1024).toFixed(1)}MB)`);
         }
         
-        // Convert to WebP with optimized settings for smaller file size
+        // Convert to WebP with optimized settings
         await sharpInstance
-          .webp({ 
-            quality: quality, // 동적 품질 설정
-            effort: 6,        // 최대 압축 노력 (0-6, 높을수록 파일 크기 작음)
-            nearLossless: false, // 손실 압축 사용
-            smartSubsample: true, // 스마트 서브샘플링 활성화
-            reductionEffort: 6   // 색상 팔레트 최적화
-          })
+          .webp(webpSettings)
           .toFile(outputFile);
         
         // 변환 후 파일 크기 확인
         const outputSize = fs.statSync(outputFile).size;
-        const compressionRatio = ((size - outputSize) / size * 100).toFixed(1);
+        const compressionRatio = ((fileSize - outputSize) / fileSize * 100).toFixed(1);
         
-        console.log(`✓ Converted ${file} in ${dirName} folder (${(size/1024/1024).toFixed(1)}MB -> ${(outputSize/1024/1024).toFixed(1)}MB, ${compressionRatio}% reduction)`);
+        console.log(`✓ Converted ${file} in ${dirName} folder (${(fileSize/1024/1024).toFixed(1)}MB -> ${(outputSize/1024/1024).toFixed(1)}MB, ${compressionRatio}% reduction)`);
         
       } catch (err) {
         console.error(`✗ Error processing ${file} in ${dirName}:`, err.message);
