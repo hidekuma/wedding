@@ -31,6 +31,9 @@ const imageFileNames = [
   
 ];
 
+// 초기 표시할 이미지 개수
+const INITIAL_IMAGE_COUNT = 13;
+
 // 이미지 배열 생성 (public 폴더의 webp 이미지 사용)
 const allImages = imageFileNames.map((fileName, index) => {
   return {
@@ -59,6 +62,7 @@ const Gallery = () => {
   const [expandedTriggered, setExpandedTriggered] = useState(false); // 더보기 클릭 트리거 상태
   // const [preloadedImages, setPreloadedImages] = useState(new Set()); // 주석 처리
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [loadedImages, setLoadedImages] = useState(new Set()); // 로드된 이미지 추적
   const galleryGridRef = useRef(null);
   const preloadingRef = useRef(false);
   const preloadedImagesRef = useRef(new Set());
@@ -73,7 +77,7 @@ const Gallery = () => {
   });
 
   // 표시할 이미지들 (확장 여부에 따라)
-  const displayImages = isExpanded ? allImages : allImages.slice(0, 12);
+  const displayImages = isExpanded ? allImages : allImages.slice(0, INITIAL_IMAGE_COUNT);
 
   // 안전한 이미지 프리로딩 함수 (의존성 제거)
   const preloadImageSafely = useCallback((imageSrc, timeout = 10000) => {
@@ -213,7 +217,7 @@ const Gallery = () => {
       if (!additionalPreloadDone.current && !preloadingRef.current) {
         console.log('더보기 클릭 - 추가 이미지 백그라운드 프리로드 시작');
         additionalPreloadDone.current = true;
-        const additionalImages = allImages.slice(12);
+        const additionalImages = allImages.slice(INITIAL_IMAGE_COUNT);
         
         // 비동기로 배치 프리로딩 실행
         preloadImagesBatch(additionalImages).catch(err => {
@@ -231,7 +235,7 @@ const Gallery = () => {
     if (nearEnd && !isExpanded && !additionalPreloadDone.current && !preloadingRef.current) {
       console.log('갤러리 끝 부분 도달 - 추가 이미지 프리로드 시작');
       additionalPreloadDone.current = true;
-      const additionalImages = allImages.slice(12);
+      const additionalImages = allImages.slice(INITIAL_IMAGE_COUNT);
       
       preloadImagesBatch(additionalImages).catch(err => {
         console.error('갤러리 끝 프리로딩 실패:', err);
@@ -291,7 +295,7 @@ const Gallery = () => {
   useEffect(() => {
     if (inView && !initialPreloadDone.current && !preloadingRef.current) {
       initialPreloadDone.current = true;
-      const initialImages = allImages.slice(0, 12);
+      const initialImages = allImages.slice(0, INITIAL_IMAGE_COUNT);
       console.log('초기 갤러리 이미지 프리로드 시작');
       
       preloadImagesBatch(initialImages).catch(err => {
@@ -345,8 +349,8 @@ const Gallery = () => {
       
       <div className="gallery-grid" ref={galleryGridRef}>
         {displayImages.map((image, index) => {
-          const isInitialImage = index < 12; // 첫 12개 이미지인지 확인
-          const isAdditionalImage = index >= 12; // 추가 이미지인지 확인
+          const isInitialImage = index < INITIAL_IMAGE_COUNT; // 첫 13개 이미지인지 확인
+          const isAdditionalImage = index >= INITIAL_IMAGE_COUNT; // 추가 이미지인지 확인
           
           // 그룹 계산
           const groupIndex = Math.floor(index / 4);
@@ -356,7 +360,7 @@ const Gallery = () => {
           const shouldAnimate = isInitialImage ? inView : (inView && expandedTriggered);
           
           // 추가 이미지의 경우 그룹 인덱스를 0부터 다시 계산
-          const adjustedGroupIndex = isAdditionalImage ? Math.floor((index - 12) / 4) : groupIndex;
+          const adjustedGroupIndex = isAdditionalImage ? Math.floor((index - INITIAL_IMAGE_COUNT) / 4) : groupIndex;
           const delay = adjustedGroupIndex * 0.4 + withinGroupIndex * 0.05;
           
           return (
@@ -372,20 +376,32 @@ const Gallery = () => {
                 ease: "easeOut"
               }}
             >
-              <img 
-                src={image.src} 
-                alt={image.alt}
-                loading={index < 6 ? "eager" : "lazy"}
-                decoding="async"
-                onError={(e) => {
-                  console.warn(`갤러리 이미지 로드 실패: ${image.src}`);
-                  e.target.style.display = 'none'; // 실패한 이미지 숨김
-                }}
-                onLoad={() => {
-                  preloadedImagesRef.current.add(image.src);
-                  // setPreloadedImages(prev => new Set([...prev, image.src])); // 제거
-                }}
-              />
+              <div className="image-container">
+                {!loadedImages.has(image.src) && (
+                  <div className="image-placeholder">
+                    <div className="loading-shimmer"></div>
+                  </div>
+                )}
+                <img 
+                  src={image.src} 
+                  alt={image.alt}
+                  loading={index < 6 ? "eager" : "lazy"}
+                  decoding="async"
+                  style={{
+                    opacity: loadedImages.has(image.src) ? 1 : 0,
+                    transition: 'opacity 0.3s ease-in-out'
+                  }}
+                  onError={(e) => {
+                    console.warn(`갤러리 이미지 로드 실패: ${image.src}`);
+                    e.target.style.display = 'none'; // 실패한 이미지 숨김
+                  }}
+                  onLoad={() => {
+                    preloadedImagesRef.current.add(image.src);
+                    setLoadedImages(prev => new Set([...prev, image.src]));
+                    // setPreloadedImages(prev => new Set([...prev, image.src])); // 제거
+                  }}
+                />
+              </div>
             </motion.div>
           );
         })}

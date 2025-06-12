@@ -50,7 +50,7 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
         className="greeting-section"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
+        transition={{ duration: 0.8, delay: 0.8 }}
       >
         <h2 className="greeting-title">저희 결혼합니다</h2>
         
