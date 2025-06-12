@@ -100,19 +100,26 @@ const processFiles = async (inputDir, outputDir, dirName) => {
         
         let sharpInstance = sharp(inputFile).rotate(); // Auto-rotate based on EXIF orientation
         
-        // 큰 이미지는 리사이징 (더 큰 크기로 조정)
-        const maxWidth = 1600;  // 최대 너비 1600px로 증가
-        const maxHeight = 1200;  // 최대 높이 1200px로 증가
+        // 큰 이미지는 리사이징 (고해상도로 조정)
+        const maxWidth = 1920;  // 최대 너비 1920px (Full HD)
+        const maxHeight = 1440;  // 최대 높이 1440px로 증가
         
-        if (width > maxWidth || height > maxHeight) {
+                if (width > maxWidth || height > maxHeight) {
           sharpInstance = sharpInstance.resize({
             width: maxWidth,
             height: maxHeight,
             fit: 'inside', // 비율 유지하면서 크기 조정
             withoutEnlargement: true // 작은 이미지는 확대하지 않음
           });
-                     console.log(`📏 Resizing ${file}: ${width}x${height} -> max ${maxWidth}x${maxHeight}`);
+          console.log(`📏 Resizing ${file}: ${width}x${height} -> max ${maxWidth}x${maxHeight}`);
         }
+        
+        // 이미지 선명도 향상 (부드러운 샤프닝 적용)
+        sharpInstance = sharpInstance.sharpen({
+          sigma: 0.7,      // 샤프닝 강도 (줄임)
+          flat: 1.0,       // 평면 영역 보존
+          jagged: 1.5      // 날카로운 모서리 강화 (줄임)
+        });
         
         // 파일 크기에 따른 최적화된 WebP 설정
         let webpSettings;
