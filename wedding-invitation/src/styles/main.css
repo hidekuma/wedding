@@ -520,7 +520,7 @@ html {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #f8f8f8;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -546,14 +546,28 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(ellipse at center, 
-    rgba(248, 248, 248, 0.05) 0%, 
-    rgba(248, 248, 248, 0.1) 15%, 
-    rgba(248, 248, 248, 0.4) 40%, 
-    rgba(248, 248, 248, 0.8) 70%, 
-    rgba(248, 248, 248, 1) 100%);
+  background: radial-gradient(ellipse at center,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 15%,
+    rgba(255, 255, 255, 0.4) 40%,
+    rgba(255, 255, 255, 0.8) 70%,
+    rgba(255, 255, 255, 1) 100%);
   z-index: 1;
   pointer-events: none;
+  transform: scaleY(1.5); /* 세로 방향으로 퍼짐 효과 */
+  transform-origin: center;
+}
+.loading-screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  background: none;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 2%, black 98%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 2%, black 98%, transparent 100%);
 }
 
 /* 로딩 이미지 스타일 - 모바일 레이아웃 최적화 */
