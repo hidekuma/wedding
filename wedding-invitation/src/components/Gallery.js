@@ -56,6 +56,7 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedTriggered, setExpandedTriggered] = useState(false); // 더보기 클릭 트리거 상태
   // const [preloadedImages, setPreloadedImages] = useState(new Set()); // 주석 처리
   const [isTransitioning, setIsTransitioning] = useState(false);
   const galleryGridRef = useRef(null);
@@ -203,16 +204,25 @@ const Gallery = () => {
     const wasExpanded = isExpanded;
     setIsExpanded(!isExpanded);
     
-    // 더보기를 클릭했을 때 (확장할 때) 추가 이미지들 백그라운드에서 로드
-    if (!wasExpanded && !additionalPreloadDone.current && !preloadingRef.current) {
-      console.log('더보기 클릭 - 추가 이미지 백그라운드 프리로드 시작');
-      additionalPreloadDone.current = true;
-      const additionalImages = allImages.slice(12);
+    // 더보기를 클릭했을 때 (확장할 때) 애니메이션 트리거 및 이미지 로드
+    if (!wasExpanded) {
+      // 애니메이션 트리거 설정
+      setExpandedTriggered(true);
       
-      // 비동기로 배치 프리로딩 실행
-      preloadImagesBatch(additionalImages).catch(err => {
-        console.error('추가 이미지 프리로딩 실패:', err);
-      });
+      // 추가 이미지들 백그라운드에서 로드
+      if (!additionalPreloadDone.current && !preloadingRef.current) {
+        console.log('더보기 클릭 - 추가 이미지 백그라운드 프리로드 시작');
+        additionalPreloadDone.current = true;
+        const additionalImages = allImages.slice(12);
+        
+        // 비동기로 배치 프리로딩 실행
+        preloadImagesBatch(additionalImages).catch(err => {
+          console.error('추가 이미지 프리로딩 실패:', err);
+        });
+      }
+    } else {
+      // 접기를 클릭했을 때 애니메이션 트리거 리셋
+      setExpandedTriggered(false);
     }
   }, [isExpanded, preloadImagesBatch]);
 
@@ -334,35 +344,51 @@ const Gallery = () => {
       <h2>갤러리</h2>
       
       <div className="gallery-grid" ref={galleryGridRef}>
-        {displayImages.map((image, index) => (
-          <motion.div
-            key={image.id}
-            className="gallery-item"
-            onClick={() => openModal(index)}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ 
-              duration: index < 12 ? 0.8 : 0.5, // 애니메이션 시간 증가
-              delay: index < 12 ? index * 0.15 : 0, // 지연 시간 증가 (0.1 → 0.15)
-              ease: "easeOut" // 부드러운 easing 추가
-            }}
-          >
-            <img 
-              src={image.src} 
-              alt={image.alt}
-              loading={index < 6 ? "eager" : "lazy"}
-              decoding="async"
-              onError={(e) => {
-                console.warn(`갤러리 이미지 로드 실패: ${image.src}`);
-                e.target.style.display = 'none'; // 실패한 이미지 숨김
+        {displayImages.map((image, index) => {
+          const isInitialImage = index < 12; // 첫 12개 이미지인지 확인
+          const isAdditionalImage = index >= 12; // 추가 이미지인지 확인
+          
+          // 그룹 계산
+          const groupIndex = Math.floor(index / 4);
+          const withinGroupIndex = index % 4;
+          
+          // 기본 이미지는 inView 기준, 추가 이미지는 expandedTriggered 기준
+          const shouldAnimate = isInitialImage ? inView : (inView && expandedTriggered);
+          
+          // 추가 이미지의 경우 그룹 인덱스를 0부터 다시 계산
+          const adjustedGroupIndex = isAdditionalImage ? Math.floor((index - 12) / 4) : groupIndex;
+          const delay = adjustedGroupIndex * 0.4 + withinGroupIndex * 0.05;
+          
+          return (
+            <motion.div
+              key={image.id}
+              className="gallery-item"
+              onClick={() => openModal(index)}
+              initial={{ opacity: 0, y: 30 }}
+              animate={shouldAnimate ? { opacity: 1, y: 0 } : {}}
+              transition={{ 
+                duration: 0.6, 
+                delay: delay,
+                ease: "easeOut"
               }}
-              onLoad={() => {
-                preloadedImagesRef.current.add(image.src);
-                // setPreloadedImages(prev => new Set([...prev, image.src])); // 제거
-              }}
-            />
-          </motion.div>
-        ))}
+            >
+              <img 
+                src={image.src} 
+                alt={image.alt}
+                loading={index < 6 ? "eager" : "lazy"}
+                decoding="async"
+                onError={(e) => {
+                  console.warn(`갤러리 이미지 로드 실패: ${image.src}`);
+                  e.target.style.display = 'none'; // 실패한 이미지 숨김
+                }}
+                onLoad={() => {
+                  preloadedImagesRef.current.add(image.src);
+                  // setPreloadedImages(prev => new Set([...prev, image.src])); // 제거
+                }}
+              />
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* 갤러리 끝 부분 감지를 위한 트리거 요소 (더보기 버튼이 보이지 않을 때만) */}
