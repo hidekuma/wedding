@@ -23,7 +23,23 @@ const imageFileNames = [
   '1Y4A3861.webp',
   '1Y4A3878.webp',
   '1Y4A3889.webp',
-  '1Y4A3911.webp'
+  '1Y4A3911.webp',
+  'NHH00219_1.webp',
+  'NHH00235_1.webp',
+  'NHH00295_1.webp',
+  'NHH00380_1.webp',
+  'NHH00503_1.webp',
+  'NHH00523_1.webp',
+  'NHH00576_1.webp',
+  'NHH01055_1.webp',
+  'NHH09913_1.webp',
+  'NHH09934_1.webp',
+  'NHH09973_1.webp',
+  'NHH01508_1.webp',
+  'NHH01518_1.webp',
+  'NHH01524_1.webp',
+  'NHH01548_1.webp',
+  
 ];
 
 // 이미지 배열 생성 (public 폴더의 webp 이미지 사용)
@@ -37,14 +53,14 @@ const allImages = imageFileNames.map((fileName, index) => {
 });
 
 // Shuffle the allImages array to display images in random order
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-};
+// const shuffleArray = (array) => {
+//   for (let i = array.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [array[i], array[j]] = [array[j], array[i]];
+//   }
+// };
 
-shuffleArray(allImages);
+// shuffleArray(allImages);
 
 const Gallery = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });

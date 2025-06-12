@@ -1801,7 +1801,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 1200; /* 맨위로 가기 버튼(1000)보다 높게 설정 */
   padding: 1rem;
 }
 
