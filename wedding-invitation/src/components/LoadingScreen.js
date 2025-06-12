@@ -5,6 +5,7 @@ import "../styles/main.css";
 const LoadingScreen = ({ onComplete }) => {
   const [isComplete, setIsComplete] = useState(false);
   const [showLastFrame, setShowLastFrame] = useState(false);
+  const [hideGif, setHideGif] = useState(false);
   const [lastFrameLoaded, setLastFrameLoaded] = useState(false);
   const [gifLoaded, setGifLoaded] = useState(false);
 
@@ -60,6 +61,11 @@ const LoadingScreen = ({ onComplete }) => {
         setTimeout(() => {
           console.log('GIF 한 바퀴 완료 - 마지막 프레임 표시');
           setShowLastFrame(true);
+          
+          // GIF와 마지막 프레임이 겹치는 시간을 만들기 위해 조금 늦게 GIF 숨김
+          setTimeout(() => {
+            setHideGif(true);
+          }, 400); // 0.4초 후에 GIF 숨기기 시작
           
           // 마지막 프레임 표시 후 완료
           setTimeout(() => {
@@ -128,41 +134,55 @@ const LoadingScreen = ({ onComplete }) => {
 
   return (
     <AnimatePresence>
-      {!isComplete && (
-        <motion.div 
-          className="loading-screen"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.5 }}
-        >
-          {/* GIF 이미지 */}
-          {gifLoaded && !showLastFrame && (
-            <img 
-              src={`${process.env.PUBLIC_URL}/images/combined-webp/loading.gif`}
-              alt="로딩 중"
-              className="loading-gif"
-              onLoad={() => console.log('GIF DOM 로드 완료')}
-            />
-          )}
-          
-          {/* 마지막 프레임 이미지 */}
-          {showLastFrame && lastFrameLoaded && (
-            <motion.img 
-              src={`${process.env.PUBLIC_URL}/images/combined-webp/last_frame.webp`}
-              alt="로딩 완료"
-              className="loading-last-frame"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
-            />
-          )}
-          
-          <div className="loading-content" style={{ position: 'relative', zIndex: 3 }}>
-            
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+  {!isComplete && (
+    <motion.div 
+      className="loading-screen"
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ 
+        duration: 1.2,
+        ease: "easeOut"
+      }}
+    >
+      {/* GIF 이미지 */}
+      <AnimatePresence>
+        {gifLoaded && !hideGif && (
+          <motion.img 
+            key="loading-gif"
+            src={`${process.env.PUBLIC_URL}/images/combined-webp/loading.gif`}
+            alt="로딩 중"
+            className="loading-gif"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* 마지막 프레임 이미지 */}
+      <AnimatePresence>
+        {showLastFrame && lastFrameLoaded && (
+          <motion.img 
+            key="last-frame"
+            src={`${process.env.PUBLIC_URL}/images/combined-webp/last_frame.webp`}
+            alt="로딩 완료"
+            className="loading-last-frame"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ 
+              duration: 0.8,
+              ease: "easeInOut"
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      <div className="loading-content" style={{ position: 'relative', zIndex: 3 }}></div>
+    </motion.div>
+  )}
+</AnimatePresence>
   );
 };
 

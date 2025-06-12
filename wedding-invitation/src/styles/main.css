@@ -568,6 +568,11 @@ html {
   background: none;
   mask-image: linear-gradient(to bottom, transparent 0%, black 2%, black 98%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 2%, black 98%, transparent 100%);
+  /* 같은 위치에 겹치도록 absolute positioning */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* 로딩 이미지 스타일 - 모바일 레이아웃 최적화 */
