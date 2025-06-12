@@ -7,21 +7,7 @@ const CoupleInfo = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
   const [contactModalOpen, setContactModalOpen] = useState(false);
 
-  // 모달 열림/닫힘 시 배경 스크롤 제어
-  React.useEffect(() => {
-    if (contactModalOpen) {
-      // 모달이 열릴 때 스크롤 비활성화
-      document.body.style.overflow = 'hidden';
-    } else {
-      // 모달이 닫힐 때 스크롤 복원
-      document.body.style.overflow = 'unset';
-    }
-    
-    // 컴포넌트 언마운트 시 스크롤 복원
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [contactModalOpen]);
+
 
   // 혼주 연락처 정보
   const contacts = {

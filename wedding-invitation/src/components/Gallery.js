@@ -278,12 +278,12 @@ const Gallery = () => {
       document.body.style.overflow = 'hidden';
     } else {
       // 모달이 닫힐 때 스크롤 복원
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     }
     
     // 컴포넌트 언마운트 시 스크롤 복원
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     };
   }, [selectedImage]);
 

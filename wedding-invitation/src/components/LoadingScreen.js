@@ -8,6 +8,17 @@ const LoadingScreen = ({ onComplete }) => {
   const [lastFrameLoaded, setLastFrameLoaded] = useState(false);
   const [gifLoaded, setGifLoaded] = useState(false);
 
+  // 로딩 화면 표시 시 스크롤 제어
+  useEffect(() => {
+    // 로딩 화면이 표시될 때 스크롤 비활성화
+    document.body.style.overflow = 'hidden';
+    
+    // 컴포넌트 언마운트 시 스크롤 복원
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   useEffect(() => {
     console.log('LoadingScreen useEffect 시작');
     
@@ -18,6 +29,8 @@ const LoadingScreen = ({ onComplete }) => {
     if (lastLoadingTime && (now - parseInt(lastLoadingTime)) < 5000) {
       console.log('최근 로딩 기록 발견, 즉시 완료');
       setIsComplete(true);
+      // 즉시 완료 시에도 스크롤 복원
+      document.body.style.overflow = '';
       setTimeout(() => onComplete(), 100);
       return;
     }
@@ -53,6 +66,8 @@ const LoadingScreen = ({ onComplete }) => {
             console.log('로딩 완료 처리');
             setIsComplete(true);
             sessionStorage.setItem('lastLoadingTime', Date.now().toString());
+            // 로딩 완료 시 스크롤 복원
+            document.body.style.overflow = '';
             setTimeout(() => {
               console.log('onComplete 호출');
               onComplete();
@@ -95,6 +110,8 @@ const LoadingScreen = ({ onComplete }) => {
     const timeoutId = setTimeout(() => {
       console.warn('로딩 타임아웃, 강제 완료');
       setIsComplete(true);
+      // 타임아웃 시에도 스크롤 복원
+      document.body.style.overflow = '';
       setTimeout(() => onComplete(), 100);
     }, 5000);
     
@@ -123,15 +140,7 @@ const LoadingScreen = ({ onComplete }) => {
             <img 
               src={`${process.env.PUBLIC_URL}/images/combined-webp/loading.gif`}
               alt="로딩 중"
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                zIndex: 1
-              }}
+              className="loading-gif"
               onLoad={() => console.log('GIF DOM 로드 완료')}
             />
           )}
@@ -141,18 +150,10 @@ const LoadingScreen = ({ onComplete }) => {
             <motion.img 
               src={`${process.env.PUBLIC_URL}/images/combined-webp/last_frame.webp`}
               alt="로딩 완료"
+              className="loading-last-frame"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                zIndex: 2
-              }}
             />
           )}
           

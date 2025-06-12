@@ -17,6 +17,14 @@ import PetalFall from "./components/PetalFall";
 import "./styles/main.css";
 
 function App() {
+  // 페이지 로드 시 body 스타일 초기화 (혹시 남아있는 스크롤 제어 스타일 제거)
+  React.useEffect(() => {
+    // 강제로 body 스타일 초기화
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+  }, []);
   const [isLoading, setIsLoading] = useState(true);
   const [showHeroText, setShowHeroText] = useState(false);
 
@@ -95,7 +103,7 @@ function App() {
       {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
       
       {/* 꽃잎 날리는 효과 - 예식안내 섹션부터 오시는길 전까지 활성화 */}
-      {!isLoading && <PetalFall isActive={weddingInfoInView && !directionsInView} petalCount={25} />}
+      {!isLoading && <PetalFall isActive={weddingInfoInView && !directionsInView} petalCount={15} />}
       
       {/* 나머지 컨텐츠는 로딩 완료 후 표시 */}
       {!isLoading && (

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/PetalFall.css';
 
-const PetalFall = ({ isActive = true, petalCount = 50 }) => {
+const PetalFall = ({ isActive = true, petalCount = 25 }) => {
   const [petals, setPetals] = useState([]);
-
-  // App.js에서 전달받은 isActive를 직접 사용
 
   useEffect(() => {
     if (!isActive) {
@@ -12,45 +10,57 @@ const PetalFall = ({ isActive = true, petalCount = 50 }) => {
       return;
     }
 
-    // 꽃잎을 여러 그룹으로 나누어 단계적으로 생성
-    const generatePetalsInWaves = () => {
-      const totalGroups = 5; // 5개 그룹으로 나누기
-      const petalsPerGroup = Math.ceil(petalCount / totalGroups);
+    // 더 자연스러운 꽃잎 생성
+    const generatePetals = () => {
+      const newPetals = [];
       
-      // 기존 꽃잎 초기화
-      setPetals([]);
-      
-      // 각 그룹을 다른 시점에 생성
-      for (let group = 0; group < totalGroups; group++) {
-        setTimeout(() => {
-          const groupPetals = [];
-          const startId = group * petalsPerGroup;
-          const endId = Math.min(startId + petalsPerGroup, petalCount);
-          
-          for (let i = startId; i < endId; i++) {
-            groupPetals.push({
-              id: i,
-              left: Math.random() * 100,
-              // 그룹 내에서도 다른 지연 시간
-              animationDuration: Math.random() * 4 + 6, // 6-10초
-              animationDelay: Math.random() * 3, // 0-3초 지연
-              size: Math.random() * 0.6 + 0.7, // 0.7-1.3 크기
-              rotation: Math.random() * 360, // 초기 회전
-              rotationX: Math.random() * 90, // X축 회전 추가
-              rotationY: Math.random() * 180, // Y축 회전 추가
-              opacity: Math.random() * 0.5 + 0.4, // 0.4-0.9 투명도
-              petalType: Math.floor(Math.random() * 3) + 1, // 1, 2, 3 타입
-              groupId: group, // 그룹 식별자 추가
-            });
-          }
-          
-          // 기존 꽃잎에 새 그룹 추가
-          setPetals(prevPetals => [...prevPetals, ...groupPetals]);
-        }, group * 800); // 각 그룹을 0.8초 간격으로 생성
+      for (let i = 0; i < petalCount; i++) {
+        newPetals.push({
+          id: i,
+          left: Math.random() * 100,
+          animationDuration: Math.random() * 4 + 6, // 6-10초로 더 천천히
+          animationDelay: Math.random() * 8, // 0-8초 지연으로 더 다양하게
+          size: Math.random() * 0.6 + 0.7, // 0.7-1.3 더 다양한 크기
+          opacity: Math.random() * 0.4 + 0.4, // 0.4-0.8 투명도
+          petalType: Math.floor(Math.random() * 5) + 1, // 1-5 더 다양한 타입
+          swayAmount: Math.random() * 40 + 20, // 20-60px 흔들림 정도
+          rotationSpeed: Math.random() * 2 + 1, // 1-3배 회전 속도
+          driftDirection: Math.random() > 0.5 ? 1 : -1, // 좌우 드리프트 방향
+        });
       }
+      
+      setPetals(newPetals);
     };
 
-    generatePetalsInWaves();
+    generatePetals();
+    
+    // 주기적으로 새로운 꽃잎 추가 (더 자연스러운 연속성)
+    const interval = setInterval(() => {
+      if (isActive) {
+        setPetals(prevPetals => {
+          const newPetal = {
+            id: Date.now() + Math.random(),
+            left: Math.random() * 100,
+            animationDuration: Math.random() * 4 + 6,
+            animationDelay: 0,
+            size: Math.random() * 0.6 + 0.7,
+            opacity: Math.random() * 0.4 + 0.4,
+            petalType: Math.floor(Math.random() * 5) + 1,
+            swayAmount: Math.random() * 40 + 20,
+            rotationSpeed: Math.random() * 2 + 1,
+            driftDirection: Math.random() > 0.5 ? 1 : -1,
+          };
+          
+          // 최대 꽃잎 수 유지
+          const updatedPetals = [...prevPetals, newPetal];
+          return updatedPetals.length > petalCount * 1.5 
+            ? updatedPetals.slice(-petalCount) 
+            : updatedPetals;
+        });
+      }
+    }, 3000); // 3초마다 새 꽃잎 추가
+
+    return () => clearInterval(interval);
   }, [isActive, petalCount]);
 
   return (
@@ -58,13 +68,16 @@ const PetalFall = ({ isActive = true, petalCount = 50 }) => {
       {petals.map((petal) => (
         <div
           key={petal.id}
-          className={`petal petal-type-${petal.petalType} petal-group-${petal.groupId}`}
+          className={`petal petal-type-${petal.petalType}`}
           style={{
             left: `${petal.left}%`,
             animationDuration: `${petal.animationDuration}s`,
             animationDelay: `${petal.animationDelay}s`,
-            transform: `scale(${petal.size}) rotateZ(${petal.rotation}deg) rotateX(${petal.rotationX}deg) rotateY(${petal.rotationY}deg)`,
+            transform: `scale(${petal.size})`,
             opacity: isActive ? petal.opacity : 0,
+            '--sway-amount': `${petal.swayAmount}px`,
+            '--rotation-speed': petal.rotationSpeed,
+            '--drift-direction': petal.driftDirection,
           }}
         />
       ))}
