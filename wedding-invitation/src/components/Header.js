@@ -25,7 +25,16 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
       
       {/* 이미지 위 텍스트 오버레이 - showHeroText가 true일 때 표시 */}
       {showHeroText && (
-        <div className="hero-overlay">
+        <motion.div 
+          className="hero-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ 
+            duration: 2.0, 
+            delay: 0.1,
+            ease: "easeOut"
+          }}
+        >
           <motion.div 
             className="hero-text"
             initial={{ opacity: 0, y: 30 }}
@@ -40,7 +49,7 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
               <p>United in love, together forever.</p>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </motion.div>
 

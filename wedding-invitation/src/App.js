@@ -41,11 +41,13 @@ function App() {
   });
 
   const handleLoadingComplete = () => {
-    setIsLoading(false);
-    // 로딩 완료와 동시에 hero 텍스트 표시
+    // hero 텍스트를 먼저 표시 (로딩 스크린이 사라지기 전에)
+    setShowHeroText(true);
+    
+    // 그 다음에 로딩 스크린 제거
     setTimeout(() => {
-      setShowHeroText(true);
-    }, 200);
+      setIsLoading(false);
+    }, 800); // 0.8초 후에 로딩 스크린이 사라지기 시작
   };
 
   // 최근 로딩 완료 시간 확인하여 즉시 표시
