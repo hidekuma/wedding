@@ -478,6 +478,10 @@ html {
 
 /* 모바일 반응형 */
 @media (max-width: 700px) {
+  .hero-image img {
+    object-position: 68% center; /* 모바일에서 더 왼쪽으로 조정 */
+  }
+  
   .hero-title {
     font-size: 3.2rem;
     line-height: 0.9;
