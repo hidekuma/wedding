@@ -14,7 +14,12 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
       className="hero-image"
       initial={{ opacity: isLoading ? 0 : 1 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, delay: isLoading ? 0.5 : 0 }}
+      transition={{ 
+        duration: 0.8, 
+        delay: isLoading ? 0.5 : 0,
+        ease: "easeOut"
+      }}
+      style={{ willChange: "opacity" }}
     >
       <img src={`${process.env.PUBLIC_URL}/images/combined-webp/hero_image.webp`} alt="신랑신부" />
       
