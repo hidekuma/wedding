@@ -540,24 +540,6 @@ html {
 }
 
 /* 로딩 이미지 스타일 - 모바일 레이아웃 최적화 */
-.loading-gif,
-.loading-last-frame {
-  position: absolute;
-  top: 40%; /* 조금 위쪽으로 이동 */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%; /* 414px 레이아웃에 맞게 조정 */
-  max-width: 414px; /* 414px 기준으로 최대 크기 조정 */
-  height: auto;
-  max-height: 75%; /* 높이도 조금 늘림 */
-  object-fit: contain;
-  z-index: 2;
-}
-
-.loading-last-frame {
-  z-index: 3; /* 마지막 프레임이 위에 오도록 */
-}
-
 .loading-content {
   position: relative;
   z-index: 4; /* 텍스트가 가장 위에 오도록 */
@@ -867,8 +849,8 @@ html {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 45px; /* 모바일 우선 */
-  height: 45px; /* 모바일 우선 */
+  width: 35px; /* 모바일 우선 */
+  height: 35px; /* 모바일 우선 */
   font-size: 1.6rem; /* 모바일 우선 */
   background: rgba(0, 0, 0, 0.7); /* 모바일 우선 */
   border: none; /* 모바일 우선 */
@@ -896,11 +878,11 @@ html {
 }
 
 .modal-btn.prev {
-  left: 20px; /* 모바일 우선 */
+  left: 33px; /* 모바일 우선 */
 }
 
 .modal-btn.next {
-  right: 20px; /* 모바일 우선 */
+  right: 33px; /* 모바일 우선 */
 }
 
 .modal-image-container {
