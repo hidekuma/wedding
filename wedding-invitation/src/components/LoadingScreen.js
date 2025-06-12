@@ -51,7 +51,7 @@ const LoadingScreen = ({ onComplete }) => {
       if (gifLoadComplete && lastFrameLoadComplete) {
         console.log('모든 이미지 로드 완료');
         const loadTime = Date.now() - loadStartTime;
-        const gifLoopTime = 3000; // GIF 한 루프 시간 (3초로 추정)
+        const gifLoopTime = 2900; // GIF 한 루프 시간 (3초로 추정)
         
         // GIF가 최소 한 바퀴는 돌 수 있도록 시간 계산
         const waitTime = Math.max(0, gifLoopTime - loadTime);
