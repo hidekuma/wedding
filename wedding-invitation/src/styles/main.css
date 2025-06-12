@@ -530,11 +530,12 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to bottom, 
-    rgba(248, 248, 248, 0.8) 0%, 
-    rgba(248, 248, 248, 0.3) 20%, 
-    rgba(248, 248, 248, 0.3) 80%, 
-    rgba(248, 248, 248, 0.8) 100%);
+  background: radial-gradient(ellipse at center, 
+    rgba(248, 248, 248, 0.05) 0%, 
+    rgba(248, 248, 248, 0.1) 15%, 
+    rgba(248, 248, 248, 0.4) 40%, 
+    rgba(248, 248, 248, 0.8) 70%, 
+    rgba(248, 248, 248, 1) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -544,10 +545,12 @@ html {
   position: relative;
   z-index: 4; /* 텍스트가 가장 위에 오도록 */
   text-align: center;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   max-width: 100%;
   margin: 0 auto;
 }
+
+
 
 .loading-text {
   color: var(--color-primary);

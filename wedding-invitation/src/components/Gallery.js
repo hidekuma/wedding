@@ -277,17 +277,21 @@ const Gallery = () => {
 
   // 모달 열림/닫힘 시 배경 스크롤 제어
   useEffect(() => {
+    const html = document.documentElement;
     if (selectedImage) {
       // 모달이 열릴 때 스크롤 비활성화
       document.body.style.overflow = 'hidden';
+      html.style.overflow = 'hidden';
     } else {
       // 모달이 닫힐 때 스크롤 복원
       document.body.style.overflow = '';
+      html.style.overflow = '';
     }
     
     // 컴포넌트 언마운트 시 스크롤 복원
     return () => {
       document.body.style.overflow = '';
+      html.style.overflow = '';
     };
   }, [selectedImage]);
 
@@ -331,7 +335,8 @@ const Gallery = () => {
       }
       
       // 스크롤 복원
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
       
       console.log('갤러리 컴포넌트 cleanup 완료');
     };

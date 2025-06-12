@@ -1,11 +1,28 @@
 import { useInView } from "react-intersection-observer";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/main.css";
 
 const CoupleInfo = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
   const [contactModalOpen, setContactModalOpen] = useState(false);
+
+  // 모달이 활성화될 때 스크롤 막기
+  useEffect(() => {
+    const html = document.documentElement;
+    if (contactModalOpen) {
+      document.body.style.overflow = 'hidden';
+      html.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      html.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      html.style.overflow = '';
+    };
+  }, [contactModalOpen]);
 
 
 
