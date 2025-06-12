@@ -114,13 +114,6 @@ const processFiles = async (inputDir, outputDir, dirName) => {
           console.log(`📏 Resizing ${file}: ${width}x${height} -> max ${maxWidth}x${maxHeight}`);
         }
         
-        // 이미지 선명도 향상 (부드러운 샤프닝 적용)
-        sharpInstance = sharpInstance.sharpen({
-          sigma: 0.7,      // 샤프닝 강도 (줄임)
-          flat: 1.0,       // 평면 영역 보존
-          jagged: 1.5      // 날카로운 모서리 강화 (줄임)
-        });
-        
         // 파일 크기에 따른 최적화된 WebP 설정
         let webpSettings;
         
