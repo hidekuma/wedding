@@ -1946,7 +1946,9 @@ html {
 .scroll-to-top {
   position: fixed;
   bottom: 2rem;
-  right: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: calc(414px/2 - 2rem - 40px); /* 414px 레이아웃의 우측에서 2rem + 버튼 너비만큼 안쪽 */
   width: 40px;
   height: 40px;
   border-radius: 50%;
