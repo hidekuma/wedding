@@ -35,20 +35,35 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
             ease: "easeOut"
           }}
         >
-          <motion.div 
-            className="hero-text"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            <h1 className="hero-title">our<br/>wedding<br/>day</h1>
+          <div className="hero-text">
+            <motion.h1 
+              className="hero-title"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              our<br/>wedding<br/>day
+            </motion.h1>
             
-            <div className="hero-date">
+            <motion.div 
+              className="hero-date"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
               <p> 2025 / 09 /06 </p>
+            </motion.div>
+            
+            <motion.div 
+              className="hero-date"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
               <p>Two hearts, one journey,</p>
               <p>United in love, together forever.</p>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </motion.div>
       )}
     </motion.div>
