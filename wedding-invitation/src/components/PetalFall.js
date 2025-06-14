@@ -74,7 +74,7 @@ const PetalFall = ({ isActive = true, petalCount = 25 }) => {
             animationDuration: `${petal.animationDuration}s`,
             animationDelay: `${petal.animationDelay}s`,
             transform: `scale(${petal.size})`,
-            opacity: isActive ? petal.opacity : 0,
+            opacity: petal.opacity,
             '--sway-amount': `${petal.swayAmount}px`,
             '--rotation-speed': petal.rotationSpeed,
             '--drift-direction': petal.driftDirection,
