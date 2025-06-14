@@ -21,7 +21,7 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
       }}
       style={{ willChange: "opacity" }}
     >
-      <img src={`${process.env.PUBLIC_URL}/images/combined-webp/hero_image.webp`} alt="신랑신부" />
+      <img src={`${process.env.PUBLIC_URL}/images/combined-webp/hero_image2.webp`} alt="신랑신부" />
       
       {/* 이미지 위 텍스트 오버레이 - showHeroText가 true일 때 표시 */}
       {showHeroText && (

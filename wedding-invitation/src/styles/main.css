@@ -370,18 +370,18 @@ html {
   min-height: 600px; /* 최소 높이 보장 */
   max-height: 800px; /* 최대 높이 제한 */
   object-fit: cover;
-  object-position: 65% center; /* 모바일 우선 */
+  object-position: 90% center; /* 모바일 우선 */
   display: block;
   /* 스크롤 시 이미지 크기 변화 방지 */
   position: fixed;
-  top: 0;
+  top: -9%;
   left: 0;
   z-index: -1;
 }
 
 .hero-overlay {
   position: absolute;
-  bottom: 3rem;
+  bottom: 4rem;
   left: 0;
   right: 0;
   background: linear-gradient(transparent 0%, rgba(0,0,0,0.7) 100%);
@@ -405,7 +405,7 @@ html {
   margin-bottom: 2rem;
   text-align: center;
   letter-spacing: 1px;
-  color: var(--color-secondary);
+  color: #896630;
 }
 
 .hero-date {
