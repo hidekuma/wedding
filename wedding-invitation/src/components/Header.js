@@ -51,7 +51,7 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <p> 2025 / 09 /06 </p>
+              <p> 2025 / 09 / 06 </p>
             </motion.div>
             
             <motion.div 

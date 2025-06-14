@@ -24,11 +24,15 @@ const imageFileNames = [
   '1Y4A3878.webp',
   '1Y4A3889.webp',
   '1Y4A3911.webp',
+  'NHH00031_1.webp',
+  'NHH00235_1.webp',
+  'NHH00380_1.webp',
+  'NHH00503_1.webp',
+  'NHH00576_1.webp',
   'NHH01508_1.webp',
   'NHH01518_1.webp',
   'NHH01524_1.webp',
-  'NHH01548_1.webp',
-  
+  'NHH01548_1.webp'
 ];
 
 // 초기 표시할 이미지 개수
