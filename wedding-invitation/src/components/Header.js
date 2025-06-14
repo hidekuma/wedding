@@ -60,8 +60,8 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
             >
-              <p>Two hearts, one journey,</p>
-              <p>United in love, together forever.</p>
+              <p>Two hearts, one journey,<br/>
+              United in love, together forever.</p>
             </motion.div>
           </div>
         </motion.div>

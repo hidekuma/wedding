@@ -381,12 +381,12 @@ html {
 
 .hero-overlay {
   position: absolute;
-  bottom: 0;
+  bottom: 3rem;
   left: 0;
   right: 0;
   background: linear-gradient(transparent 0%, rgba(0,0,0,0.7) 100%);
   color: white;
-  padding: 2rem 1rem; /* 모바일 우선 */
+  padding: 0 1rem 2rem 1rem; /* 상단 패딩 제거 */
   text-align: center;
   z-index: 2;
 }
@@ -415,10 +415,8 @@ html {
   opacity: 0.9;
 }
 
-.hero-date p:first-child {
-  font-weight: 600;
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
+.hero-date p{
+  line-height: 1.4;
 }
 
 /* 인사말 섹션 */
