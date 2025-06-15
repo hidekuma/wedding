@@ -29,6 +29,7 @@ const imageFileNames = [
   'NHH00380_1.webp',
   'NHH00503_1.webp',
   'NHH00576_1.webp',
+  "NHH09913_1.webp",
   'NHH01508_1.webp',
   'NHH01518_1.webp',
   'NHH01524_1.webp',

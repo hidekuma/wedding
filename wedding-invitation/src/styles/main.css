@@ -370,7 +370,7 @@ html {
   min-height: 600px; /* 최소 높이 보장 */
   max-height: 800px; /* 최대 높이 제한 */
   object-fit: cover;
-  object-position: 90% center; /* 모바일 우선 */
+  object-position: 50% center; /* 모바일 우선 */
   display: block;
   /* 스크롤 시 이미지 크기 변화 방지 */
   position: fixed;
@@ -405,7 +405,7 @@ html {
   margin-bottom: 2rem;
   text-align: center;
   letter-spacing: 1px;
-  color: #896630;
+  color: #ff9494e3;
 }
 
 .hero-date {
@@ -417,6 +417,7 @@ html {
 
 .hero-date p{
   line-height: 1.4;
+  color: #b9b9b9; 
 }
 
 /* 인사말 섹션 */
