@@ -196,13 +196,13 @@ const Directions = () => {
         <div className="transport-section">
           <h4>🚗 자가용 이용 시</h4>
           <div className="transport-item">
-            <p><strong>오창 IC → 청주방면 7km 직진 → 타이어뱅크 지나 입구로 진입 → 아르떼웨딩컨벤션 도착</strong></p>
+            <p><strong>오창 IC → 청주방면 7km 직진 → 타이어뱅크 지나 입구로 진입 → 아르떼웨딩컨벤션</strong></p>
             <p>(오창 IC에서 도착 7분거리)</p>
           </div>
           <div className="transport-item">
             <p><strong>서청주 IC →청주공항방면 차회전 →7km직진<br/>
             → 성모병원 방면 → 고가다리 아래 진입 후 차회전<br/>
-            → 타이어뱅크 앞에서 유턴 → 아르떼웨딩컨벤션 도착</strong></p>
+            → 타이어뱅크 앞에서 유턴 → 아르떼웨딩컨벤션</strong></p>
             <p>(서청주 IC에서 도착 15분거리)</p>
           </div>
         </div>
