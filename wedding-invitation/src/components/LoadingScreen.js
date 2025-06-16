@@ -11,6 +11,9 @@ const LoadingScreen = ({ onComplete }) => {
 
   // 로딩 화면 표시 시 스크롤 제어
   useEffect(() => {
+    // 로딩 화면이 표시될 때 스크롤을 맨 위로 이동
+    window.scrollTo(0, 0);
+    
     // 로딩 화면이 표시될 때 스크롤 비활성화
     document.body.style.overflow = 'hidden';
     
