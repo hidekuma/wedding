@@ -79,13 +79,16 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
         <h2 className="greeting-title">저희 결혼합니다</h2>
         
         <div className="greeting-content">
-          <p>저희의 결혼 소식이</p>
-          <p>부담스럽지 않게 다가가길 바라며,</p>
-          <p>편한 마음으로 오셔서</p>
-          <p>축하해주시면 감사하겠습니다.</p>
+          <p>두 사람이 하나 되어</p>
+          <p>사랑의 여정을 시작합니다.</p>
           <br />
-          <p>혹여 참석이 어려우시더라도 부담 갖지 마시고,</p>
-          <p>마음으로 축하해주시면 감사하겠습니다.</p>
+          <p>기쁨은 배로,</p>
+          <p>슬픔은 반으로 나누며</p>
+          <p>서로를 아끼고 존중하며 살겠습니다.</p>
+          <br />
+          <p>함께한 첫 걸음에</p>
+          <p>축복의 마음을 더해주신다면</p>
+          <p>무한한 감사와 기쁨이 될 것입니다.</p>
         </div>
 
       </motion.div>
