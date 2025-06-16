@@ -68,31 +68,29 @@ const Header = ({ isLoading = false, showHeroText = false }) => (
       )}
     </motion.div>
 
-    {/* 하단 인사말 섹션 - 로딩 완료 후에만 표시 */}
-    {!isLoading && (
-      <motion.div 
-        className="greeting-section"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.8 }}
-      >
-        <h2 className="greeting-title">저희 결혼합니다</h2>
-        
-        <div className="greeting-content">
-          <p>두 사람이 하나 되어</p>
-          <p>사랑의 여정을 시작합니다.</p>
-          <br />
-          <p>기쁨은 배로,</p>
-          <p>슬픔은 반으로 나누며</p>
-          <p>서로를 아끼고 존중하며 살겠습니다.</p>
-          <br />
-          <p>함께한 첫 걸음에</p>
-          <p>축복의 마음을 더해주신다면</p>
-          <p>무한한 감사와 기쁨이 될 것입니다.</p>
-        </div>
+    {/* 하단 인사말 섹션 - 미리 로드되도록 항상 렌더링 */}
+    <motion.div 
+      className="greeting-section"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: isLoading ? 0 : 1, y: isLoading ? 40 : 0 }}
+      transition={{ duration: 0.8, delay: isLoading ? 0 : 0.8 }}
+    >
+      <h2 className="greeting-title">저희 결혼합니다</h2>
+      
+      <div className="greeting-content">
+        <p>두 사람이 하나 되어</p>
+        <p>사랑의 여정을 시작합니다.</p>
+        <br />
+        <p>기쁨은 배로,</p>
+        <p>슬픔은 반으로 나누며</p>
+        <p>서로를 아끼고 존중하며 살겠습니다.</p>
+        <br />
+        <p>함께한 첫 걸음에</p>
+        <p>축복의 마음을 더해주신다면</p>
+        <p>무한한 감사와 기쁨이 될 것입니다.</p>
+      </div>
 
-      </motion.div>
-    )}
+    </motion.div>
   </motion.header>
 );
 
