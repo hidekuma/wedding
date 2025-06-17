@@ -11,8 +11,8 @@ const LoadingScreen = ({ onComplete }) => {
 
   // 로딩 화면 표시 시 스크롤 제어
   useEffect(() => {
-    // 로딩 화면이 표시될 때 스크롤을 맨 위로 이동
-    window.scrollTo(0, 0);
+    // 로딩 화면이 표시될 때 스크롤을 맨 위로 즉시 이동 (CSS scroll-behavior 무시)
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     
     // 로딩 화면이 표시될 때 스크롤 비활성화
     document.body.style.overflow = 'hidden';
@@ -33,8 +33,8 @@ const LoadingScreen = ({ onComplete }) => {
     if (lastLoadingTime && (now - parseInt(lastLoadingTime)) < 5000) {
       console.log('최근 로딩 기록 발견, 즉시 완료');
       setIsComplete(true);
-      // 즉시 완료 시에도 스크롤을 맨 위로 이동하고 복원
-      window.scrollTo(0, 0);
+      // 즉시 완료 시에도 스크롤을 맨 위로 즉시 이동하고 복원 (CSS scroll-behavior 무시)
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       document.body.style.overflow = '';
       setTimeout(() => onComplete(), 100);
       return;
@@ -76,8 +76,8 @@ const LoadingScreen = ({ onComplete }) => {
             console.log('로딩 완료 처리');
             setIsComplete(true);
             sessionStorage.setItem('lastLoadingTime', Date.now().toString());
-            // 로딩 완료 시 스크롤을 맨 위로 이동하고 복원
-            window.scrollTo(0, 0);
+            // 로딩 완료 시 스크롤을 맨 위로 즉시 이동하고 복원 (CSS scroll-behavior 무시)
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
             document.body.style.overflow = '';
             setTimeout(() => {
               console.log('onComplete 호출');
@@ -121,8 +121,8 @@ const LoadingScreen = ({ onComplete }) => {
     const timeoutId = setTimeout(() => {
       console.warn('로딩 타임아웃, 강제 완료');
       setIsComplete(true);
-      // 타임아웃 시에도 스크롤을 맨 위로 이동하고 복원
-      window.scrollTo(0, 0);
+      // 타임아웃 시에도 스크롤을 맨 위로 즉시 이동하고 복원 (CSS scroll-behavior 무시)
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       document.body.style.overflow = '';
       setTimeout(() => onComplete(), 100);
     }, 5000);
