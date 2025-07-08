@@ -207,6 +207,27 @@ const Gallery = () => {
     }, 200); // 더 빠른 전환
   }, [isTransitioning, currentIndex]);
 
+  // 스와이프 핸들러 추가
+  const handleDragEnd = useCallback((event, info) => {
+    const { offset, velocity } = info;
+    const swipeThreshold = 50; // 최소 스와이프 거리
+    const velocityThreshold = 500; // 최소 스와이프 속도
+
+    if (isTransitioning) return;
+
+    // 좌우 스와이프만 처리 (세로 스와이프는 무시)
+    if (Math.abs(offset.x) > Math.abs(offset.y)) {
+      // 왼쪽으로 스와이프 (다음 이미지)
+      if ((offset.x < -swipeThreshold) || (velocity.x < -velocityThreshold)) {
+        nextSlide();
+      }
+      // 오른쪽으로 스와이프 (이전 이미지)  
+      else if ((offset.x > swipeThreshold) || (velocity.x > velocityThreshold)) {
+        prevSlide();
+      }
+    }
+  }, [isTransitioning, nextSlide, prevSlide]);
+
   // handleAnimationComplete 제거 - 사용되지 않음
 
   const toggleExpanded = useCallback(() => {
@@ -477,10 +498,14 @@ const Gallery = () => {
               </button>
               
               <div className="modal-image-container">
-                <img
+                <motion.img
                   key={currentIndex}
                   src={selectedImage.src}
                   alt={selectedImage.alt}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragEnd={handleDragEnd}
                   style={{
                     opacity: isTransitioning ? 0.7 : 1,
                     transition: 'opacity 0.2s ease',
@@ -489,7 +514,12 @@ const Gallery = () => {
                     width: 'auto',
                     height: 'auto',
                     objectFit: 'contain',
-                    borderRadius: '4px'
+                    borderRadius: '4px',
+                    cursor: 'grab'
+                  }}
+                  whileDrag={{ 
+                    cursor: 'grabbing',
+                    scale: 0.95
                   }}
                   onError={(e) => {
                     console.warn(`모달 이미지 로드 실패: ${selectedImage.src}`);
