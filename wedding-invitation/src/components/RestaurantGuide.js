@@ -1,22 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const RestaurantGuide = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { ref, inView } = useInView({ 
+    triggerOnce: true, 
+    threshold: 0.2 
+  });
   
   const restaurants = [
     {
       category: "맛집",
-      name: "심봉사고로케",
-      description: "고로케 맛집, 바삭한 튀김과 속이 꽉 찬 고로케",
-      url: "https://naver.me/xzxJwrD7"
+      name: "시옷기억삐읍 본점",
+      description: "청주 대표 소금빵 맛집, 갓 구운 소금빵",
+      url: "https://naver.me/Fmf5R1eL"
     },
     {
-      category: "맛집", 
-      name: "새암골송어",
-      description: "자연산 송어요리 전문점, 신선한 송어회와 매운탕",
-      url: "https://naver.me/GgWasTM4"
-    }
+      category: "맛집",
+      name: "시옷기억삐읍 지점",
+      url: "https://naver.me/G4WowlJY"
+    },
+    {
+      category: "맛집",
+      name: "청주 쫄쫄 호떡",
+      description: "청주 대표 호떡 맛집, 쫄깃하고 달콤한 호떡",
+      url: "https://naver.me/xxY2zIhP"
+    },
+    {
+        category: "맛집",
+        name: "심봉사고로케",
+        description: "고로케 맛집, 바삭한 튀김과 속이 꽉 찬 고로케",
+        url: "https://naver.me/xzxJwrD7"
+    },
+    {
+        category: "맛집", 
+        name: "새암골송어",
+        description: "자연산 송어요리 전문점, 신선한 송어회와 매운탕",
+        url: "https://naver.me/GgWasTM4"
+      },
   ];
 
   const cafes = [
@@ -81,12 +103,19 @@ const RestaurantGuide = () => {
 
   return (
     <>
-      <button 
+      <motion.button 
+        ref={ref}
         className="restaurant-guide-btn"
         onClick={() => setIsModalOpen(true)}
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ 
+          duration: 0.8,
+          ease: "easeOut"
+        }}
       >
         🍽️ 청주 추천 맛집 & 카페
-      </button>
+      </motion.button>
 
       {/* 추천 맛집 모달 */}
       <AnimatePresence>
