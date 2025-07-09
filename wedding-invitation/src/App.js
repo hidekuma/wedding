@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import CoupleInfo from "./components/CoupleInfo";
 import Countdown from "./components/Countdown";
 import Gallery from "./components/Gallery";
+import RestaurantGuide from "./components/RestaurantGuide";
 import ErrorBoundary from "./components/ErrorBoundary";
 // import TabSection from "./components/TabSection";
 import WeddingInfo from "./components/WeddingInfo";
@@ -128,7 +129,10 @@ function App() {
             <ErrorBoundary>
               <Directions />
             </ErrorBoundary>
+            <RestaurantGuide />
+            <div className="section-divider"></div>
             <AccountInfo />
+            
             <Footer />
           </div>
         </>
