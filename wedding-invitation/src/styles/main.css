@@ -2025,8 +2025,10 @@ html {
 .restaurant-category {
   background: var(--color-bg-light);
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1.2rem 1rem;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: none;
 }
 
 .category-title {
@@ -2048,7 +2050,7 @@ html {
   background: white;
   border: 1px solid #e8ddd4;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.8rem 0.6rem;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: left;

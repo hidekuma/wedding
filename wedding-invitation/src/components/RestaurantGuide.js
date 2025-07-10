@@ -12,70 +12,143 @@ const RestaurantGuide = () => {
   const restaurants = [
     {
       category: "맛집",
+      name: "코끼리만두",
+      description: "청주 유명한 만두 맛집, 웨이팅 있을수 있음 (차로 14분)",
+      url: "https://naver.me/GrmaFinW"
+    },
+    {
+      category: "맛집",
+      name: "봉용불고기",
+      description: "또간집 1등, 주차 가능하고 편리함 (차로 11분)",
+      url: "https://naver.me/FCA8YYwP"
+    },
+    {
+      category: "맛집",
+      name: "심봉사고로케",
+      description: "고로케 맛집, 바삭한 튀김과 속이 꽉 찬 고로케 (차로 11분)",
+      url: "https://naver.me/xzxJwrD7"
+    },
+    {
+      category: "맛집", 
+      name: "새암골송어",
+      description: "자연산 송어요리 전문점, 신선한 송어회와 매운탕, 주차 넓음 (차로 18분)",
+      url: "https://naver.me/GgWasTM4"
+    },
+    {
+      category: "맛집",
       name: "시옷기억삐읍 본점",
-      description: "청주 대표 소금빵 맛집, 갓 구운 소금빵",
+      description: "청주 대표 소금빵 맛집, 웨이팅 있을수도, 주차 좀 어려움 (차로 3분)",
       url: "https://naver.me/Fmf5R1eL"
     },
     {
       category: "맛집",
-      name: "시옷기억삐읍 지점",
-      url: "https://naver.me/G4WowlJY"
-    },
-    {
-      category: "맛집",
       name: "청주 쫄쫄 호떡",
-      description: "청주 대표 호떡 맛집, 쫄깃하고 달콤한 호떡",
+      description: "청주 대표 호떡 맛집, 쫄깃하고 달콤한 호떡, 주차 좀 어려움 (차로 16분)",
       url: "https://naver.me/xxY2zIhP"
-    },
-    {
-        category: "맛집",
-        name: "심봉사고로케",
-        description: "고로케 맛집, 바삭한 튀김과 속이 꽉 찬 고로케",
-        url: "https://naver.me/xzxJwrD7"
-    },
-    {
-        category: "맛집", 
-        name: "새암골송어",
-        description: "자연산 송어요리 전문점, 신선한 송어회와 매운탕",
-        url: "https://naver.me/GgWasTM4"
-      },
+    }
   ];
 
   const cafes = [
     {
       category: "카페",
+      name: "공간시필",
+      description: "대형카페, 단체석 보유 (차로 17분)",
+      url: "https://naver.me/GdyGtkki"
+    },
+    {
+      category: "카페",
+      name: "컨트리하우스",
+      description: "대형카페, 주차장 넓음, 내부 넓음 (차로 16분)",
+      url: "https://naver.me/FHljn3RR"
+    },
+    {
+      category: "카페",
+      name: "듀레베이커리",
+      description: "청주명암점, 대형카페, 소금빵·딸기케이크 유명 (차로 10분)",
+      url: "https://naver.me/5UEcx3aj"
+    },
+    {
+      category: "카페",
+      name: "일면식",
+      description: "감성카페, 매장앞 갓길 or 현대미술관 주차 (차로 9분)",
+      url: "https://naver.me/GV2tVzDq"
+    },
+    {
+      category: "카페",
+      name: "흥흥제과",
+      description: "과일타르트 맛집, 공영주차장 이용 (차로 14분)",
+      url: "https://naver.me/GfCsxTLm"
+    },
+    {
+      category: "카페",
+      name: "해호미",
+      description: "감성 카페, 카페 주변 공영주차장 무료 (차로 14분)",
+      url: "https://naver.me/GvcTloV3"
+    },
+    {
+      category: "카페",
+      name: "리페어룸",
+      description: "감성 카페, 주차불가, 과일산도 맛집 (차로 14분)",
+      url: "https://naver.me/GtURNlr2"
+    },
+    {
+      category: "카페",
+      name: "호퍼",
+      description: "감성 카페, 라떼 맛집, 공영주차장 이용 (차로 13분)",
+      url: "https://naver.me/5ne4Emk7"
+    },
+    {
+      category: "카페",
+      name: "오지",
+      description: "청주가 한눈에 내려다보이는 전망 좋은 카페, 대형카페 (차로 13분)",
+      url: "https://naver.me/FMcgbb9G"
+    },
+    {
+      category: "카페",
+      name: "우리베이커리",
+      description: "초코케이크 맛집, 포장만 가능 (차로 20분)",
+      url: "https://naver.me/xcnaSBDt"
+    },
+    {
+      category: "카페",
+      name: "우소빵",
+      description: "소금빵 맛집, 건물 뒷편 주차 (차로 4분)",
+      url: "https://naver.me/FtTbHipB"
+    },
+    {
+      category: "카페",
       name: "네가이", 
-      description: "일본풍 분위기의 카페, 주차장 넓은편",
+      description: "일본풍 카페, 건물 옆 주차 (차로 5분)",
       url: "https://naver.me/GFCHd2rX"
     },
     {
       category: "카페",
+      name: "온더로드",
+      description: "운리단길 카페, 고인쇄 박물관 공영주차장 이용 (차로 13분)",
+      url: "https://naver.me/xVBhC6ZF"
+    },
+    {
+      category: "카페",
       name: "테크네클럽리포트",
-      description: "운리단길에 위치하고 근처는 카페거리, 주차는 고인쇄박물관 주차장",
+      description: "운리단길 카페, 고인쇄 박물관 공영주차장 이용 (차로 11분)",
       url: "https://naver.me/GbDFjEde"
     },
     {
-        category: "카페",
-        name: "뉴웨이브",
-        description: "결혼식장 바로 옆에 위치한 카페",
-        url: "https://naver.me/502IfZL6"
-      },
-      {
-        category: "카페",
-        name: "온더로드",
-        description: "주차장은 고인쇄박물관 주차장",
-        url: "https://naver.me/xVBhC6ZF"
-      },
+      category: "카페",
+      name: "뉴웨이브",
+      description: "가장 가까이에 있는 카페 (차로 1분)",
+      url: "https://naver.me/502IfZL6"
+    },
     {
       category: "카페",
       name: "홀리몰리",
-      description: "예식장 근처는 아니지만, 오창저수지를 볼수있는 뷰 카페",
+      description: "오창저수지 뷰를 한번에 볼수있는 카페 (차로 17분)",
       url: "https://naver.me/Fmf6OlYk"
     },
     {
       category: "카페",
       name: "동부창고 카페C",
-      description: "창고형 넓은 카페, 주차장 넓은편",
+      description: "창고형태의  넓은 카페, 편안한 분위기 (차로 8분)",
       url: "https://naver.me/FHlXLlzC"
     }
   ];
