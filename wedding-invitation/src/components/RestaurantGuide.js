@@ -12,9 +12,9 @@ const RestaurantGuide = () => {
   const restaurants = [
     {
       category: "맛집",
-      name: "코끼리만두",
-      description: "청주 유명한 만두 맛집, 웨이팅 있을수 있음 (차로 14분)",
-      url: "https://naver.me/GrmaFinW"
+      name: "시옷기억삐읍 본점",
+      description: "주차 가능 / 3분",
+      url: "https://naver.me/Fmf5R1eL"
     },
     {
       category: "맛집",
@@ -29,22 +29,22 @@ const RestaurantGuide = () => {
       url: "https://naver.me/xzxJwrD7"
     },
     {
-      category: "맛집", 
-      name: "새암골송어",
-      description: "주차가능 / 18분",
-      url: "https://naver.me/GgWasTM4"
-    },
-    {
       category: "맛집",
-      name: "시옷기억삐읍 본점",
-      description: "주차 가능 / 3분",
-      url: "https://naver.me/Fmf5R1eL"
+      name: "코끼리만두",
+      description: "청주 유명한 만두 맛집, 웨이팅 있을수 있음 (차로 14분)",
+      url: "https://naver.me/GrmaFinW"
     },
     {
       category: "맛집",
       name: "청주 쫄쫄 호떡",
       description: "주차 애매 / 16분",
       url: "https://naver.me/xxY2zIhP"
+    },
+    {
+      category: "맛집", 
+      name: "새암골송어",
+      description: "주차가능 / 18분",
+      url: "https://naver.me/GgWasTM4"
     }
   ];
 
