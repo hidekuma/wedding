@@ -25,13 +25,13 @@ const RestaurantGuide = () => {
     {
       category: "맛집",
       name: "심봉사고로케",
-      description: "공용주차장 / 11분",
+      description: "공영주차장 이용 / 11분",
       url: "https://naver.me/xzxJwrD7"
     },
     {
       category: "맛집",
       name: "코끼리만두",
-      description: "청주 유명한 만두 맛집, 웨이팅 있을수 있음 (차로 14분)",
+      description: "공영주차장 이용 / 14분",
       url: "https://naver.me/GrmaFinW"
     },
     {
