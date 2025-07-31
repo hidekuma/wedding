@@ -30,7 +30,7 @@ const RestaurantGuide = () => {
     },
     {
       category: "맛집",
-      name: "코끼리만두 (만둣국))",
+      name: "코끼리만두 (만두국))",
       description: "공영주차장 이용 / 14분",
       url: "https://naver.me/GrmaFinW"
     },
