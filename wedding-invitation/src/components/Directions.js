@@ -182,28 +182,31 @@ const Directions = () => {
         <div className="transport-section">
           <h4>🚌 대중교통 이용 시</h4>
           <div className="transport-item">
-            <p><strong>청주행 시외/고속버스터미널에서 오실 경우</strong></p>
-            <p>시외버스터미널 앞 → 상당공원방향 하차<br/>
-            →1회환승 (율량중학교 OR 성모병원방향)<br/>
-            율량중학교 인근 하차</p>
+            <p><strong>서울남부버스터미널(고속터미널)</strong></p>
+            <p>청주대정류소 혹은 청주북부정류소 → 택시 또는 버스</p>
           </div>
           <div className="transport-item">
-            <p><strong>청주대정류소 시외버스 이용시</strong></p>
-            <p>율량동 하차, 도보역방향 도보로 5분</p>
+            <p><strong>서울동부버스터미널(강변역)</strong></p>
+            <p>청주대정류소 혹은 청주북부정류소 → 택시 또는 버스</p>
+          </div>
+          <div className="transport-item">
+            <p><strong>기차 이용시</strong></p>
+            <p>오송역 하차 → 택시</p>
           </div>
         </div>
 
         <div className="transport-section">
           <h4>🚗 자가용 이용 시</h4>
           <div className="transport-item">
-            <p><strong>오창 IC → 청주방면 7km 직진 → 타이어뱅크 지나 입구로 진입 → 아르떼웨딩컨벤션</strong></p>
-            <p>(오창 IC에서 도착 7분거리)</p>
+            <p><strong>청주 아르떼 웨딩 컨벤션</strong> 검색</p>
           </div>
           <div className="transport-item">
-            <p><strong>서청주 IC →청주공항방면 차회전 →7km직진<br/>
-            → 성모병원 방면 → 고가다리 아래 진입 후 차회전<br/>
-            → 타이어뱅크 앞에서 유턴 → 아르떼웨딩컨벤션</strong></p>
-            <p>(서청주 IC에서 도착 15분거리)</p>
+            <p><strong>오창 IC</strong></p>
+            <p>도착 7분거리</p>
+          </div>
+          <div className="transport-item">
+            <p><strong>서청주 IC</strong></p>
+            <p>도착 15분거리</p>
           </div>
         </div>
       </div>
